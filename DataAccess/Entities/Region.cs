@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Entities
 {
-    public partial class TripBooking
+    public partial class Region
     {
-        public TripBooking()
+        public Region()
         {
-            Booking = new Booking();
+            TripPlans = new HashSet<TripPlan>();
         }
 
         [Key]
@@ -24,14 +24,9 @@ namespace DataAccess.Entities
         public int? BookingId { get; set; }
 
         [Required]
-        [Column("withGuide")]
-        public bool WithGuide { get; set; }
-
-        [Column("tripPlanId")]
-        public int? TripPlanId { get; set; }
-
-        public TripPlan? TripPlan { get; set; }
-        public virtual Booking Booking { get; set; }
+        [Column("name", TypeName = "nvarchar(50)")]
+        public string? Name { get; set; }
+        public virtual ICollection<TripPlan> TripPlans { get; set; }
 
     }
 }

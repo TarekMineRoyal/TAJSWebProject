@@ -21,7 +21,7 @@ namespace DataAccess.Entities
         /// <summary>
         /// Booking has been approved
         /// </summary>
-        Approved
+        Approved,
     }
 
     /// <summary>
