@@ -109,12 +109,12 @@ namespace DataAccess.Entities
         /// <summary>
         /// The associated car booking details (if this is a car rental)
         /// </summary>
-        public virtual CarBooking CarBooking { get; set; }
+        public virtual CarBooking? CarBooking { get; set; }
 
         /// <summary>
         /// The associated trip booking details (if this is a trip)
         /// </summary>
-        public virtual TripBooking TripBooking { get; set; }
+        public virtual TripBooking? TripBooking { get; set; }
         #endregion
     }
 }
