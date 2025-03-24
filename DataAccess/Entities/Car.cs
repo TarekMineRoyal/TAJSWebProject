@@ -13,6 +13,7 @@ namespace DataAccess.Entities
         public Car()
         {
             CarBookings = new HashSet<CarBooking>();
+            TripPlanCars = new HashSet<TripPlanCar>();
         }
         [Key]
         [Column("id")]
@@ -50,6 +51,7 @@ namespace DataAccess.Entities
         public decimal Mbw { get; set; }
 
         public Category? Category { get; set; }
+        public virtual ICollection<TripPlanCar> TripPlanCars { get; set; }
         public virtual ICollection<CarBooking> CarBookings { get; set; }
     }
 }

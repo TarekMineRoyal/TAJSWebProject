@@ -22,10 +22,11 @@ namespace DataAccess.Entities
 
         [Required]
         [Column("bookingId")]
-        public int? BookingId { get; set; }
+        public int BookingId { get; set; }
 
+        [Required]
         [Column("carId")]
-        public Car? Car { get; set; }
+        public int CarId { get; set; }
 
         [Required]
         [Column("pickupLocation", TypeName = "nvarchar(50)")]
