@@ -10,7 +10,11 @@ namespace DataAccess.Entities
 {
     public enum PType // Post Type Enum
     {
-        //to do later
+        Pending,
+        Pinned,
+        Published,
+        Deleted,
+        Unpublished,
     }
     public partial class Post
     {
@@ -47,7 +51,7 @@ namespace DataAccess.Entities
         [Required]
         [Column("status")]
         [EnumDataType(typeof(TType))]
-        public PType? Status { get; set; } //Enum
+        public PType? Status { get; set; }
 
         [Column("postTypeId")]
         public int? PostTypeId { get; set; }
