@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(TourAgencyDbContext))]
-    [Migration("20250324080539_test")]
+    [Migration("20250324192509_test")]
     partial class test
     {
         /// <inheritdoc />
@@ -54,8 +54,9 @@ namespace DataAccess.Migrations
                         .HasColumnType("datetime2(7)")
                         .HasColumnName("startDateTime");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int")
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
                         .HasColumnName("status");
 
                     b.Property<int?>("TripBookingId")
@@ -90,12 +91,13 @@ namespace DataAccess.Migrations
 
                     b.Property<string>("Color")
                         .IsRequired()
-                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)")
                         .HasColumnName("color");
 
                     b.Property<string>("Image")
                         .IsRequired()
-                        .HasColumnType("nvarchar(50)")
+                        .HasColumnType("nvarchar(255)")
                         .HasColumnName("image");
 
                     b.Property<decimal>("Mbw")
@@ -104,6 +106,7 @@ namespace DataAccess.Migrations
 
                     b.Property<string>("Model")
                         .IsRequired()
+                        .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)")
                         .HasColumnName("model");
 
@@ -139,17 +142,20 @@ namespace DataAccess.Migrations
                         .HasColumnType("int")
                         .HasColumnName("bookingId");
 
-                    b.Property<int?>("CarId")
-                        .HasColumnType("int");
+                    b.Property<int>("CarId")
+                        .HasColumnType("int")
+                        .HasColumnName("carId");
 
                     b.Property<string>("DropoffLocation")
                         .IsRequired()
-                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
                         .HasColumnName("dropoffLocation");
 
                     b.Property<string>("PickupLocation")
                         .IsRequired()
-                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
                         .HasColumnName("pickupLocation");
 
                     b.Property<bool>("WithDriver")
@@ -174,6 +180,7 @@ namespace DataAccess.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
+                        .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)")
                         .HasColumnName("title");
 
@@ -197,11 +204,13 @@ namespace DataAccess.Migrations
 
                     b.Property<string>("Path")
                         .IsRequired()
-                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)")
                         .HasColumnName("path");
 
                     b.Property<string>("Type")
                         .IsRequired()
+                        .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)")
                         .HasColumnName("type");
 
@@ -348,8 +357,9 @@ namespace DataAccess.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasColumnName("slug");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int")
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
                         .HasColumnName("status");
 
                     b.Property<string>("Summary")
@@ -423,6 +433,29 @@ namespace DataAccess.Migrations
                     b.ToTable("PostTypes", (string)null);
                 });
 
+            modelBuilder.Entity("DataAccess.Entities.Region", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("BookingId")
+                        .HasColumnType("int")
+                        .HasColumnName("bookingId");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Regions", (string)null);
+                });
+
             modelBuilder.Entity("DataAccess.Entities.SeoMetadata", b =>
                 {
                     b.Property<int>("Id")
@@ -482,6 +515,38 @@ namespace DataAccess.Migrations
                     b.ToTable("Tags", (string)null);
                 });
 
+            modelBuilder.Entity("DataAccess.Entities.Trip", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("description");
+
+                    b.Property<bool>("IsAvailable")
+                        .HasColumnType("bit")
+                        .HasColumnName("isAvailable");
+
+                    b.Property<bool>("IsPrivate")
+                        .HasColumnType("bit")
+                        .HasColumnName("isPrivate");
+
+                    b.Property<string>("Slug")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("slug");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Trips", (string)null);
+                });
+
             modelBuilder.Entity("DataAccess.Entities.TripBooking", b =>
                 {
                     b.Property<int>("Id")
@@ -495,13 +560,107 @@ namespace DataAccess.Migrations
                         .HasColumnType("int")
                         .HasColumnName("bookingId");
 
+                    b.Property<int?>("TripPlanId")
+                        .HasColumnType("int")
+                        .HasColumnName("tripPlanId");
+
                     b.Property<bool>("WithGuide")
                         .HasColumnType("bit")
                         .HasColumnName("withGuide");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("TripPlanId");
+
                     b.ToTable("TripBookings", (string)null);
+                });
+
+            modelBuilder.Entity("DataAccess.Entities.TripPlan", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Duration")
+                        .HasColumnType("int")
+                        .HasColumnName("duration");
+
+                    b.Property<DateTime>("EndDateTime")
+                        .HasColumnType("datetime2(7)")
+                        .HasColumnName("endDateTime");
+
+                    b.Property<string>("HotelsStays")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("hotelsStays");
+
+                    b.Property<string>("IncludedServices")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("includedServices");
+
+                    b.Property<string>("MealsPlan")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("mealsPlan");
+
+                    b.Property<int?>("RegionId")
+                        .HasColumnType("int")
+                        .HasColumnName("regionId");
+
+                    b.Property<DateTime>("StartDateTime")
+                        .HasColumnType("datetime2(7)")
+                        .HasColumnName("startDateTime");
+
+                    b.Property<string>("Stops")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("stops");
+
+                    b.Property<int?>("TripId")
+                        .HasColumnType("int")
+                        .HasColumnName("tripId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RegionId");
+
+                    b.HasIndex("TripId");
+
+                    b.ToTable("TripPlans", (string)null);
+                });
+
+            modelBuilder.Entity("DataAccess.Entities.TripPlanCar", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("CarId")
+                        .HasColumnType("int")
+                        .HasColumnName("carId");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(16,2)")
+                        .HasColumnName("price");
+
+                    b.Property<int?>("TripPlanId")
+                        .HasColumnType("int")
+                        .HasColumnName("tripPlanIdId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CarId");
+
+                    b.HasIndex("TripPlanId");
+
+                    b.ToTable("TripPlanCars", (string)null);
                 });
 
             modelBuilder.Entity("DataAccess.Entities.Booking", b =>
@@ -530,11 +689,11 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("DataAccess.Entities.CarBooking", b =>
                 {
-                    b.HasOne("DataAccess.Entities.Car", "Car")
+                    b.HasOne("DataAccess.Entities.Car", null)
                         .WithMany("CarBookings")
-                        .HasForeignKey("CarId");
-
-                    b.Navigation("Car");
+                        .HasForeignKey("CarId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("DataAccess.Entities.ImageShot", b =>
@@ -603,6 +762,45 @@ namespace DataAccess.Migrations
                     b.Navigation("Post");
                 });
 
+            modelBuilder.Entity("DataAccess.Entities.TripBooking", b =>
+                {
+                    b.HasOne("DataAccess.Entities.TripPlan", "TripPlan")
+                        .WithMany("TripBookings")
+                        .HasForeignKey("TripPlanId");
+
+                    b.Navigation("TripPlan");
+                });
+
+            modelBuilder.Entity("DataAccess.Entities.TripPlan", b =>
+                {
+                    b.HasOne("DataAccess.Entities.Region", "Region")
+                        .WithMany("TripPlans")
+                        .HasForeignKey("RegionId");
+
+                    b.HasOne("DataAccess.Entities.Trip", "Trip")
+                        .WithMany("TripPlans")
+                        .HasForeignKey("TripId");
+
+                    b.Navigation("Region");
+
+                    b.Navigation("Trip");
+                });
+
+            modelBuilder.Entity("DataAccess.Entities.TripPlanCar", b =>
+                {
+                    b.HasOne("DataAccess.Entities.Car", "Car")
+                        .WithMany("TripPlanCars")
+                        .HasForeignKey("CarId");
+
+                    b.HasOne("DataAccess.Entities.TripPlan", "TripPlan")
+                        .WithMany("TripPlanCars")
+                        .HasForeignKey("TripPlanId");
+
+                    b.Navigation("Car");
+
+                    b.Navigation("TripPlan");
+                });
+
             modelBuilder.Entity("DataAccess.Entities.Booking", b =>
                 {
                     b.Navigation("Payments");
@@ -611,12 +809,13 @@ namespace DataAccess.Migrations
             modelBuilder.Entity("DataAccess.Entities.Car", b =>
                 {
                     b.Navigation("CarBookings");
+
+                    b.Navigation("TripPlanCars");
                 });
 
             modelBuilder.Entity("DataAccess.Entities.CarBooking", b =>
                 {
-                    b.Navigation("Booking")
-                        .IsRequired();
+                    b.Navigation("Booking");
 
                     b.Navigation("ImageShots");
                 });
@@ -643,15 +842,32 @@ namespace DataAccess.Migrations
                     b.Navigation("Posts");
                 });
 
+            modelBuilder.Entity("DataAccess.Entities.Region", b =>
+                {
+                    b.Navigation("TripPlans");
+                });
+
             modelBuilder.Entity("DataAccess.Entities.Tag", b =>
                 {
                     b.Navigation("PostTags");
+                });
+
+            modelBuilder.Entity("DataAccess.Entities.Trip", b =>
+                {
+                    b.Navigation("TripPlans");
                 });
 
             modelBuilder.Entity("DataAccess.Entities.TripBooking", b =>
                 {
                     b.Navigation("Booking")
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("DataAccess.Entities.TripPlan", b =>
+                {
+                    b.Navigation("TripBookings");
+
+                    b.Navigation("TripPlanCars");
                 });
 #pragma warning restore 612, 618
         }
