@@ -88,12 +88,13 @@ namespace DataAccess.Migrations
 
                     b.Property<string>("Color")
                         .IsRequired()
-                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)")
                         .HasColumnName("color");
 
                     b.Property<string>("Image")
                         .IsRequired()
-                        .HasColumnType("nvarchar(50)")
+                        .HasColumnType("nvarchar(255)")
                         .HasColumnName("image");
 
                     b.Property<decimal>("Mbw")
@@ -102,6 +103,7 @@ namespace DataAccess.Migrations
 
                     b.Property<string>("Model")
                         .IsRequired()
+                        .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)")
                         .HasColumnName("model");
 
@@ -143,12 +145,14 @@ namespace DataAccess.Migrations
 
                     b.Property<string>("DropoffLocation")
                         .IsRequired()
-                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
                         .HasColumnName("dropoffLocation");
 
                     b.Property<string>("PickupLocation")
                         .IsRequired()
-                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
                         .HasColumnName("pickupLocation");
 
                     b.Property<bool>("WithDriver")
@@ -173,6 +177,7 @@ namespace DataAccess.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
+                        .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)")
                         .HasColumnName("title");
 
@@ -196,11 +201,13 @@ namespace DataAccess.Migrations
 
                     b.Property<string>("Path")
                         .IsRequired()
-                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)")
                         .HasColumnName("path");
 
                     b.Property<string>("Type")
                         .IsRequired()
+                        .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)")
                         .HasColumnName("type");
 
@@ -805,8 +812,7 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("DataAccess.Entities.CarBooking", b =>
                 {
-                    b.Navigation("Booking")
-                        .IsRequired();
+                    b.Navigation("Booking");
 
                     b.Navigation("ImageShots");
                 });
