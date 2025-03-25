@@ -88,6 +88,8 @@ namespace DataAccess.Entities
                 .Property(e => e.TransactionType)
                 .HasConversion<string>();
 
+            modelBuilder.Entity<PaymentTransaction>().HasIndex(p => new { p.PaymentId, p.PaymentMethodId, p.TransactionDate }).IsUnique(true);
+
             modelBuilder.Entity<Tag>().ToTable("Tags");
 
             modelBuilder.Entity<Post>()

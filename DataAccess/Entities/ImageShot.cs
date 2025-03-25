@@ -45,12 +45,12 @@ namespace DataAccess.Entities
         /// Foreign key to the associated car booking (nullable)
         /// </summary>
         [Column("carBookingId")]
+        [ForeignKey("CarBookingId")]
         public int? CarBookingId { get; set; }
 
         /// <summary>
         /// The car booking this image is associated with
         /// </summary>
-        [ForeignKey(nameof(CarBookingId))]
         public virtual CarBooking? CarBooking { get; set; }
         #endregion
     }

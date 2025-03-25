@@ -50,6 +50,7 @@ namespace DataAccess.Entities
         public PType? Status { get; set; } //Enum
 
         [Column("postTypeId")]
+        [ForeignKey("PostTypeId")]
         public int? PostTypeId { get; set; }
 
         [Required]

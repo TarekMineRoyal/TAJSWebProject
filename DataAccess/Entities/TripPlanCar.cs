@@ -10,10 +10,6 @@ namespace DataAccess.Entities
 {
     public partial class TripPlanCar
     {
-        public TripPlanCar()
-        {
-            //CarBookings = new HashSet<CarBooking>();
-        }
         [Key]
         [Column("id")]
         public int Id { get; set; }
@@ -22,16 +18,15 @@ namespace DataAccess.Entities
         [Column("price", TypeName = "decimal(16,2)")]
         public decimal Price { get; set; }
 
-        [Column("tripPlanIdId")]
+        [Column("tripPlanId")]
+        [ForeignKey("TripPlanId")]
         public int? TripPlanId { get; set; }
 
         [Column("carId")]
+        [ForeignKey("CarId")]
         public int? CarId { get; set; }
 
         public TripPlan? TripPlan { get; set; }
         public Car? Car { get; set; }
-
-        //public Category? Category { get; set; }
-        //public virtual ICollection<CarBooking> CarBookings { get; set; }
     }
 }

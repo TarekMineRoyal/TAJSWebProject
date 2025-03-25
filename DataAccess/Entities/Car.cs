@@ -96,6 +96,7 @@ namespace DataAccess.Entities
         /// Foreign key for the car's category (optional)
         /// </summary>
         [Column("categoryId")]
+        [ForeignKey("CategoryId")]
         public int? CategoryId { get; set; }
 
         /// <summary>

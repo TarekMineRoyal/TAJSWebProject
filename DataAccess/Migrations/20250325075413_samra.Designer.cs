@@ -4,6 +4,7 @@ using DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(TourAgencyDbContext))]
-    partial class TourAgencyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250325075413_samra")]
+    partial class samra
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -296,11 +299,11 @@ namespace DataAccess.Migrations
                         .HasColumnType("decimal(16,2)")
                         .HasColumnName("amount");
 
-                    b.Property<int>("PaymentId")
+                    b.Property<int?>("PaymentId")
                         .HasColumnType("int")
                         .HasColumnName("paymentId");
 
-                    b.Property<int>("PaymentMethodId")
+                    b.Property<int?>("PaymentMethodId")
                         .HasColumnType("int")
                         .HasColumnName("paymentMethodId");
 
@@ -315,10 +318,9 @@ namespace DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PaymentMethodId");
+                    b.HasIndex("PaymentId");
 
-                    b.HasIndex("PaymentId", "PaymentMethodId", "TransactionDate")
-                        .IsUnique();
+                    b.HasIndex("PaymentMethodId");
 
                     b.ToTable("PaymentTransactions", (string)null);
                 });
@@ -716,15 +718,11 @@ namespace DataAccess.Migrations
                 {
                     b.HasOne("DataAccess.Entities.Payment", "Paymwnt")
                         .WithMany("PaymentTransactions")
-                        .HasForeignKey("PaymentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PaymentId");
 
                     b.HasOne("DataAccess.Entities.PaymentMethod", "PaymentMethod")
                         .WithMany("PaymentTransactions")
-                        .HasForeignKey("PaymentMethodId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PaymentMethodId");
 
                     b.Navigation("PaymentMethod");
 
