@@ -54,6 +54,7 @@ namespace DataAccess.Entities
         public PType? Status { get; set; }
 
         [Column("postTypeId")]
+        [ForeignKey("PostTypeId")]
         public int? PostTypeId { get; set; }
 
         [Required]

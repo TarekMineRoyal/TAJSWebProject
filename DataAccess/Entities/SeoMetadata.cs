@@ -31,6 +31,7 @@ namespace DataAccess.Entities
         public string? MetaKeywords { get; set; }
 
         [Column("postId")]
+        [ForeignKey("PostId")]
         public int? PostId { get; set; }
 
         public Post? Post { get; set; }

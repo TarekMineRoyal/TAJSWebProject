@@ -20,7 +20,8 @@ namespace DataAccess.Entities
         public int Id { get; set; }
 
         [Required]
-        [Column("bookingId")]
+        [ForeignKey("BookingId")]
+        [Column("BookingId")]
         public int? BookingId { get; set; }
 
         [Required]
@@ -28,6 +29,7 @@ namespace DataAccess.Entities
         public bool WithGuide { get; set; }
 
         [Column("tripPlanId")]
+        [ForeignKey("TripPlanId")]
         public int? TripPlanId { get; set; }
 
         public TripPlan? TripPlan { get; set; }

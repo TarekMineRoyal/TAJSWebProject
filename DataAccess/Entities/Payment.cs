@@ -23,6 +23,7 @@ namespace DataAccess.Entities
         public int Id { get; set; }
 
         [Column("bookingId")]
+        [ForeignKey("BookingId")]
         public int? BookingId { get; set; }
 
         [Required]

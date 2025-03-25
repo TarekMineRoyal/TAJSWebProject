@@ -47,8 +47,11 @@ namespace DataAccess.Entities
         [Column("hotelsStays")]
         public string? HotelsStays { get; set; }
         [Column("regionId")]
+        [ForeignKey("RegionId")]
         public int? RegionId { get; set; }
+
         [Column("tripId")]
+        [ForeignKey("TripId")]
         public int? TripId { get; set; }
 
         public Region? Region { get; set; }

@@ -16,9 +16,11 @@ namespace DataAccess.Entities
         public int Id { get; set; }
 
         [Column("postId")]
+        [ForeignKey("PostId")]
         public int? PostId { get; set; }
 
         [Column("tagId")]
+        [ForeignKey("TagId")]
         public int? TagId { get; set; }
 
         public Post? Post { get; set; }
