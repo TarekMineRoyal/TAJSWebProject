@@ -13,7 +13,7 @@ namespace DTO
         public DateTime? StartDateTime { get; set; }
 
         [DataType(DataType.DateTime)]
-        [CustomValidation(typeof(TripPlanValidator), nameof(ValidateEndAfterStart))]
+        //[CustomValidation(typeof(TripPlanValidator), nameof(ValidateEndAfterStart))]
         public DateTime? EndDateTime { get; set; }
 
         [Range(1, 365)]

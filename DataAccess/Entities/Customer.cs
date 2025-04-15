@@ -10,8 +10,13 @@ namespace DataAccess.Entities
 {
     public partial class Customer
     {
+        public Customer()
+        {
+            Bookings = new HashSet<Booking>();
+        }
         [Key, Column("id", TypeName = "nvarchar(450)")]
-        public string? Id { get; set; }
+        [ForeignKey("User")]
+        public string? UserId { get; set; }
 
         [Required]
         [Column("firstName")]
@@ -28,5 +33,9 @@ namespace DataAccess.Entities
 
         [Column("Country")]
         public string? Country { get; set; }
+
+        public DataAccess.Entities.User.User? User { get; set; }
+
+        public ICollection<Booking> Bookings { get; set; }
     }
 }

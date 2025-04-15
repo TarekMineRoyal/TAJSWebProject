@@ -65,11 +65,18 @@ namespace DataAccess.Entities
         [Column("publishDate", TypeName = "datetime2(7)")]
         public DateTime PublishDate { get; set; }
 
+        [Required]
+        [Column("employeeId")]
+        [ForeignKey("Employee")]
+        public string? EmployeeId { get; set; }
+
         public virtual ICollection<PostTag> PostTags { get; set; }
 
         public virtual ICollection<SeoMetadata> SeoMetadata { get; set; }
 
         public PostType? PostType { get; set; }
+
+        public Employee? Employee { get; set; }
 
     }
 }

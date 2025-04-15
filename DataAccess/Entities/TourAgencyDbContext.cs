@@ -58,6 +58,11 @@ namespace DataAccess.Entities
         #region DbSets - Media
         public DbSet<ImageShot> ImageShots { get; set; }
         #endregion
+        
+        #region DbSets - User Type
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Employee> Employees { get; set; }
+        #endregion
 
         #region Model Configuration
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -113,7 +118,9 @@ namespace DataAccess.Entities
             modelBuilder.Entity<TripPlanCar>().ToTable("TripPlanCars");
             modelBuilder.Entity<Region>().ToTable("Regions");
             modelBuilder.Entity<Trip>().ToTable("Trips");
-        }
+            modelBuilder.Entity<Employee>().ToTable("Employees");
+            modelBuilder.Entity<Customer>().ToTable("Customers");
+            }
 
         private void ConfigureRelationships(ModelBuilder modelBuilder)
         {
@@ -130,6 +137,22 @@ namespace DataAccess.Entities
                 .HasForeignKey<Booking>(p => p.TripBookingId);
 
             // Additional relationships can be configured here
+            modelBuilder.Entity<Employee>(static entity =>
+            {
+                entity.HasOne(p => p.User)
+                      .WithOne()
+                      .HasForeignKey<Employee>(p => p.UserId)
+                      .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            //
+            modelBuilder.Entity<Customer>(static entity =>
+            {
+                entity.HasOne(c => c.User)
+                      .WithOne()
+                      .HasForeignKey<Customer>(p => p.UserId)
+                      .OnDelete(DeleteBehavior.Cascade);
+            });
         }
         #endregion
     }

@@ -100,6 +100,11 @@ namespace DataAccess.Entities
         [Column("numOfPassengers")]
         [Range(1, int.MaxValue, ErrorMessage = "Number of passengers must be at least 1")]
         public int NumberOfPassengers { get; set; }
+
+        [Required]
+        [Column("employeeId")]
+        [ForeignKey("Employee")]
+        public string? EmployeeId { get; set; }
         #endregion
 
         #region Navigation Properties
@@ -117,6 +122,8 @@ namespace DataAccess.Entities
         /// The associated trip booking details (if this is a trip)
         /// </summary>
         public virtual TripBooking? TripBooking { get; set; }
+
+        public Employee? Employee { get; set; }
         #endregion
     }
 }

@@ -4,19 +4,16 @@ using DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace DataAccess.Migrations
+namespace DataAccess.Migrations.TourAgencyDb
 {
     [DbContext(typeof(TourAgencyDbContext))]
-    [Migration("20250324192509_test")]
-    partial class test
+    partial class TourAgencyDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,6 +38,14 @@ namespace DataAccess.Migrations
                     b.Property<int?>("CarBookingId")
                         .HasColumnType("int")
                         .HasColumnName("carBookingId");
+
+                    b.Property<string>("CustomerUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("EmployeeId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)")
+                        .HasColumnName("employeeId");
 
                     b.Property<DateTime>("EndDateTime")
                         .HasColumnType("datetime2(7)")
@@ -68,6 +73,10 @@ namespace DataAccess.Migrations
                     b.HasIndex("CarBookingId")
                         .IsUnique()
                         .HasFilter("[carBookingId] IS NOT NULL");
+
+                    b.HasIndex("CustomerUserId");
+
+                    b.HasIndex("EmployeeId");
 
                     b.HasIndex("TripBookingId")
                         .IsUnique()
@@ -189,6 +198,107 @@ namespace DataAccess.Migrations
                     b.ToTable("Categories", (string)null);
                 });
 
+            modelBuilder.Entity("DataAccess.Entities.Customer", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Country")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Country");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("firstName");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("lastName");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("char(12)")
+                        .HasColumnName("phoneNumber");
+
+                    b.Property<string>("Whatsapp")
+                        .HasColumnType("char(14)")
+                        .HasColumnName("whatsapp");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("Customers", (string)null);
+                });
+
+            modelBuilder.Entity("DataAccess.Entities.Employee", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)")
+                        .HasColumnName("id");
+
+                    b.Property<DateTime>("HireDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("hireDate");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("Employees", (string)null);
+                });
+
+            modelBuilder.Entity("DataAccess.Entities.IdUser.User", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("User");
+                });
+
             modelBuilder.Entity("DataAccess.Entities.ImageShot", b =>
                 {
                     b.Property<int>("Id")
@@ -299,11 +409,11 @@ namespace DataAccess.Migrations
                         .HasColumnType("decimal(16,2)")
                         .HasColumnName("amount");
 
-                    b.Property<int?>("PaymentId")
+                    b.Property<int>("PaymentId")
                         .HasColumnType("int")
                         .HasColumnName("paymentId");
 
-                    b.Property<int?>("PaymentMethodId")
+                    b.Property<int>("PaymentMethodId")
                         .HasColumnType("int")
                         .HasColumnName("paymentMethodId");
 
@@ -318,9 +428,10 @@ namespace DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PaymentId");
-
                     b.HasIndex("PaymentMethodId");
+
+                    b.HasIndex("PaymentId", "PaymentMethodId", "TransactionDate")
+                        .IsUnique();
 
                     b.ToTable("PaymentTransactions", (string)null);
                 });
@@ -338,6 +449,11 @@ namespace DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("body");
+
+                    b.Property<string>("EmployeeId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)")
+                        .HasColumnName("employeeId");
 
                     b.Property<string>("Image")
                         .IsRequired()
@@ -377,6 +493,8 @@ namespace DataAccess.Migrations
                         .HasColumnName("views");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
 
                     b.HasIndex("PostTypeId");
 
@@ -558,7 +676,7 @@ namespace DataAccess.Migrations
 
                     b.Property<int>("BookingId")
                         .HasColumnType("int")
-                        .HasColumnName("bookingId");
+                        .HasColumnName("BookingId");
 
                     b.Property<int?>("TripPlanId")
                         .HasColumnType("int")
@@ -652,7 +770,7 @@ namespace DataAccess.Migrations
 
                     b.Property<int?>("TripPlanId")
                         .HasColumnType("int")
-                        .HasColumnName("tripPlanIdId");
+                        .HasColumnName("tripPlanId");
 
                     b.HasKey("Id");
 
@@ -669,11 +787,23 @@ namespace DataAccess.Migrations
                         .WithOne("Booking")
                         .HasForeignKey("DataAccess.Entities.Booking", "CarBookingId");
 
+                    b.HasOne("DataAccess.Entities.Customer", null)
+                        .WithMany("Bookings")
+                        .HasForeignKey("CustomerUserId");
+
+                    b.HasOne("DataAccess.Entities.Employee", "Employee")
+                        .WithMany("Bookings")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("DataAccess.Entities.TripBooking", "TripBooking")
                         .WithOne("Booking")
                         .HasForeignKey("DataAccess.Entities.Booking", "TripBookingId");
 
                     b.Navigation("CarBooking");
+
+                    b.Navigation("Employee");
 
                     b.Navigation("TripBooking");
                 });
@@ -694,6 +824,28 @@ namespace DataAccess.Migrations
                         .HasForeignKey("CarId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("DataAccess.Entities.Customer", b =>
+                {
+                    b.HasOne("DataAccess.Entities.IdUser.User", "User")
+                        .WithOne()
+                        .HasForeignKey("DataAccess.Entities.Customer", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("DataAccess.Entities.Employee", b =>
+                {
+                    b.HasOne("DataAccess.Entities.IdUser.User", "User")
+                        .WithOne()
+                        .HasForeignKey("DataAccess.Entities.Employee", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("DataAccess.Entities.ImageShot", b =>
@@ -718,11 +870,15 @@ namespace DataAccess.Migrations
                 {
                     b.HasOne("DataAccess.Entities.Payment", "Paymwnt")
                         .WithMany("PaymentTransactions")
-                        .HasForeignKey("PaymentId");
+                        .HasForeignKey("PaymentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("DataAccess.Entities.PaymentMethod", "PaymentMethod")
                         .WithMany("PaymentTransactions")
-                        .HasForeignKey("PaymentMethodId");
+                        .HasForeignKey("PaymentMethodId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("PaymentMethod");
 
@@ -731,9 +887,17 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("DataAccess.Entities.Post", b =>
                 {
+                    b.HasOne("DataAccess.Entities.Employee", "Employee")
+                        .WithMany("Posts")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("DataAccess.Entities.PostType", "PostType")
                         .WithMany("Posts")
                         .HasForeignKey("PostTypeId");
+
+                    b.Navigation("Employee");
 
                     b.Navigation("PostType");
                 });
@@ -818,6 +982,18 @@ namespace DataAccess.Migrations
                     b.Navigation("Booking");
 
                     b.Navigation("ImageShots");
+                });
+
+            modelBuilder.Entity("DataAccess.Entities.Customer", b =>
+                {
+                    b.Navigation("Bookings");
+                });
+
+            modelBuilder.Entity("DataAccess.Entities.Employee", b =>
+                {
+                    b.Navigation("Bookings");
+
+                    b.Navigation("Posts");
                 });
 
             modelBuilder.Entity("DataAccess.Entities.Payment", b =>

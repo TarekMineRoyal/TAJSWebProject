@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DataAccess.User
 {
-    public class IUserDbContext: IdentityDbContext<User>
+    public class IUserDbContext: IdentityDbContext<DataAccess.Entities.User.User>
     {
         public IUserDbContext(DbContextOptions<IUserDbContext> options)
             : base(options)
