@@ -9,8 +9,8 @@ namespace DTO
 {
     public class CreateImageShotDTO
     {
-        [Required][StringLength(255)] public string Path { get; set; }
-        [Required][StringLength(50)] public string Type { get; set; }
+        [Required][StringLength(255)] public string? Path { get; set; }
+        [Required][StringLength(50)] public string? Type { get; set; }
         
     }
 }

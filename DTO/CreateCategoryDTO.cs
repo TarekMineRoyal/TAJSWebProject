@@ -11,6 +11,6 @@ namespace DTO
     {
         [Required(ErrorMessage = "Category title is required")]
         [StringLength(50, ErrorMessage = "Title cannot exceed 50 characters")]
-        public string Title { get; set; }
+        public string? Title { get; set; }
     }
 }

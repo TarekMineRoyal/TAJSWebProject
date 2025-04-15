@@ -24,19 +24,19 @@ namespace DTO
 
         [Required(ErrorMessage = "Included services are required")]
         [StringLength(1000, ErrorMessage = "Services list too long")]
-        public string IncludedServices { get; set; }
+        public string? IncludedServices { get; set; }
 
         [Required(ErrorMessage = "Stops information is required")]
         [StringLength(500)]
-        public string Stops { get; set; }
+        public string? Stops { get; set; }
 
         [Required(ErrorMessage = "Meals plan is required")]
         [StringLength(500)]
-        public string MealsPlan { get; set; }
+        public string? MealsPlan { get; set; }
 
         [Required(ErrorMessage = "Hotel stays are required")]
         [StringLength(500)]
-        public string HotelsStays { get; set; }
+        public string? HotelsStays { get; set; }
 
         [Required(ErrorMessage = "Region ID is required")]
         public int RegionId { get; set; }

@@ -136,23 +136,7 @@ namespace DataAccess.Entities
                 .WithOne(p => p.TripBooking)
                 .HasForeignKey<Booking>(p => p.TripBookingId);
 
-            // Additional relationships can be configured here
-            modelBuilder.Entity<Employee>(static entity =>
-            {
-                entity.HasOne(p => p.User)
-                      .WithOne()
-                      .HasForeignKey<Employee>(p => p.UserId)
-                      .OnDelete(DeleteBehavior.Cascade);
-            });
-
-            //
-            modelBuilder.Entity<Customer>(static entity =>
-            {
-                entity.HasOne(c => c.User)
-                      .WithOne()
-                      .HasForeignKey<Customer>(p => p.UserId)
-                      .OnDelete(DeleteBehavior.Cascade);
-            });
+           
         }
         #endregion
     }

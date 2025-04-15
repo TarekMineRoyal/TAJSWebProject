@@ -23,8 +23,6 @@ namespace DataAccess.Entities
         [Required, Column("hireDate")]
         public DateTime HireDate { get; set; }
 
-        public DataAccess.Entities.User.User? User { get; set; }
-
         public ICollection<Booking> Bookings { get; set; }
         public ICollection<Post> Posts { get; set; }
 

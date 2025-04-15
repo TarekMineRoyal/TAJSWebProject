@@ -9,8 +9,8 @@ namespace DTO
 {
     public class CreateTripDTO
     {
-        [Required] public string Slug { get; set; }
-        [Required] public string Description { get; set; }
+        [Required] public string? Slug { get; set; }
+        [Required] public string? Description { get; set; }
         [Required] public bool IsPrivate { get; set; }
     }
 }

@@ -34,8 +34,6 @@ namespace DataAccess.Entities
         [Column("Country")]
         public string? Country { get; set; }
 
-        public DataAccess.Entities.User.User? User { get; set; }
-
         public ICollection<Booking> Bookings { get; set; }
     }
 }

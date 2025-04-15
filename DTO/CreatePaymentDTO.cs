@@ -11,6 +11,7 @@ namespace DTO
     {
         
         [Required] public decimal AmountDue { get; set; }
-        [Required] public DateTime PaymentDate { get; set; }
+        [Required] public string? Method { get; set; }
+        [Required] public string? Icon { get; set; }
     }
 }

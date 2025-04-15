@@ -9,9 +9,9 @@ namespace DTO
 {
     public class CreatePostDTO
     {
-        [Required][StringLength(50)] public string Title { get; set; }
-        [Required] public string Body { get; set; }
-        [Required] public string Slug { get; set; }
+        [Required][StringLength(50)] public string? Title { get; set; }
+        [Required] public string? Body { get; set; }
+        [Required] public string? Slug { get; set; }
         
     }
 }

@@ -11,6 +11,6 @@ namespace DTO
     {
         [Required(ErrorMessage = "Tag name is required")]
         [StringLength(50, ErrorMessage = "Tag name cannot exceed 50 characters")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
     }
 }
