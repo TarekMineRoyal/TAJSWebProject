@@ -1,4 +1,5 @@
-﻿using DataAccess.Entities;
+﻿using AutoMapper;
+using DataAccess.Entities;
 using DataAccess.Repository.IRepository;
 using DTO;
 using System;
@@ -12,10 +13,12 @@ namespace BLL.IServices
     public class CarService
     {
         private readonly IGenericRepository<Car> _carRepository;
+        private readonly IMapper _mapper;
 
-        public CarService(IGenericRepository<Car> carRepository)
+        public CarService(IGenericRepository<Car> carRepository, IMapper mapper)
         {
             _carRepository = carRepository;
+            _mapper = mapper;
         }
 
 
