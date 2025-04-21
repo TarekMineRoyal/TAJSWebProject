@@ -15,5 +15,6 @@ namespace DTO
         [Required] public bool WithDriver { get; set; }
         [Required] public DateTime StartDateTime { get; set; }
         [Required] public DateTime EndDateTime { get; set; }
+        [Required] public string? PaymentMethod { get; set; }
     }
 }
