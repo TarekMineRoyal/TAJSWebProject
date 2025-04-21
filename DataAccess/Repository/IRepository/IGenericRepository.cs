@@ -18,6 +18,8 @@ namespace DataAccess.Repository.IRepository
 
         public Task<TEntity?> RemoveAsync(int id);
 
+        public Task<TEntity> AttachAsync(TEntity entity);
+
 
 
         public TEntity? GetById(int id);
@@ -29,6 +31,8 @@ namespace DataAccess.Repository.IRepository
         public TEntity Update(int id, TEntity newEntity);
 
         public TEntity? Remove(int id);
+
+        public TEntity Update(TEntity entity);
 
 
         public void SaveChanges();

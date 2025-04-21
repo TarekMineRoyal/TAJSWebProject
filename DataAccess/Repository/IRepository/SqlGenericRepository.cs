@@ -34,6 +34,13 @@ namespace DataAccess.Repository.IRepository
             return entity;
         }
 
+        public Task<TEntity> AttachAsync(TEntity entity)
+        {
+            _dbSet.Attach(entity);
+
+            return Task.FromResult(entity);
+        }
+
         public IEnumerable<TEntity>? GetAll()
         {
             return _dbSet.ToList();
@@ -93,6 +100,12 @@ namespace DataAccess.Repository.IRepository
             }
 
             return newEntity;
+        }
+
+        public TEntity Update(TEntity entity)
+        {
+            _dbSet.Update(entity);
+            return entity;
         }
 
         public async Task<TEntity> UpdateAsync(int id, TEntity newEntity)
