@@ -59,12 +59,17 @@ namespace BLL.IServices
 
             await _carRepository.AddAsync(car);
 
+            _carRepository.SaveChanges();
+
             return _mapper.Map<CreateCarDTO>(car);
         }
 
-        public async Task<CarDTO> UpdateCarAsync(int id, UpdateCarDTO carUpdateDto)
+        public async Task<CarDTO?> UpdateCarAsync(int id, UpdateCarDTO carUpdateDto)
         {
             var car = await _carRepository.GetByIdAsync(id);
+
+            if (car is null)
+                return null;
 
             var mappedCar = _mapper.Map<Car>(carUpdateDto);
 
@@ -72,12 +77,18 @@ namespace BLL.IServices
 
             car = await _carRepository.UpdateAsync(id, mappedCar);
 
+            _carRepository.SaveChanges();
+
             return _mapper.Map<CarDTO>(car);
         }
 
         public async Task<CarDTO> DeleteCar(int id)
         {
-            return _mapper.Map<CarDTO>(await _carRepository.RemoveAsync(id));
+            var carDto = await _carRepository.RemoveAsync(id);
+
+            _carRepository.SaveChanges();
+            
+            return _mapper.Map<CarDTO>(carDto);
         }
     }
 }
