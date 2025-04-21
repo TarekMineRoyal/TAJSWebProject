@@ -11,17 +11,19 @@ namespace BLL.IServices
 {
     public class CarService
     {
-        private readonly IGenericRepository<Car> _genericRepository;
+        private readonly IGenericRepository<Car> _carRepository;
 
-        public CarService(IGenericRepository<Car> genericRepository)
+        public CarService(IGenericRepository<Car> carRepository)
         {
-            _genericRepository = genericRepository;
+            _carRepository = carRepository;
         }
 
 
-        public Task<CarDTO?> GetCarByIdAsync(int id)
+        public async Task<CarDTO?> GetCarByIdAsync(int id)
         {
-            return null;
+            var car =  await _carRepository.GetByIdAsync(id);
+
+
         }
 
         public Task<IEnumerable<CarDTO>?> GetAllCarsAsync()

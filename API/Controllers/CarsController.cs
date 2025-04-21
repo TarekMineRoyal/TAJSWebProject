@@ -1,4 +1,5 @@
-﻿using DataAccess.Entities;
+﻿using BLL.IServices;
+using DataAccess.Entities;
 using DataAccess.Repository.IRepository;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,26 +7,26 @@ namespace API.Controllers;
 
 public class CarsController : Controller
 {
-    private readonly IGenericRepository<Car> _genericRepository;
+    private readonly CarService _carService;
 
-    public CarsController(IGenericRepository<Car> genericRepository)
+    public CarsController(CarService carService)
     {
-        _genericRepository = genericRepository;
+        _carService = carService;
     }
 
     public async Task<IActionResult> GetCarById(int id)
     {
-        var car = await _genericRepository.GetByIdAsync(id);
+        var carDTO = await _carService.GetCarByIdAsync(id);
 
-        if(car == null) 
+        if(carDTO == null) 
             return NotFound();
 
-        return Ok(car);
+        return Ok(carDTO);
     }
 
     public async Task<IActionResult> GetAllCars()
     {
-        return Ok(await _genericRepository.GetAllAsync());
+        return Ok(await _carService.GetAllCarsAsync());
     }
 
 
