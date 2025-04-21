@@ -15,6 +15,7 @@ namespace DTO
         public string? Image { get; set; }
         public decimal Mbw { get; set; }
         public decimal Pph { get; set; }
+        public decimal Ppd { get; set; }
         public int? CategoryId { get; set; }
     }
 }
