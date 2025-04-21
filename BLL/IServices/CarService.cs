@@ -2,6 +2,7 @@
 using DataAccess.Entities;
 using DataAccess.Repository.IRepository;
 using DTO;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,27 +27,57 @@ namespace BLL.IServices
         {
             var car =  await _carRepository.GetByIdAsync(id);
 
+            var carDto = _mapper.Map<CarDTO>(car);
 
+            return carDto; 
         }
 
-        public Task<IEnumerable<CarDTO>?> GetAllCarsAsync()
+        public async Task<IEnumerable<CarDTO>?> GetAllCarsAsync()
         {
-            return null;
+            var cars = await _carRepository.GetAllAsync();
+            var carsDto = new List<CarDTO>();
+
+            if(cars is not null)
+            {
+                foreach (Car car in cars)
+                {
+                    carsDto.Add(_mapper.Map<CarDTO>(car));
+                }
+            }
+
+            return carsDto;
         }
 
-        public Task<CreateCarDTO> AddCarAsync(CreateCarDTO car)
+        public async Task<CreateCarDTO> AddCarAsync(CreateCarDTO carAddDto)
         {
-            return null;
+            var car = _mapper.Map<Car>(carAddDto);
+
+            var maxId = _carRepository.GetAll().Max(e => (int?)e.Id) ?? 0;
+            var newId = maxId + 1;
+
+            car.Id = newId;
+
+            await _carRepository.AddAsync(car);
+
+            return _mapper.Map<CreateCarDTO>(car);
         }
 
-        public Task<UpdateCarDTO> UpdateCarAsync(int id, UpdateCarDTO car)
+        public async Task<CarDTO> UpdateCarAsync(int id, UpdateCarDTO carUpdateDto)
         {
-            return null;
+            var car = await _carRepository.GetByIdAsync(id);
+
+            var mappedCar = _mapper.Map<Car>(carUpdateDto);
+
+            mappedCar.Id = car.Id;
+
+            car = await _carRepository.UpdateAsync(id, mappedCar);
+
+            return _mapper.Map<CarDTO>(car);
         }
 
-        public Task<CarDTO> DeleteCar(int id)
+        public async Task<CarDTO> DeleteCar(int id)
         {
-            return null;
+            return _mapper.Map<CarDTO>(await _carRepository.RemoveAsync(id));
         }
     }
 }

@@ -8,27 +8,29 @@ namespace DataAccess.Repository.IRepository
 {
     public interface IGenericRepository<TEntity> where TEntity : class
     {
-        Task<TEntity?> GetByIdAsync(int id);
+        public Task<TEntity?> GetByIdAsync(int id);
 
-        Task<IEnumerable<TEntity>?> GetAllAsync();
+        public Task<IEnumerable<TEntity>?> GetAllAsync();
 
-        Task<TEntity> AddAsync(TEntity entity);
+        public Task<TEntity> AddAsync(TEntity entity);
 
-        Task<TEntity> UpdateAsync(int id, TEntity newEntity);
+        public Task<TEntity> UpdateAsync(int id, TEntity newEntity);
 
-        Task<TEntity?> RemoveAsync(int id);
+        public Task<TEntity?> RemoveAsync(int id);
 
 
 
-        TEntity? GetById(int id);
+        public TEntity? GetById(int id);
 
-        IEnumerable<TEntity>? GetAll();
+        public IEnumerable<TEntity>? GetAll();
 
-        TEntity Add(TEntity entity);
+        public TEntity Add(TEntity entity);
 
-        TEntity Update(int id, TEntity newEntity);
+        public TEntity Update(int id, TEntity newEntity);
 
-        TEntity? Remove(int id);
+        public TEntity? Remove(int id);
 
+
+        public void SaveChanges();
     }
 }

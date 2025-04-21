@@ -24,16 +24,12 @@ namespace DataAccess.Repository.IRepository
         {
             _dbSet.Add(entity);
 
-            _tourAgencyDbContext.SaveChangesAsync();
-
             return entity;
         }
 
         public async Task<TEntity> AddAsync(TEntity entity)
         {
             await _dbSet.AddAsync(entity);
-
-            await _tourAgencyDbContext.SaveChangesAsync();
 
             return entity;
         }
@@ -65,8 +61,6 @@ namespace DataAccess.Repository.IRepository
             if (entity != null)
             {
                 _dbSet.Remove(entity);
-
-                _tourAgencyDbContext.SaveChanges();
             }
 
             return entity;
@@ -79,11 +73,14 @@ namespace DataAccess.Repository.IRepository
             if (entity != null)
             {
                 _dbSet.Remove(entity);
-
-                _tourAgencyDbContext.SaveChanges();
             }
 
             return entity;
+        }
+
+        public void SaveChanges()
+        {
+            _tourAgencyDbContext.SaveChanges();
         }
 
         public TEntity Update(int id, TEntity newEntity)
@@ -94,8 +91,6 @@ namespace DataAccess.Repository.IRepository
             {
                 oldEntity = newEntity;
             }
-
-            _tourAgencyDbContext.SaveChanges();
 
             return newEntity;
         }
@@ -108,8 +103,6 @@ namespace DataAccess.Repository.IRepository
             {
                 oldEntity = newEntity;
             }
-
-            _tourAgencyDbContext.SaveChanges();
 
             return newEntity;
         }
