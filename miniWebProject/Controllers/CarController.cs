@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using BLL.IServices; // Your CarService interface (ICarService)
-using DTO; // Your DTOs (CarDTO, CreateCarDTO, UpdateCarDTO)
+using BLL.IServices;
+using DTO;
 
 namespace Presentation.Controllers
 {
@@ -20,7 +20,7 @@ namespace Presentation.Controllers
         public async Task<IActionResult> Index()
         {
             var cars = await _carService.GetAllCarsAsync();
-            return View(cars); // Pass IEnumerable<CarDTO> to the view
+            return View(cars);
         }
 
         // GET: /Car/Create
@@ -37,7 +37,7 @@ namespace Presentation.Controllers
             if (!ModelState.IsValid)
                 return View(dto);
 
-            await _carService.AddCarAsync(dto); // Returns the created DTO
+            await _carService.AddCarAsync(dto);
             return RedirectToAction(nameof(Index));
         }
 
@@ -48,7 +48,7 @@ namespace Presentation.Controllers
             if (carDto == null)
                 return NotFound();
 
-            // Map CarDTO to UpdateCarDTO (manual mapping since DTOs differ)
+            
             var updateDto = new UpdateCarDTO
             {
                 Model = carDto.Model,
@@ -72,7 +72,7 @@ namespace Presentation.Controllers
             if (!ModelState.IsValid)
                 return View(dto);
 
-            // Call the service with the ID and DTO
+            
             var updatedCar = await _carService.UpdateCarAsync(id, dto);
             return RedirectToAction(nameof(Index));
         }
@@ -84,7 +84,7 @@ namespace Presentation.Controllers
             if (carDto == null)
                 return NotFound();
 
-            return View(carDto); // Pass CarDTO to the delete confirmation view
+            return View(carDto);
         }
 
         // POST: /Car/Delete/{id}
