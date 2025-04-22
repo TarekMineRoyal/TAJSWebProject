@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BLL.IServices;
 using DataAccess.Entities;
 using DataAccess.Repository.IRepository;
 using DTO;
@@ -8,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BLL.IServices
+namespace BLL.Services
 {
     public class CarBookingService
     {
@@ -18,13 +19,13 @@ namespace BLL.IServices
         private IGenericRepository<Booking> _bookingRepository;
         private readonly IPaymentService _paymentService;
         IGenericRepository<CarBooking> _carBookingRepository;
-        public CarBookingService(IGenericRepository<Car> carRepository, IGenericRepository<CarBooking> carBookingRepository, 
-            CarService carService, IMapper mapper,IPaymentService paymentService, IGenericRepository<Booking> bookingRepository)
+        public CarBookingService(IGenericRepository<Car> carRepository, IGenericRepository<CarBooking> carBookingRepository,
+            CarService carService, IMapper mapper, IPaymentService paymentService, IGenericRepository<Booking> bookingRepository)
         {
             _paymentService = paymentService;
             _carBookingRepository = carBookingRepository;
             _carRepository = carRepository;
-            _carService  = carService;
+            _carService = carService;
             _mapper = mapper;
             _bookingRepository = bookingRepository;
         }
@@ -36,7 +37,7 @@ namespace BLL.IServices
                 StartDateTime = createCarBookingDTO.StartDateTime,
                 EndDateTime = createCarBookingDTO.EndDateTime,
 
-            }; 
+            };
             var carBooking = _mapper.Map<CarBooking>(createCarBookingDTO);
             booking.Status = BType.Pending;
             booking.BookingType = true;

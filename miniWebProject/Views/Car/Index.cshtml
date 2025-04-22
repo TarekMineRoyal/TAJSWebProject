@@ -1,0 +1,31 @@
+﻿@model IEnumerable<DataAccess.Entities.Car>
+
+@{
+    ViewData["Title"] = "Available Cars";
+}
+
+<h1>Car Listings</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Model</th>
+            <th>Color</th>
+            <th>Seats</th>
+            <th>Price Per Hour</th>
+            <th>Price Per Day</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var car in Model)
+        {
+            <tr>
+                <td>@car.Model</td>
+                <td>@car.Color</td>
+                <td>@car.Seats</td>
+                <td>@car.Pph.ToString("C")</td>
+                <td>@car.Ppd.ToString("C")</td>
+            </tr>
+        }
+    </tbody>
+</table>

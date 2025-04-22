@@ -5,31 +5,33 @@ using DTO;
 
 namespace Presentation.Controllers
 {
-    [Authorize(Roles = "Admin")]
-    [Route("/[controller]/[action]")]
+    //[Authorize(Roles = "Admin")]
+
+    [Route("/Cars/[action]")] // Apply route at the controller level
     public class CarController : Controller
     {
-        private readonly CarService _carService;
+        private readonly ICarService _carService;
 
-        public CarController(CarService carService)
+        public CarController(ICarService carService)
         {
             _carService = carService;
         }
 
-        // GET: /Car/Index
+        // GET: /Cars/Index
+        [Route("/Cars")]
         public async Task<IActionResult> Index()
         {
             var cars = await _carService.GetAllCarsAsync();
             return View(cars);
         }
 
-        // GET: /Car/Create
+        // GET: /Cars/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: /Car/Create
+        // POST: /Cars/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreateCarDTO dto)
@@ -41,14 +43,13 @@ namespace Presentation.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: /Car/Edit/{id}
+        // GET: /Cars/Edit/{id}
         public async Task<IActionResult> Edit(int id)
         {
             var carDto = await _carService.GetCarByIdAsync(id);
             if (carDto == null)
                 return NotFound();
 
-            
             var updateDto = new UpdateCarDTO
             {
                 Model = carDto.Model,
@@ -64,7 +65,7 @@ namespace Presentation.Controllers
             return View(updateDto);
         }
 
-        // POST: /Car/Edit/{id}
+        // POST: /Cars/Edit/{id}
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, UpdateCarDTO dto)
@@ -72,12 +73,11 @@ namespace Presentation.Controllers
             if (!ModelState.IsValid)
                 return View(dto);
 
-            
             var updatedCar = await _carService.UpdateCarAsync(id, dto);
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: /Car/Delete/{id}
+        // GET: /Cars/Delete/{id}
         public async Task<IActionResult> Delete(int id)
         {
             var carDto = await _carService.GetCarByIdAsync(id);
@@ -87,7 +87,7 @@ namespace Presentation.Controllers
             return View(carDto);
         }
 
-        // POST: /Car/Delete/{id}
+        // POST: /Cars/Delete/{id}
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

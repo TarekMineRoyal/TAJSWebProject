@@ -7,12 +7,13 @@ namespace API.Controllers;
 
 public class CarsController : Controller
 {
-    private readonly CarService _carService;
+    private readonly ICarService _carService;
 
-    public CarsController(CarService carService)
+    public CarsController(ICarService carService)
     {
         _carService = carService;
     }
+
 
     public async Task<IActionResult> GetCarById(int id)
     {
