@@ -93,13 +93,6 @@ namespace DataAccess.Entities
         [EnumDataType(typeof(BType))]
         public BType Status { get; set; }
 
-        /// <summary>
-        /// The number of passengers included in the booking
-        /// </summary>
-        [Required]
-        [Column("numOfPassengers")]
-        [Range(1, int.MaxValue, ErrorMessage = "Number of passengers must be at least 1")]
-        public int NumberOfPassengers { get; set; }
 
         [Required]
         [Column("employeeId")]
