@@ -13,13 +13,13 @@ namespace BLL.IServices
     public class CarBookingService
     {
         IGenericRepository<Car> _carRepository;
-        private readonly CarService _carService;
+        private readonly ICarService _carService;
         private readonly IMapper _mapper;
         private IGenericRepository<Booking> _bookingRepository;
         private readonly IPaymentService _paymentService;
         IGenericRepository<CarBooking> _carBookingRepository;
         public CarBookingService(IGenericRepository<Car> carRepository, IGenericRepository<CarBooking> carBookingRepository, 
-            CarService carService, IMapper mapper,IPaymentService paymentService, IGenericRepository<Booking> bookingRepository)
+            ICarService carService, IMapper mapper,IPaymentService paymentService, IGenericRepository<Booking> bookingRepository)
         {
             _paymentService = paymentService;
             _carBookingRepository = carBookingRepository;

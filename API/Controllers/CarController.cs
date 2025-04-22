@@ -1,6 +1,4 @@
 ﻿using BLL.IServices;
-using DataAccess.Entities;
-using DataAccess.Repository.IRepository;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -16,13 +14,12 @@ public class CarsController : Controller
         _carService = carService;
     }
 
-    [HttpGet]
-    [Route("{id:guid}")]
+    [HttpGet("id:int")]
     public async Task<IActionResult> GetCarById(int id)
     {
         var carDTO = await _carService.GetCarByIdAsync(id);
 
-        if(carDTO == null) 
+        if (carDTO == null)
             return NotFound();
 
         return Ok(carDTO);

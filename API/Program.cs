@@ -23,10 +23,10 @@ builder.Services.AddScoped<CarBookingService>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();
 
 
-//
-//builder.Services.AddScoped<CarService>();
-//builder.Services.AddScoped<CarBookingService>();
-//builder.Services.AddScoped<IPaymentService, PaymentService>();
+
+builder.Services.AddScoped<CarService>();
+builder.Services.AddScoped<CarBookingService>();
+builder.Services.AddScoped<IPaymentService, PaymentService>();
 
 // Register AutoMapper with the specific profile
 builder.Services.AddAutoMapper(typeof(BLL.Profiles.CarProfile));
@@ -37,19 +37,20 @@ builder.Services.AddDbContext<TourAgencyDbContext>(options =>
 builder.Services.AddDbContext<IUserDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Identity")));
 
-builder.Services.AddScoped<IGenericRepository<Car>, SqlGenericRepository<Car>>();
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(SqlGenericRepository<>));
 builder.Services.AddScoped<ICarService, CarService>();  
 
 
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     using var scope = app.Services.CreateScope();
     var dbContext = scope.ServiceProvider.GetRequiredService<TourAgencyDbContext>();
-    dbContext.Database.EnsureCreated(); // Or use Migrate() for migrations
-    dbContext.Seed(); // Call the updated Seed method
+    dbContext.Database.EnsureCreated();
+    dbContext.Seed();
     app.UseSwagger();
     app.UseSwaggerUI();
 }
