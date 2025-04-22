@@ -125,16 +125,16 @@ namespace DataAccess.Entities
         private void ConfigureRelationships(ModelBuilder modelBuilder)
         {
             // Configure the one-to-one relationship between Booking and CarBooking
-            modelBuilder.Entity<CarBooking>()
-                .HasOne(p => p.Booking)
-                .WithOne(p => p.CarBooking)
-                .HasForeignKey<Booking>(p => p.CarBookingId);
+            modelBuilder.Entity<Booking>()
+                .HasOne(p => p.CarBooking)
+                .WithOne(p => p.Booking)
+                .HasForeignKey<CarBooking>(p => p.BookingId);
 
             // Configure the one-to-one relationship between Booking and TripBooking
-            modelBuilder.Entity<TripBooking>()
-                .HasOne(p => p.Booking)
-                .WithOne(p => p.TripBooking)
-                .HasForeignKey<Booking>(p => p.TripBookingId);
+            modelBuilder.Entity<Booking>()
+                .HasOne(p => p.TripBooking)
+                .WithOne(p => p.Booking)
+                .HasForeignKey<TripBooking>(p => p.BookingId);
 
            
         }

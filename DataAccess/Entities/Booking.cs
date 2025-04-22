@@ -47,19 +47,19 @@ namespace DataAccess.Entities
         [Column("id")]
         public int Id { get; set; }
 
-        /// <summary>
-        /// Foreign key for the associated car booking (nullable)
-        /// </summary>
-        [Column("carBookingId")]
-        [ForeignKey("CarBookingId")]
-        public int? CarBookingId { get; set; }
+        ///// <summary>
+        ///// Foreign key for the associated car booking (nullable)
+        ///// </summary>
+        //[Column("carBookingId")]
+        //[ForeignKey("CarBookingId")]
+        //public int? CarBookingId { get; set; }
 
-        /// <summary>
-        /// Foreign key for the associated trip booking (nullable)
-        /// </summary>
-        [Column("tripBookingId")]
-        [ForeignKey("TripBooingId")]
-        public int? TripBookingId { get; set; }
+        ///// <summary>
+        ///// Foreign key for the associated trip booking (nullable)
+        ///// </summary>
+        //[Column("tripBookingId")]
+        //[ForeignKey("TripBooingId")]
+        //public int? TripBookingId { get; set; }
         #endregion
 
         #region Booking Details
