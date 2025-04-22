@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using BLL.IServices;
 using DTO;
+using BLL.Services;
 
 namespace Presentation.Controllers
 {

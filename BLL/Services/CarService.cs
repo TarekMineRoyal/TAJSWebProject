@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BLL.IServices;
 using DataAccess.Entities;
 using DataAccess.Repository.IRepository;
 using DTO;
@@ -9,9 +10,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BLL.IServices
+namespace BLL.Services
 {
-    public class CarService
+    public class CarService : ICarService
     {
         private readonly IGenericRepository<Car> _carRepository;
         private readonly IMapper _mapper;
