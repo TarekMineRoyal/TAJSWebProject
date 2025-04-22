@@ -13,7 +13,8 @@ namespace BLL.Profiles
     {
         public CarBookingProfile() 
         { 
-            CreateMap<CreateCarBookingDTO,  CarBooking>();
+            CreateMap<CreateCarBookingDTO,  CarBooking>().ReverseMap();
+            CreateMap<CreateBookingDTO, CarBooking>().ReverseMap();
         }
     }
 }

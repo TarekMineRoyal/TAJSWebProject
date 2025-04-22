@@ -47,19 +47,19 @@ namespace DataAccess.Entities
         [Column("id")]
         public int Id { get; set; }
 
-        /// <summary>
-        /// Foreign key for the associated car booking (nullable)
-        /// </summary>
-        [Column("carBookingId")]
-        [ForeignKey("CarBookingId")]
-        public int? CarBookingId { get; set; }
+        ///// <summary>
+        ///// Foreign key for the associated car booking (nullable)
+        ///// </summary>
+        //[Column("carBookingId")]
+        //[ForeignKey("CarBookingId")]
+        //public int? CarBookingId { get; set; }
 
-        /// <summary>
-        /// Foreign key for the associated trip booking (nullable)
-        /// </summary>
-        [Column("tripBookingId")]
-        [ForeignKey("TripBooingId")]
-        public int? TripBookingId { get; set; }
+        ///// <summary>
+        ///// Foreign key for the associated trip booking (nullable)
+        ///// </summary>
+        //[Column("tripBookingId")]
+        //[ForeignKey("TripBooingId")]
+        //public int? TripBookingId { get; set; }
         #endregion
 
         #region Booking Details
@@ -93,6 +93,13 @@ namespace DataAccess.Entities
         [EnumDataType(typeof(BType))]
         public BType Status { get; set; }
 
+        /// <summary>
+        /// The number of passengers included in the booking
+        /// </summary>
+        [Required]
+        [Column("numOfPassengers")]
+        [Range(1, int.MaxValue, ErrorMessage = "Number of passengers must be at least 1")]
+        public int NumberOfPassengers { get; set; }
 
         [Required]
         [Column("employeeId")]

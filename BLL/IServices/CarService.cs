@@ -57,7 +57,7 @@ namespace BLL.IServices
 
             car.Id = newId;
 
-            await _carRepository.AddAsync(car);
+            car = await _carRepository.AddAsync(car);
 
             _carRepository.SaveChanges();
 

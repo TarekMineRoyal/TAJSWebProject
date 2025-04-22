@@ -43,7 +43,7 @@ namespace DataAccess.Entities
         [ForeignKey("PaymentMethodId")]
         public int PaymentMethodId { get; set; }
 
-        public Payment? Paymwnt { get; set; }
+        public Payment? Payment { get; set; }
         public PaymentMethod? PaymentMethod { get; set; }
 
     }

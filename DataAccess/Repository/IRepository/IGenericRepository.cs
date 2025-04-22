@@ -20,6 +20,7 @@ namespace DataAccess.Repository.IRepository
 
         public Task<TEntity> AttachAsync(TEntity entity);
 
+        public void SaveChanges();
 
 
         public TEntity? GetById(int id);
@@ -35,6 +36,6 @@ namespace DataAccess.Repository.IRepository
         public TEntity Update(TEntity entity);
 
 
-        public void SaveChanges();
+        
     }
 }

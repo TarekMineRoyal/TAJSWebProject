@@ -28,6 +28,8 @@ namespace DataAccess.Entities
         [Column("withGuide")]
         public bool WithGuide { get; set; }
 
+
+
         [Column("tripPlanId")]
         [ForeignKey("TripPlanId")]
         public int? TripPlanId { get; set; }

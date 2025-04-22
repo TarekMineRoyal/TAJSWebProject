@@ -8,7 +8,7 @@ namespace DTO
 {
     public class CarBookingDTO
     {
-        public int Id { get; set; }
+        public int CarId { get; set; }
         public string? PickupLocation { get; set; }
         public string? DropoffLocation { get; set; }
         public bool WithDriver { get; set; }

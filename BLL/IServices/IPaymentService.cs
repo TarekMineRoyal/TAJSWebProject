@@ -1,4 +1,5 @@
-﻿using DataAccess.Entities.User;
+﻿using DataAccess.Entities;
+using DataAccess.Entities.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,7 @@ namespace BLL.IServices
 {
     public interface IPaymentService
     {
-        Task Pay(User user, double amount);
+        public Task<PaymentTransaction> AddPaymentTransaction(PaymentTransaction transaction);
+        public Task<PaymentTransaction> GetPaymentTransaction(int id);
     }
 }
