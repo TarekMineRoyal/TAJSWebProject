@@ -7,9 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Domain.Entities;
-using Infrastructure.DataAccess;
 
-namespace Domain.Interfaces
+namespace Infrastructure.Interfaces
 {
     public class IUserDbContext : IdentityDbContext<User>
     {

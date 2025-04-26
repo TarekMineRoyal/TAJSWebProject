@@ -3,10 +3,10 @@ using AutoMapper;
 using Application.IServices;
 using Application.Profiles;
 using Application.Services;
-using Domain.Interfaces;
 using Infrastructure.DataAccess;
-using Domain.Interfaces.IRepositories;
 using Infrastructure.DataAccess.Repositories;
+using Application.IRepositories;
+using Infrastructure.Interfaces;
 
 
 var builder = WebApplication.CreateBuilder(args);

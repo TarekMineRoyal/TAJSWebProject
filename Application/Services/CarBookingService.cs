@@ -1,8 +1,8 @@
 ﻿using Application.DTOs;
+using Application.IRepositories;
 using Application.IServices;
 using AutoMapper;
 using Domain.Entities;
-using Domain.Interfaces.IRepositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;

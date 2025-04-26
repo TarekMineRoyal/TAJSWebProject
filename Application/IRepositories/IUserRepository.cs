@@ -4,10 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Domain.Entities;
-using Infrastructure.DataAccess;
 
-namespace Domain.Interfaces.IRepositories
+namespace Application.IRepositories
 {
     public interface IUserRepository
     {
