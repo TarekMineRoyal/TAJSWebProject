@@ -1,14 +1,13 @@
-using BLL.IServices;
-
-using DataAccess;
-using DataAccess.Entities;
-using DataAccess.Repository.IRepository;
-using DataAccess.Repository;
 using Microsoft.EntityFrameworkCore;
-using DataAccess.User;
 
 using AutoMapper;
-using BLL.Services;
+using Application.IServices;
+using Application.Profiles;
+using Application.Services;
+using Domain.Interfaces;
+using Infrastructure.DataAccess;
+using Domain.Interfaces.IRepositories;
+using Infrastructure.DataAccess.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,7 +28,7 @@ builder.Services.AddScoped<CarBookingService>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();
 
 // Register AutoMapper with the specific profile
-builder.Services.AddAutoMapper(typeof(BLL.Profiles.CarProfile));
+builder.Services.AddAutoMapper(typeof(CarProfile));
 
 
 builder.Services.AddDbContext<TourAgencyDbContext>(options =>
