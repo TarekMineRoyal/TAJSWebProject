@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-
 using AutoMapper;
 using Application.IServices;
 using Application.Profiles;
@@ -9,6 +8,7 @@ using Infrastructure.DataAccess;
 using Domain.Interfaces.IRepositories;
 using Infrastructure.DataAccess.Repositories;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -17,9 +17,9 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddScoped<CarService>();
-builder.Services.AddScoped<CarBookingService>();
-builder.Services.AddScoped<IPaymentService, PaymentService>();
+//builder.Services.AddScoped<CarService>();
+//builder.Services.AddScoped<CarBookingService>();
+//builder.Services.AddScoped<IPaymentService, PaymentService>();
 
 
 
