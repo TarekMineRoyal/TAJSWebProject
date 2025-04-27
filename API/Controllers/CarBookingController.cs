@@ -1,6 +1,5 @@
-﻿using BLL.IServices;
-using DataAccess.Entities;
-using DTO;
+﻿using Application.DTOs;
+using Application.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;

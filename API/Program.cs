@@ -1,14 +1,13 @@
-using BLL.IServices;
-
-using DataAccess;
-using DataAccess.Entities;
-using DataAccess.Repository.IRepository;
-using DataAccess.Repository;
 using Microsoft.EntityFrameworkCore;
-using DataAccess.User;
-
 using AutoMapper;
-using BLL.Services;
+using Application.IServices;
+using Application.Profiles;
+using Application.Services;
+using Infrastructure.DataAccess;
+using Infrastructure.DataAccess.Repositories;
+using Application.IRepositories;
+using Infrastructure.Interfaces;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,9 +17,9 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddScoped<CarService>();
-builder.Services.AddScoped<CarBookingService>();
-builder.Services.AddScoped<IPaymentService, PaymentService>();
+//builder.Services.AddScoped<CarService>();
+//builder.Services.AddScoped<CarBookingService>();
+//builder.Services.AddScoped<IPaymentService, PaymentService>();
 
 
 
@@ -29,7 +28,7 @@ builder.Services.AddScoped<CarBookingService>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();
 
 // Register AutoMapper with the specific profile
-builder.Services.AddAutoMapper(typeof(BLL.Profiles.CarProfile));
+builder.Services.AddAutoMapper(typeof(CarProfile));
 
 
 builder.Services.AddDbContext<TourAgencyDbContext>(options =>
