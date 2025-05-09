@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="DataAccess\Migrations\IUserDb\" />
+    <Folder Include="Migrations\IUserDb\" />
   </ItemGroup>
 
   <ItemGroup>
