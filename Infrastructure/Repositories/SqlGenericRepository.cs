@@ -91,6 +91,11 @@ namespace Infrastructure.DataAccess.Repositories
             _tourAgencyDbContext.SaveChanges();
         }
 
+        public async Task SaveChangesAsync()
+        {
+            await _tourAgencyDbContext.SaveChangesAsync();
+        }
+
         public TEntity Update(int id, TEntity newEntity)
         {
             var oldEntity = _dbSet.Find(id);

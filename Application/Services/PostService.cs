@@ -1,57 +1,85 @@
-﻿using Application.IServices;
+﻿using Application.IRepositories;
+using Application.IServices;
 using Domain.Entities;
 
 namespace Application.Services;
 
 public class PostService : IPostService
 {
+    private readonly IGenericRepository<Post> postRepository;
+
+    public PostService(IGenericRepository<Post> postRepository)
+    {
+        this.postRepository = postRepository;
+    }
+
     public Post AddPost(Post post)
     {
-        throw new NotImplementedException();
+        var returnedPpost = postRepository.Add(post);
+
+        postRepository.SaveChanges();
+
+        return returnedPpost;
     }
 
-    public Post AddPostAsync(Post post)
+    public async Task<Post> AddPostAsync(Post post)
     {
-        throw new NotImplementedException();
+        var returnedPpost = await postRepository.AddAsync(post);
+
+        postRepository.SaveChanges();
+
+        return returnedPpost;
     }
 
-    public Post DeletePost(Post post)
+    public Post? DeletePost(int id)
     {
-        throw new NotImplementedException();
+        var returnedPost = postRepository.Remove(id);
+
+        postRepository.SaveChanges();
+
+        return returnedPost;
     }
 
-    public Post DeletePostAsync(Post post)
+    public Task<Post?> DeletePostAsync(int id)
     {
-        throw new NotImplementedException();
+        var returnedPost = postRepository.RemoveAsync(id);
+
+        postRepository.SaveChangesAsync();
+
+        return returnedPost;
     }
 
-    public IEnumerable<Post> GetAllPosts()
+    public IEnumerable<Post>? GetAllPosts()
     {
-        throw new NotImplementedException();
+        return postRepository.GetAll();
     }
 
-    public IEnumerable<Post> GetAllPostsAsync()
+    public Task<IEnumerable<Post>?> GetAllPostsAsync()
     {
-        throw new NotImplementedException();
+        return postRepository.GetAllAsync();
     }
 
-    public IEnumerable<Post> GetPostById(int id)
+    public Post? GetPostById(int id)
     {
-        throw new NotImplementedException();
+        return postRepository.GetById(id);
     }
 
-    public IEnumerable<Post> GetPostByIdAsync(int id)
+    public Task<Post?> GetPostByIdAsync(int id)
     {
-        throw new NotImplementedException();
+        return postRepository.GetByIdAsync(id);
     }
 
     public Post UpdatePost(Post post)
     {
-        throw new NotImplementedException();
+        var updatedPost = postRepository.Update(post.Id, post);
+
+        return updatedPost;
     }
 
-    public Post UpdatePostAsync(Post post)
+    public async Task<Post> UpdatePostAsync(Post post)
     {
-        throw new NotImplementedException();
+        var updatedPost = await postRepository.UpdateAsync(post.Id, post);
+
+        return updatedPost;
     }
 }
