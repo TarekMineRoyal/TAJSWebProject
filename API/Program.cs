@@ -34,6 +34,7 @@ builder.Services.ConfigureOptions<JwtBearerOptionsSetup>();
 builder.Services.AddScoped<CarService>();
 builder.Services.AddScoped<CarBookingService>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();
+builder.Services.AddScoped<IPostService, PostService>();
 
 // Register AutoMapper with the specific profile
 builder.Services.AddAutoMapper(typeof(CarProfile));
