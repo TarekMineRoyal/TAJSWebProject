@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Domain.Entities;
 
-namespace Infrastructure.Interfaces
+namespace Infrastructure
 {
     public class IUserDbContext : IdentityDbContext<User>
     {

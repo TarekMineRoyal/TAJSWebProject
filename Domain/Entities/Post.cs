@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-    public enum PType // Post Type Enum
+    public enum PostStatus // Post Type Enum
     {
         Pending,
         Pinned,
@@ -51,7 +51,7 @@ namespace Domain.Entities
         [Required]
         [Column("status")]
         [EnumDataType(typeof(TType))]
-        public PType? Status { get; set; }
+        public PostStatus? Status { get; set; }
 
         [Column("postTypeId")]
         [ForeignKey("PostTypeId")]

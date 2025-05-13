@@ -18,8 +18,8 @@ namespace Application.DTOs
         [StringLength(50, ErrorMessage = "Slug cannot exceed 50 characters")]
         public string? Slug { get; set; }
 
-        [EnumDataType(typeof(PType))]
-        public PType? Status { get; set; }
+        [EnumDataType(typeof(PostStatus))]
+        public PostStatus? Status { get; set; }
 
         [StringLength(50, ErrorMessage = "Summary cannot exceed 50 characters")]
         public string? Summary { get; set; }

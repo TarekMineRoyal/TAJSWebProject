@@ -22,6 +22,8 @@ namespace Application.IRepositories
 
         public void SaveChanges();
 
+        public Task SaveChangesAsync();
+
 
         public TEntity? GetById(int id);
 
