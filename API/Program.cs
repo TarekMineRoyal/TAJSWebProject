@@ -1,14 +1,15 @@
-using BLL.IServices;
-
-using DataAccess;
-using DataAccess.Entities;
-using DataAccess.Repository.IRepository;
-using DataAccess.Repository;
 using Microsoft.EntityFrameworkCore;
-using DataAccess.User;
-
 using AutoMapper;
-using BLL.Services;
+using Application.IServices;
+using Application.Profiles;
+using Application.Services;
+using Infrastructure.DataAccess;
+using Infrastructure.DataAccess.Repositories;
+using Application.IRepositories;
+using Infrastructure;
+using Hotel_Restaurant_Reservation.API.OptionsSetup;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,18 +19,25 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddScoped<CarService>();
-builder.Services.AddScoped<CarBookingService>();
-builder.Services.AddScoped<IPaymentService, PaymentService>();
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer();
+
+builder.Services.ConfigureOptions<JwtOptionsSetup>();
+
+builder.Services.ConfigureOptions<JwtBearerOptionsSetup>();
+//builder.Services.AddScoped<CarService>();
+//builder.Services.AddScoped<CarBookingService>();
+//builder.Services.AddScoped<IPaymentService, PaymentService>();
 
 
 
 builder.Services.AddScoped<CarService>();
 builder.Services.AddScoped<CarBookingService>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();
+builder.Services.AddScoped<IPostService, PostService>();
 
 // Register AutoMapper with the specific profile
-builder.Services.AddAutoMapper(typeof(BLL.Profiles.CarProfile));
+builder.Services.AddAutoMapper(typeof(CarProfile));
 
 
 builder.Services.AddDbContext<TourAgencyDbContext>(options =>
