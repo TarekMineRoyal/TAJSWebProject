@@ -39,7 +39,9 @@ builder.Services.AddAutoMapper(
     typeof(CarProfile),
     typeof(CarBookingProfile),
     typeof(RegionProfile),
-    typeof(TripPlanProfile)
+    typeof(TripPlanProfile),
+    typeof(TripPlanCarProfile),
+    typeof(TripProfile)
 );
 builder.Services.AddScoped<IImageShotService, ImageShotService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
@@ -49,6 +51,8 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<ICarBookingService, CarBookingService>();
 builder.Services.AddScoped<IRegionService, RegionService>();
 builder.Services.AddScoped<ITripPlanService, TripPlanService>();
+builder.Services.AddScoped<ITripPlanCarService, TripPlanCarService>();
+builder.Services.AddScoped<ITripService, TripService>();
 
 builder.Services.AddScoped<CarService>();
 builder.Services.AddScoped<CarBookingService>();

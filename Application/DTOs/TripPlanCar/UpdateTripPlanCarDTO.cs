@@ -9,6 +9,7 @@ namespace Application.DTOs.TripPlanCar
 {
     public class UpdateTripPlanCarDTO
     {
+        public int Id { get; set; }
         [Range(0.01, 10000000)]
         public decimal? Price { get; set; }
 
