@@ -32,11 +32,13 @@ builder.Services.ConfigureOptions<JwtBearerOptionsSetup>();
 //builder.Services.AddScoped<IPaymentService, PaymentService>();
 // Program.cs
 builder.Services.AddAutoMapper(
+    typeof(BookingProfile),
     typeof(TripBookingProfile),
     typeof(CategoryProfile),
     typeof(CarProfile),
     typeof(CarBookingProfile)
 );
+builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddScoped<ITripBookingService, TripBookingService>();
 builder.Services.AddScoped<IGenericRepository<Category>, SqlGenericRepository<Category>>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();

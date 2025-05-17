@@ -10,6 +10,7 @@ namespace Application.DTOs.Booking
 {
     public class UpdateBookingDTO
     {
+        public int Id { get; set; }
         public DateTime? StartDateTime { get; set; }
         public DateTime? EndDateTime { get; set; }
         [Range(1, int.MaxValue)] public int? NumberOfPassengers { get; set; }
