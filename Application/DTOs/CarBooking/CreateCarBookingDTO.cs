@@ -9,6 +9,8 @@ namespace Application.DTOs.CarBooking
 {
     public class CreateCarBookingDTO
     {
+        public int Id { get; set; }
+        public int BookingId { get; set; }
         [Required] public int CarId { get; set; }  // check later
         [Required][StringLength(100)] public string? PickupLocation { get; set; }
         [Required][StringLength(100)] public string? DropoffLocation { get; set; }

@@ -1,47 +1,57 @@
 ﻿using Application.DTOs.CarBooking;
-using Application.Services;
+using Application.IServices;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers;
-
-[ApiController]
-[Route("[controller]")]
-public class CarBookingController : Controller
+namespace API.Controllers
 {
-    private CarBookingService _carBookingService;
-
-    public CarBookingController(CarBookingService carBookingService) 
+    [ApiController]
+    [Route("api/[controller]")]
+    public class CarBookingsController : ControllerBase
     {
-        _carBookingService = carBookingService;
-    }
+        private readonly ICarBookingService _carBookingService;
 
-    //public IActionResult Index()
-    //{
-    //    return View();
-    //}
+        public CarBookingsController(ICarBookingService carBookingService)
+        {
+            _carBookingService = carBookingService;
+        }
 
-    [HttpPost]
-    public async Task<IActionResult> CreateCarBooking(CreateCarBookingDTO createCarBookingDTO)
-    {
-        createCarBookingDTO = await _carBookingService.AddCarBookingAsync(createCarBookingDTO);
-        if(createCarBookingDTO is null)
+        // GET /api/carbookings/{id}
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetCarBookingById(int id)
         {
-            return BadRequest("Something goes wrong!");
+            var booking = await _carBookingService.GetCarBookingByIdAsync(id);
+            return booking != null ? Ok(booking) : NotFound();
         }
-        else
-        {
-            return Ok(createCarBookingDTO);
-        }
-    }
 
-    [HttpGet]
-    public async Task<IActionResult> GetCarBookingAsync(int id)
-    {
-        var carBooking = await _carBookingService.GetCarBookingAsync(id);
-        if (carBooking is null)
+        // GET /api/carbookings
+        [HttpGet]
+        public async Task<IActionResult> GetAllCarBookings()
         {
-            return BadRequest("Car booking not found.");
+            return Ok(await _carBookingService.GetAllCarBookingsAsync());
         }
-        return Ok(carBooking);
+
+        // POST /api/carbookings
+        [HttpPost]
+        public async Task<IActionResult> CreateCarBooking([FromBody] CreateCarBookingDTO dto)
+        {
+            var createdDto = await _carBookingService.AddCarBookingAsync(dto);
+            return CreatedAtAction(nameof(GetCarBookingById), new { id = createdDto.Id }, createdDto);
+        }
+
+        // PUT /api/carbookings/{id}
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateCarBooking(int id, [FromBody] UpdateCarBookingDTO dto)
+        {
+            var updated = await _carBookingService.UpdateCarBookingAsync(id, dto);
+            return updated != null ? Ok(updated) : NotFound();
+        }
+
+        // DELETE /api/carbookings/{id}
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteCarBooking(int id)
+        {
+            await _carBookingService.DeleteCarBookingAsync(id);
+            return NoContent();
+        }
     }
 }

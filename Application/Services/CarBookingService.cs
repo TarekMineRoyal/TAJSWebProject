@@ -1,68 +1,71 @@
 ﻿using Application.DTOs.CarBooking;
-using Application.IRepositories;
 using Application.IServices;
+using Application.IRepositories;
 using AutoMapper;
 using Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Services
 {
-    public class CarBookingService
+    public class CarBookingService : ICarBookingService
     {
-        IGenericRepository<Car> _carRepository;
-        private readonly ICarService _carService;
+        private readonly IGenericRepository<CarBooking> _carBookingRepo;
         private readonly IMapper _mapper;
-        private IGenericRepository<Booking> _bookingRepository;
-        private readonly IPaymentService _paymentService;
-        IGenericRepository<CarBooking> _carBookingRepository;
-        public CarBookingService(IGenericRepository<Car> carRepository, IGenericRepository<CarBooking> carBookingRepository,
-            ICarService carService, IMapper mapper, IPaymentService paymentService, IGenericRepository<Booking> bookingRepository)
+
+        public CarBookingService(IGenericRepository<CarBooking> carBookingRepo, IMapper mapper)
         {
-            _paymentService = paymentService;
-            _carBookingRepository = carBookingRepository;
-            _carRepository = carRepository;
-            _carService = carService;
+            _carBookingRepo = carBookingRepo;
             _mapper = mapper;
-            _bookingRepository = bookingRepository;
         }
 
-        public async Task<CreateCarBookingDTO> AddCarBookingAsync(CreateCarBookingDTO createCarBookingDTO)
+        public async Task<CarBookingDTO?> GetCarBookingByIdAsync(int id)
         {
-
-            var booking = new Booking()
-            {
-                StartDateTime = createCarBookingDTO.StartDateTime,
-                EndDateTime = createCarBookingDTO.EndDateTime,
-
-            };
-            var carBooking = _mapper.Map<CarBooking>(createCarBookingDTO);
-            booking.Status = BType.Pending;
-            booking.BookingType = true;
-            booking = await _bookingRepository.AddAsync(booking);
-            carBooking.BookingId = booking.Id;
-            carBooking.CarId = createCarBookingDTO.CarId;
-            carBooking = await _carBookingRepository.AddAsync(carBooking);
-            if (booking is null || carBooking is null)
-            {
-                throw new Exception("Something is wrong!");
-            }
-            _bookingRepository.SaveChanges();
-            _carBookingRepository.SaveChanges();
-            return createCarBookingDTO;
+            var booking = await _carBookingRepo.GetByIdAsync(id);
+            return booking != null ? _mapper.Map<CarBookingDTO>(booking) : null;
         }
 
-        public async Task<CarBookingDTO> GetCarBookingAsync(int id)
+        public async Task<IEnumerable<CarBookingDTO>> GetAllCarBookingsAsync()
         {
-            var carBooking = await _carBookingRepository.GetByIdAsync(id);
-            if (carBooking is null)
-            {
-                return null;
-            }
-            return _mapper.Map<CarBookingDTO>(carBooking);
+            var bookings = await _carBookingRepo.GetAllAsync();
+            return bookings?.Select(b => _mapper.Map<CarBookingDTO>(b));
+        }
+
+        public async Task<CreateCarBookingDTO> AddCarBookingAsync(CreateCarBookingDTO dto)
+        {
+            var booking = _mapper.Map<CarBooking>(dto);
+
+            // Ensure associated booking exists (if needed)
+            if (booking.BookingId <= 0)
+                throw new ArgumentException("Invalid booking reference");
+
+            var addedBooking = await _carBookingRepo.AddAsync(booking);
+            await _carBookingRepo.SaveChangesAsync();
+
+            return _mapper.Map<CreateCarBookingDTO>(addedBooking);
+        }
+
+        public async Task<CarBookingDTO?> UpdateCarBookingAsync(int id, UpdateCarBookingDTO dto)
+        {
+            var existingBooking = await _carBookingRepo.GetByIdAsync(id);
+            if (existingBooking == null) return null;
+
+            _mapper.Map(dto, existingBooking);
+            _carBookingRepo.Update(existingBooking);
+            await _carBookingRepo.SaveChangesAsync();
+
+            return _mapper.Map<CarBookingDTO>(existingBooking);
+        }
+
+        public async Task<CarBookingDTO> DeleteCarBookingAsync(int id)
+        {
+            var deletedBooking = await _carBookingRepo.RemoveAsync(id);
+            await _carBookingRepo.SaveChangesAsync();
+            return _mapper.Map<CarBookingDTO>(deletedBooking);
+        }
+
+        public Task<CarBookingDTO> CreateCarBookingAsync(CreateCarBookingDTO dto)
+        {
+            throw new NotImplementedException();
         }
     }
 }
