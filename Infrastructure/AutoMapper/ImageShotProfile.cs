@@ -10,7 +10,7 @@ namespace Infrastructure.AutoMapper
         public ImageShotProfile()
         {
             CreateMap<ImageShot, ImageShotDTO>();
-            CreateMap<CreateImageShotDTO, ImageShot>();
+            CreateMap<CreateImageShotDTO, ImageShot>().ReverseMap();
             CreateMap<UpdateImageShotDTO, ImageShot>();
         }
     }

@@ -10,7 +10,7 @@ namespace Infrastructure.AutoMapper
         public BookingProfile()
         {
             CreateMap<Booking, BookingDTO>();
-            CreateMap<CreateBookingDTO, Booking>();
+            CreateMap<CreateBookingDTO, Booking>().ReverseMap();
             CreateMap<UpdateBookingDTO, Booking>();
         }
     }

@@ -9,7 +9,7 @@ namespace Infrastructure.AutoMapper
         public CategoryProfile()
         {
             CreateMap<Category, CategoryDTO>();
-            CreateMap<CreateCategoryDTO, Category>();
+            CreateMap<CreateCategoryDTO, Category>().ReverseMap();
             CreateMap<UpdateCategoryDTO, Category>();
         }
     }
