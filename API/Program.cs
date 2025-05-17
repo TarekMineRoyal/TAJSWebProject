@@ -9,6 +9,8 @@ using Application.IRepositories;
 using Infrastructure;
 using Hotel_Restaurant_Reservation.API.OptionsSetup;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Domain.Entities;
+using Infrastructure.AutoMapper;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,7 +30,13 @@ builder.Services.ConfigureOptions<JwtBearerOptionsSetup>();
 //builder.Services.AddScoped<CarService>();
 //builder.Services.AddScoped<CarBookingService>();
 //builder.Services.AddScoped<IPaymentService, PaymentService>();
-
+// Program.cs
+builder.Services.AddAutoMapper(
+    typeof(CategoryProfile),
+    typeof(CarProfile)
+);
+builder.Services.AddScoped<IGenericRepository<Category>, SqlGenericRepository<Category>>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 
 
 builder.Services.AddScoped<CarService>();

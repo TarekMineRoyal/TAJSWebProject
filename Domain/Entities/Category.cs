@@ -18,6 +18,7 @@ namespace Domain.Entities
         /// The unique identifier for the category
         /// </summary>
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("id")]
         public int Id { get; set; }
         #endregion
