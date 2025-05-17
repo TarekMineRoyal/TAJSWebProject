@@ -11,6 +11,7 @@ namespace Application.DTOs.Trip
     {
         public int Id { get; set; }
         [Required] public string? Slug { get; set; }
+        [Required] public bool IsAvailable { get; set; }
         [Required] public string? Description { get; set; }
         [Required] public bool IsPrivate { get; set; }
     }

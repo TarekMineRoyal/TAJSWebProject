@@ -7,35 +7,20 @@ namespace Infrastructure.DataAccess
     {
         public static void Seed(this TourAgencyDbContext dbContext)
         {
-            // Seed Categories
+            // 1. Seed Categories
             if (!dbContext.Categories.Any())
             {
                 dbContext.Categories.AddRange(
-                    new Category
-                    {
-                        Title = "Sedans",
-                    },
-                    new Category
-                    {
-                        Title = "SUVs",
-                    },
-                    new Category
-                    {
-                        Title = "Luxury",
-                    },
-                    new Category
-                    {
-                        Title = "Electric",
-                    },
-                    new Category
-                    {
-                        Title = "Sports Cars",
-                    }
+                    new Category { Title = "Sedans" },
+                    new Category { Title = "SUVs" },
+                    new Category { Title = "Luxury" },
+                    new Category { Title = "Electric" },
+                    new Category { Title = "Sports Cars" }
                 );
                 dbContext.SaveChanges();
             }
 
-            // Seed Cars
+            // 2. Seed Cars
             if (!dbContext.Cars.Any())
             {
                 // Get seeded categories to associate with cars
@@ -101,6 +86,46 @@ namespace Infrastructure.DataAccess
                         Pph = 75.00m,
                         Ppd = 400.00m,
                         Category = categories.FirstOrDefault(c => c.Title == "Electric")
+                    }
+                );
+                dbContext.SaveChanges();
+            }
+
+            // 3. Seed Regions
+            /*if (!dbContext.Regions.Any())
+            {
+                dbContext.Regions.AddRange(
+                    new Region { Name = "North America" },
+                    new Region { Name = "Europe" },
+                    new Region { Name = "Asia-Pacific" },
+                    new Region { Name = "Middle East" }
+                );
+                dbContext.SaveChanges();
+            }*/
+            // 4. Seed Trips
+            if (!dbContext.Trips.Any())
+            {
+                dbContext.Trips.AddRange(
+                    new Trip
+                    {
+                        Slug = "summer-adventure",
+                        Description = "Explore sunny beaches and coastal cities.",
+                        IsAvailable = true,
+                        IsPrivate = false
+                    },
+                    new Trip
+                    {
+                        Slug = "winter-wonderland",
+                        Description = "Ski resorts and snowy mountain escapes.",
+                        IsAvailable = true,
+                        IsPrivate = false
+                    },
+                    new Trip
+                    {
+                        Slug = "cultural-tour",
+                        Description = "Immerse yourself in historical landmarks and traditions.",
+                        IsAvailable = true,
+                        IsPrivate = false
                     }
                 );
                 dbContext.SaveChanges();

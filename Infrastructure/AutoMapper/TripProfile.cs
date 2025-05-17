@@ -10,7 +10,7 @@ namespace Infrastructure.AutoMapper
         public TripProfile()
         {
             CreateMap<Trip, TripDTO>();
-            CreateMap<CreateTripDTO, Trip>();
+            CreateMap<CreateTripDTO, Trip>().ReverseMap();
             CreateMap<UpdateTripDTO, Trip>();
         }
     }
