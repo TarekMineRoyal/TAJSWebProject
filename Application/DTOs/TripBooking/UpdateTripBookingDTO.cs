@@ -8,6 +8,7 @@ namespace Application.DTOs.TripBooking
 {
     public class UpdateTripBookingDTO
     {
+        public int Id { get; set; }
         public bool? WithGuide { get; set; } // Nullable for partial updates
 
         // Explicitly excluded:

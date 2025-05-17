@@ -9,6 +9,7 @@ namespace Application.DTOs.TripBooking
 {
     public class CreateTripBookingDTO
     {
+        public int Id { get; set; }
         [Required(ErrorMessage = "Booking ID is required")]
         public int BookingId { get; set; }
 
