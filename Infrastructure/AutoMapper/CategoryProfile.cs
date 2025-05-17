@@ -1,7 +1,6 @@
 ﻿using Application.DTOs.Category;
 using Domain.Entities;
 using AutoMapper;
-using Application.DTOs;
 
 namespace Infrastructure.AutoMapper
 {

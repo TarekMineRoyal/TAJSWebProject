@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.DTOs
+namespace Application.DTOs.Post
 {
     // Typically just requires ID (passed via route), but for audit purposes:
     public class DeletePostDTO

@@ -1,11 +1,12 @@
-﻿using Domain.Entities;
+﻿using Application.DTOs.Booking;
+using Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.DTOs
+namespace Application.DTOs.Payment
 {
     public class PaymentDTO
     {

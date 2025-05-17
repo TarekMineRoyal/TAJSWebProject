@@ -4,16 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.DTOs
+namespace Application.DTOs.TripPlanCar
 {
-    public class TripBookingDTO
+    public class TripPlanCarDTO
     {
         public int Id { get; set; }
-        public bool WithGuide { get; set; }
+        public decimal Price { get; set; }
 
-        // Simplified references to avoid circular dependencies
-        public int BookingId { get; set; }
+        // Simplified references
         public int TripPlanId { get; set; }
+        public int CarId { get; set; }
 
 
 

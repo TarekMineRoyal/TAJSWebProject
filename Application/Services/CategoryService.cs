@@ -4,7 +4,6 @@ using Application.IRepositories;
 using AutoMapper;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using Application.DTOs;
 
 namespace Application.Services
 {

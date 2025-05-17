@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.DTOs
+namespace Application.DTOs.Tag
 {
-    public class RegionDTO
+    public class TagDTO
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public int? BookingId { get; set; } // Nullable
     }
 }

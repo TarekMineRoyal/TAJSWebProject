@@ -1,5 +1,4 @@
-﻿using Application.DTOs;
-using Application.DTOs.Category;
+﻿using Application.DTOs.Category;
 using System.Threading.Tasks;
 
 namespace Application.IServices

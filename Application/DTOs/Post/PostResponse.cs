@@ -1,8 +1,8 @@
 ﻿using Domain.Entities;
 
-namespace Application.DTOs;
+namespace Application.DTOs.Post;
 
-public class AddPostRequest
+public class PostResponse
 {
     public int Id { get; set; }
     public string Title { get; set; }

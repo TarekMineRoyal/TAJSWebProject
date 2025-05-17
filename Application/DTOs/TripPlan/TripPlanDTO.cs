@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Application.DTOs.Region;
 
-namespace Application.DTOs
+namespace Application.DTOs.TripPlan
 {
     public class TripPlanDTO
     {
