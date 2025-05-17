@@ -9,8 +9,15 @@ namespace Application.DTOs.ImageShot
 {
     public class CreateImageShotDTO
     {
-        [Required][StringLength(255)] public string? Path { get; set; }
-        [Required][StringLength(50)] public string? Type { get; set; }
+        public int Id { get; set; }
+        [Required(ErrorMessage = "Image path is required")]
+        [StringLength(255, ErrorMessage = "Path cannot exceed 255 characters")]
+        public string Path { get; set; }
 
+        [Required(ErrorMessage = "Image type is required")]
+        [StringLength(50, ErrorMessage = "Type cannot exceed 50 characters")]
+        public string Type { get; set; }
+
+        public int? CarBookingId { get; set; }
     }
 }

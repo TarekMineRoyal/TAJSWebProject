@@ -12,5 +12,6 @@ namespace Application.DTOs.ImageShot
         [StringLength(255)] public string? Path { get; set; }
         [StringLength(50)] public string? Type { get; set; }
         // CarBookingId excluded (immutable once set)
+        public int? CarBookingId { get; set; }
     }
 }
