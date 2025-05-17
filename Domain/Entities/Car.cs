@@ -27,6 +27,7 @@ namespace Domain.Entities
         /// The unique identifier for the car
         /// </summary>
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("id")]
         public int Id { get; set; }
         #endregion
