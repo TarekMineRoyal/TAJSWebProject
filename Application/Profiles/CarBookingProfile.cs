@@ -1,4 +1,5 @@
-﻿using Application.DTOs;
+﻿using Application.DTOs.Booking;
+using Application.DTOs.CarBooking;
 using AutoMapper;
 using Domain.Entities;
 using System;

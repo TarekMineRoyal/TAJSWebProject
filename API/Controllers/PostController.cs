@@ -1,4 +1,4 @@
-﻿using Application.DTOs.PostDTOs;
+﻿using Application.DTOs;
 using Application.IServices;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
