@@ -38,7 +38,8 @@ builder.Services.AddAutoMapper(
     typeof(CategoryProfile),
     typeof(CarProfile),
     typeof(CarBookingProfile),
-    typeof(RegionProfile)
+    typeof(RegionProfile),
+    typeof(TripPlanProfile)
 );
 builder.Services.AddScoped<IImageShotService, ImageShotService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
@@ -47,6 +48,7 @@ builder.Services.AddScoped<IGenericRepository<Category>, SqlGenericRepository<Ca
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<ICarBookingService, CarBookingService>();
 builder.Services.AddScoped<IRegionService, RegionService>();
+builder.Services.AddScoped<ITripPlanService, TripPlanService>();
 
 builder.Services.AddScoped<CarService>();
 builder.Services.AddScoped<CarBookingService>();

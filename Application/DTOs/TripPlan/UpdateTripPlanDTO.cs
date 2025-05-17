@@ -9,6 +9,7 @@ namespace Application.DTOs.TripPlan
 {
     public class UpdateTripPlanDTO
     {
+        public int Id { get; set; }
         [DataType(DataType.DateTime)]
         public DateTime? StartDateTime { get; set; }
 

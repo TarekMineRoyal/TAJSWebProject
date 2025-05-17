@@ -9,6 +9,7 @@ namespace Application.DTOs.TripPlan
 {
     public class CreateTripPlanDTO
     {
+        public int Id { get; set; }
         [Required(ErrorMessage = "Start date/time is required")]
         [DataType(DataType.DateTime)]
         public DateTime StartDateTime { get; set; }
