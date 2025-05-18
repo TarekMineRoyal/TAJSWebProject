@@ -1,6 +1,6 @@
 ﻿using Domain.Entities;
 
-namespace Application.DTOs.PostDTOs;
+namespace Application.DTOs.Post;
 
 public class AddPostRequest
 {
