@@ -31,7 +31,7 @@ public class PostTypeController : ControllerBase
 
     [HttpGet]
     [Route("{id:int}")]
-    public async Task<IActionResult> GetPostTypeById([FromHeader] int id)
+    public async Task<IActionResult> GetPostTypeById(int id)
     {
         var postType = await postTypeService.GetPostTypeByIdAsync(id);
 
@@ -76,7 +76,7 @@ public class PostTypeController : ControllerBase
 
     [HttpDelete]
     [Route("{id:int}")]
-    public async Task<IActionResult> DeletePostType([FromHeader] int id)
+    public async Task<IActionResult> DeletePostType(int id)
     {
         var postType = await postTypeService.DeletePostTypeAsync(id);
 

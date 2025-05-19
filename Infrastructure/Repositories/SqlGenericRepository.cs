@@ -1,11 +1,5 @@
 ﻿using Application.IRepositories;
-using Infrastructure.DataAccess;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructure.DataAccess.Repositories
 {
@@ -96,34 +90,53 @@ namespace Infrastructure.DataAccess.Repositories
             await _tourAgencyDbContext.SaveChangesAsync();
         }
 
-        public TEntity Update(int id, TEntity newEntity)
+        public TEntity? Update(int id, TEntity entity)
         {
-            var oldEntity = _dbSet.Find(id);
+            // 1. Get existing entity
+            var existingEntity = _dbSet.Find(id);
 
-            if (oldEntity != null)
+            if (existingEntity == null)
+                return null;
+
+            // 2. Get all properties EXCEPT the primary key
+            var properties = _tourAgencyDbContext.Entry(existingEntity).Properties
+                .Where(p => !p.Metadata.IsPrimaryKey());
+
+            // 3. Update only non-key properties
+            foreach (var property in properties)
             {
-                oldEntity = newEntity;
+                var newValue = _tourAgencyDbContext.Entry(entity).Property(property.Metadata.Name).CurrentValue;
+                property.CurrentValue = newValue;
             }
 
-            return newEntity;
+            return existingEntity;
         }
 
-        public TEntity Update(TEntity entity)
+        public async Task<TEntity?> UpdateAsync(int id, TEntity entity)
         {
-            _dbSet.Update(entity);
-            return entity;
-        }
+            // 1. Get existing entity
+            var existingEntity = await _dbSet.FindAsync(id);
 
-        public async Task<TEntity> UpdateAsync(int id, TEntity newEntity)
-        {
-            var oldEntity = await _dbSet.FindAsync(id);
+            if (existingEntity == null)
+                return null;
 
-            if (oldEntity != null)
+            // 2. Get all properties EXCEPT the primary key
+            var properties = _tourAgencyDbContext.Entry(existingEntity).Properties
+                .Where(p => !p.Metadata.IsPrimaryKey());
+
+            // 3. Update only non-key properties
+            foreach (var property in properties)
             {
-                oldEntity = newEntity;
+                var newValue = _tourAgencyDbContext.Entry(entity).Property(property.Metadata.Name).CurrentValue;
+                property.CurrentValue = newValue;
             }
 
-            return newEntity;
+            //_dbSet.Update(existingEntity);
+
+            //existingEntity = entity;
+
+            return existingEntity;
+
         }
     }
 }
