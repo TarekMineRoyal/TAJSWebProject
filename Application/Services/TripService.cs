@@ -47,7 +47,7 @@ namespace Application.Services
             if (existingTrip == null) return null;
 
             _mapper.Map(dto, existingTrip);
-            _tripRepo.Update(existingTrip);
+            _tripRepo.UpdateAsync(id, existingTrip);
             await _tripRepo.SaveChangesAsync();
 
             return _mapper.Map<TripDTO>(existingTrip);

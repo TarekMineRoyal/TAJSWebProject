@@ -10,7 +10,7 @@ public interface ITagService
 
     public Tag AddTag(Tag tag);
 
-    public Tag UpdateTag(Tag tag);
+    public Tag UpdateTag(int id, Tag tag);
 
     public Tag? DeleteTag(int id);
 
@@ -20,7 +20,7 @@ public interface ITagService
 
     public Task<Tag> AddTagAsync(Tag tag);
 
-    public Task<Tag > UpdateTagAsync(Tag tag);
+    public Task<Tag > UpdateTagAsync(int id, Tag tag);
 
     public Task<Tag?> DeleteTagAsync(int id);
 }

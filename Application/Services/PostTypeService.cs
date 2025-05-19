@@ -65,17 +65,17 @@ public class PostTypeService : IPostTypeService
         return await postTypeRepository.GetByIdAsync(id);   
     }
 
-    public PostType UpdatePostType(PostType postType)
+    public PostType? UpdatePostType(int id, PostType postType)
     {
-        var newPostType = postTypeRepository.Update(postType);
+        var newPostType = postTypeRepository.Update(id, postType);
         postTypeRepository.SaveChanges();
 
         return newPostType;
     }
 
-    public async Task<PostType> UpdatePostTypeAsync(PostType postType)
+    public async Task<PostType?> UpdatePostTypeAsync(int id, PostType postType)
     {
-        var newPostType = await postTypeRepository.UpdateAsync(postType.Id, postType);
+        var newPostType = await postTypeRepository.UpdateAsync(id, postType);
         await postTypeRepository.SaveChangesAsync();
 
         return newPostType;

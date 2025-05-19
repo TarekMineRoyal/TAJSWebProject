@@ -47,7 +47,7 @@ namespace Application.Services
             if (existingImage == null) return null;
 
             _mapper.Map(dto, existingImage);
-            _imageShotRepo.Update(existingImage);
+            _imageShotRepo.UpdateAsync(id, existingImage);
             await _imageShotRepo.SaveChangesAsync();
 
             return _mapper.Map<ImageShotDTO>(existingImage);

@@ -10,7 +10,7 @@ public interface IPostTypeService
 
     public PostType AddPostType(PostType postType);
 
-    public PostType UpdatePostType(PostType postType);
+    public PostType? UpdatePostType(int id, PostType postType);
 
     public PostType? DeletePostType(int id);
 
@@ -20,7 +20,7 @@ public interface IPostTypeService
 
     public Task<PostType> AddPostTypeAsync(PostType postType);
 
-    public Task<PostType> UpdatePostTypeAsync(PostType postType);
+    public Task<PostType?> UpdatePostTypeAsync(int id, PostType postType);
 
     public Task<PostType?> DeletePostTypeAsync(int id);
 }

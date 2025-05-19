@@ -58,11 +58,12 @@ public class TagsController : ControllerBase
     }
 
     [HttpPut]
-    public async Task<IActionResult> UpdateTag([FromBody] UpdateTagRequest updateTagRequest)
+    [Route("{id:int}")]
+    public async Task<IActionResult> UpdateTag(int id, [FromBody] UpdateTagRequest updateTagRequest)
     {
         var tag = mapper.Map<Tag>(updateTagRequest);
 
-        tag = await tagService.UpdateTagAsync(tag);
+        tag = await tagService.UpdateTagAsync(id, tag);
 
         if (tag != null)
         {

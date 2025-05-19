@@ -58,11 +58,12 @@ public class PostTypeController : ControllerBase
     }
 
     [HttpPut]
-    public async Task<IActionResult> UpdatePostType([FromBody] UpdatePostTypeRequest updatePostTypeRequest)
+    [Route("{id:int}")]
+    public async Task<IActionResult> UpdatePostType(int id, [FromBody] UpdatePostTypeRequest updatePostTypeRequest)
     {
         var postType = mapper.Map<PostType>(updatePostTypeRequest);
 
-        postType = await postTypeService.UpdatePostTypeAsync(postType);
+        postType = await postTypeService.UpdatePostTypeAsync(id, postType);
 
         if (postType != null)
         {

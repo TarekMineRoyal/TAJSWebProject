@@ -49,7 +49,7 @@ namespace Application.Services
             if (existingBooking == null) return null;
 
             _mapper.Map(dto, existingBooking);
-            _bookingRepo.Update(existingBooking);
+            _bookingRepo.UpdateAsync(id, existingBooking);
             await _bookingRepo.SaveChangesAsync();
 
             return _mapper.Map<BookingDTO>(existingBooking);

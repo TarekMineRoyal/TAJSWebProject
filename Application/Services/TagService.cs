@@ -65,17 +65,17 @@ public class TagService : ITagService
         return await tagRepository.GetByIdAsync(id);
     }
 
-    public Tag UpdateTag(Tag tag)
+    public Tag UpdateTag(int id, Tag tag)
     {
-        tagRepository.Update(tag);
+        tagRepository.UpdateAsync(id, tag);
         tagRepository.SaveChanges();
 
         return tag;
     }
 
-    public async Task<Tag> UpdateTagAsync(Tag tag)
+    public async Task<Tag> UpdateTagAsync(int id, Tag tag)
     {
-        await tagRepository.UpdateAsync(tag.Id, tag);
+        await tagRepository.UpdateAsync(id, tag);
         await tagRepository.SaveChangesAsync();
 
         return tag;
