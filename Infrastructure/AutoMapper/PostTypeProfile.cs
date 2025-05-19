@@ -9,5 +9,9 @@ public class PostTypeProfile : Profile
     public PostTypeProfile()
     {
         CreateMap<PostType, PostTypeResponse>();
+
+        CreateMap<AddPostTypeRequest, PostType>();
+
+        CreateMap<UpdatePostTypeRequest, PostType>();
     }
 }

@@ -36,8 +36,8 @@ builder.Services.AddScoped<CarBookingService>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();
 builder.Services.AddScoped<IPostService, PostService>();
 
-// Register AutoMapper with the specific profile
-builder.Services.AddAutoMapper(typeof(CarProfile));
+// Register AutoMapper for all the profiles
+builder.Services.AddAutoMapper(typeof(Infrastructure.AssemplyReference).Assembly);
 
 
 builder.Services.AddDbContext<TourAgencyDbContext>(options =>

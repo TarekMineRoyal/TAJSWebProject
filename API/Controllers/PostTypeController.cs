@@ -1,6 +1,7 @@
 ﻿using Application.DTOs.PostType;
 using Application.IServices;
 using AutoMapper;
+using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -26,5 +27,66 @@ public class PostTypeController : ControllerBase
         var postTypeResponses = mapper.Map<IEnumerable<PostTypeResponse>>(postTypes);
 
         return Ok(postTypeResponses);
+    }
+
+    [HttpGet]
+    [Route("{id:int}")]
+    public async Task<IActionResult> GetPostTypeById([FromHeader] int id)
+    {
+        var postType = await postTypeService.GetPostTypeByIdAsync(id);
+
+        var postTypeResponse = mapper.Map<PostTypeResponse>(postType);
+
+        return Ok(postTypeResponse);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> AddPostType([FromBody] AddPostTypeRequest addPostTypeRequest)
+    {
+        var postType = mapper.Map<PostType>(addPostTypeRequest);
+
+        postType = await postTypeService.AddPostTypeAsync(postType);
+
+        if(postType != null)
+        {
+            var postTypeResponse = mapper.Map<PostTypeResponse>(postType);
+
+            return Ok(postTypeResponse);
+        }
+
+        return BadRequest();
+    }
+
+    [HttpPut]
+    public async Task<IActionResult> UpdatePostType([FromBody] UpdatePostTypeRequest updatePostTypeRequest)
+    {
+        var postType = mapper.Map<PostType>(updatePostTypeRequest);
+
+        postType = await postTypeService.UpdatePostTypeAsync(postType);
+
+        if (postType != null)
+        {
+            var postTypeResponse = mapper.Map<PostTypeResponse>(postType);
+
+            return Ok(postTypeResponse);
+        }
+
+        return BadRequest();
+    }
+
+    [HttpDelete]
+    [Route("{id:int}")]
+    public async Task<IActionResult> DeletePostType([FromHeader] int id)
+    {
+        var postType = await postTypeService.DeletePostTypeAsync(id);
+
+        if (postType != null)
+        {
+            var postTypeResponse = mapper.Map<PostTypeResponse>(postType);
+
+            return Ok(postTypeResponse);
+        }
+
+        return BadRequest();
     }
 }
