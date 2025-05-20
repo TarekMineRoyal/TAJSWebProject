@@ -69,7 +69,7 @@ builder.Services.AddAutoMapper(typeof(Infrastructure.AssemplyReference).Assembly
 
 
 builder.Services.AddDbContext<TourAgencyDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DBTourismAgencyContainer")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("MainDatabase")));
 builder.Services.AddDbContext<IUserDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Identity")));
 
