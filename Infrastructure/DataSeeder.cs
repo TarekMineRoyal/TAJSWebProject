@@ -92,7 +92,7 @@ namespace Infrastructure.DataAccess
             }
 
             // 3. Seed Regions
-            /*if (!dbContext.Regions.Any())
+            if (!dbContext.Regions.Any())
             {
                 dbContext.Regions.AddRange(
                     new Region { Name = "North America" },
@@ -101,7 +101,7 @@ namespace Infrastructure.DataAccess
                     new Region { Name = "Middle East" }
                 );
                 dbContext.SaveChanges();
-            }*/
+            }
             // 4. Seed Trips
             if (!dbContext.Trips.Any())
             {
