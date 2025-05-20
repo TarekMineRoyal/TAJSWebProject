@@ -130,6 +130,53 @@ namespace Infrastructure.DataAccess
                 );
                 dbContext.SaveChanges();
             }
+            // 5. Seed TripPlans
+            if (!dbContext.TripPlans.Any())
+            {
+                // Get seeded regions to associate with tripPlans
+                var regions = dbContext.Regions.ToList();
+                // Get seeded trips to associate with tripPlans
+                var trips = dbContext.Trips.ToList();
+                dbContext.TripPlans.AddRange(
+                    new TripPlan
+                    {
+                        StartDateTime = new DateTime(2025, 6, 15),
+                        EndDateTime = new DateTime(2025, 6, 22),
+                        Duration = 7,
+                        IncludedServices = "Flight tickets, 6 nights hotel stay, breakfast daily",
+                        Stops = "New York, Miami, Los Angeles",
+                        MealsPlan = "Breakfast included at hotels",
+                        HotelsStays = "4-star hotels in each city",
+                        Region = regions.FirstOrDefault(r => r.Name == "North America"),
+                        Trip = trips.FirstOrDefault(t => t.Slug == "summer-adventure")
+                    },
+                    new TripPlan
+                    {
+                        StartDateTime = new DateTime(2025, 12, 20),
+                        EndDateTime = new DateTime(2025, 12, 27),
+                        Duration = 7,
+                        IncludedServices = "Flight tickets, ski equipment rental, 6 nights hotel stay",
+                        Stops = "Zurich, Innsbruck, Chamonix",
+                        MealsPlan = "Dinner included at hotels",
+                        HotelsStays = "Chalets in alpine resorts",
+                        Region = regions.FirstOrDefault(r => r.Name == "Europe"),
+                        Trip = trips.FirstOrDefault(t => t.Slug == "winter-wonderland")
+                    },
+                    new TripPlan
+                    {
+                        StartDateTime = new DateTime(2025, 9, 10),
+                        EndDateTime = new DateTime(2025, 9, 17),
+                        Duration = 7,
+                        IncludedServices = "Flight tickets, guided tours, 6 nights hotel stay",
+                        Stops = "Tokyo, Seoul, Sydney",
+                        MealsPlan = "Lunch and dinner included at local restaurants",
+                        HotelsStays = "5-star hotels in major cities",
+                        Region = regions.FirstOrDefault(r => r.Name == "Asia-Pacific"),
+                        Trip = trips.FirstOrDefault(t => t.Slug == "cultural-tour")
+                    }
+                );
+                dbContext.SaveChanges();
+            }
         }
     }
 }

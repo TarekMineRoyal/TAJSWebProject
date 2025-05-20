@@ -1,5 +1,6 @@
 ﻿using Application.IRepositories;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace Infrastructure.DataAccess.Repositories
 {
@@ -34,6 +35,13 @@ namespace Infrastructure.DataAccess.Repositories
             _dbSet.Attach(entity);
 
             return Task.FromResult(entity);
+        }
+
+        public IEnumerable<TEntity> AddRange(IEnumerable<TEntity> entities)
+        {
+            _dbSet.AddRange(entities);
+
+            return entities;
         }
 
         public IEnumerable<TEntity>? GetAll()
@@ -137,6 +145,29 @@ namespace Infrastructure.DataAccess.Repositories
 
             return existingEntity;
 
+        }
+
+        public async Task<IEnumerable<TEntity>> AddRangeAsync(IEnumerable<TEntity> entities)
+        {
+            await _dbSet.AddRangeAsync(entities);
+
+            return entities;
+        }
+
+        public IEnumerable<TEntity> DeleteRange(IEnumerable<TEntity> entities)
+        {
+            _dbSet.RemoveRange(entities);
+            return entities;
+        }
+
+        public TEntity? GetFirstOrDefault(Expression<Func<TEntity, bool>> predicate)
+        {
+            return _dbSet.FirstOrDefault(predicate);
+        }
+
+        public async Task<TEntity?> GetFirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate)
+        {
+            return await _dbSet.FirstOrDefaultAsync(predicate);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,6 +25,16 @@ namespace Application.IRepositories
 
         public Task SaveChangesAsync();
 
+        public IEnumerable<TEntity> AddRange(IEnumerable<TEntity> entities);
+
+        public Task<IEnumerable<TEntity>> AddRangeAsync(IEnumerable<TEntity> entities);
+
+        public IEnumerable<TEntity> DeleteRange(IEnumerable<TEntity> entities);
+
+        public Task<TEntity?> GetFirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate);
+
+        public TEntity? GetFirstOrDefault(Expression<Func<TEntity, bool>> predicate);
+
 
         public TEntity? GetById(int id);
 
@@ -34,5 +45,7 @@ namespace Application.IRepositories
         public TEntity? Update(int id, TEntity entity);
 
         public TEntity? Remove(int id);
+
+        
     }
 }

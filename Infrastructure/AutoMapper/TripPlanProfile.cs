@@ -9,7 +9,13 @@ namespace Infrastructure.AutoMapper
     {
         public TripPlanProfile()
         {
-            CreateMap<TripPlan, TripPlanDTO>();
+            CreateMap<TripPlan, TripPlanDTO>()
+                .ForMember(
+                    dest => dest.IncludedServices,
+                    opt => opt.MapFrom(src => src.IncludedServices.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                                                                .Select(s => s.Trim())
+                                                                .ToList())
+                );
             CreateMap<CreateTripPlanDTO, TripPlan>().ReverseMap();
             CreateMap<UpdateTripPlanDTO, TripPlan>();
         }

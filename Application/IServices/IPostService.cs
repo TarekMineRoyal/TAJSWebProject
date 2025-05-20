@@ -10,9 +10,20 @@ public interface IPostService
 
     public Post AddPost(Post post);
 
-    public Post UpdatePost(Post post);
+    public Post UpdatePost(int id, Post post);
 
     public Post? DeletePost(int id);
+
+    public SeoMetadata AddSEOMetaDataToPost(int postId, SeoMetadata seoMetadata);
+
+    public SeoMetadata UpdateSEOMetaDataToPost(int postId, SeoMetadata seoMetadata);
+
+    public SeoMetadata DeleteSEOMetaDataFromPost(int postId, int seoMetaDataId);
+
+    public IEnumerable<Tag> AddTagsToPost(int postId, IEnumerable<int> tagIds);
+
+    public IEnumerable<Tag> DeleteTagsFromPost(int postId, IEnumerable<int> tagIds);
+
 
     public Task<IEnumerable<Post>?> GetAllPostsAsync();
 
@@ -20,7 +31,17 @@ public interface IPostService
 
     public Task<Post> AddPostAsync(Post post);
 
-    public Task<Post> UpdatePostAsync(Post post);
+    public Task<Post> UpdatePostAsync(int id, Post post);
 
     public Task<Post?> DeletePostAsync(int id);
+
+    public Task<SeoMetadata> AddSEOMetaDataToPostAsync(int postId, SeoMetadata seoMetadata);
+
+    public Task<SeoMetadata> UpdateSEOMetaDataToPostAsync(int postId, SeoMetadata seoMetadata);
+
+    public Task<SeoMetadata> DeleteSEOMetaDataFromPostAsync(int postId, int seoMetaDataId);
+
+    public Task<IEnumerable<Tag>> AddTagsToPostAsync(int postId, IEnumerable<int> tagIds);
+
+    public Task<IEnumerable<Tag>> DeleteTagsFromPostAsync(int postId, IEnumerable<int> tagIds);
 }
