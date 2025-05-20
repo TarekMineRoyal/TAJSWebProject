@@ -362,3 +362,8 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /miniWebProject/appsetting.Development.json
+/API/appsettings.Development.json
+/API/appsettings.json
+/.gitignore
+/.gitignore
+/.gitignore
