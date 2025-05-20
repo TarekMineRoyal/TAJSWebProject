@@ -14,7 +14,7 @@ namespace Application.IRepositories
 
         public Task<TEntity> AddAsync(TEntity entity);
 
-        public Task<TEntity> UpdateAsync(int id, TEntity newEntity);
+        public Task<TEntity?> UpdateAsync(int id, TEntity newEntity);
 
         public Task<TEntity?> RemoveAsync(int id);
 
@@ -31,13 +31,8 @@ namespace Application.IRepositories
 
         public TEntity Add(TEntity entity);
 
-        public TEntity Update(int id, TEntity newEntity);
+        public TEntity? Update(int id, TEntity entity);
 
         public TEntity? Remove(int id);
-
-        public TEntity Update(TEntity entity);
-
-
-
     }
 }

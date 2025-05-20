@@ -47,7 +47,7 @@ namespace Application.Services
             if (existingRegion == null) return null;
 
             _mapper.Map(dto, existingRegion);
-            _regionRepo.Update(existingRegion);
+            _regionRepo.UpdateAsync(id, existingRegion);
             await _regionRepo.SaveChangesAsync();
 
             return _mapper.Map<ResponseRegionDTO>(existingRegion);

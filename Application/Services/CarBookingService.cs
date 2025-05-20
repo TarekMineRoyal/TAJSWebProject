@@ -50,7 +50,7 @@ namespace Application.Services
             if (existingBooking == null) return null;
 
             _mapper.Map(dto, existingBooking);
-            _carBookingRepo.Update(existingBooking);
+            _carBookingRepo.Update(id, existingBooking);
             await _carBookingRepo.SaveChangesAsync();
 
             return _mapper.Map<CarBookingDTO>(existingBooking);

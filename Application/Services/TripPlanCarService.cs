@@ -47,7 +47,7 @@ namespace Application.Services
             if (existing == null) return null;
 
             _mapper.Map(dto, existing);
-            _repo.Update(existing);
+            _repo.UpdateAsync(id, existing);
             await _repo.SaveChangesAsync();
 
             return _mapper.Map<TripPlanCarDTO>(existing);

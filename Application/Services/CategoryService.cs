@@ -44,7 +44,7 @@ namespace Application.Services
             if (existingCategory == null) return null;
 
             _mapper.Map(dto, existingCategory);
-            _categoryRepo.Update(existingCategory);
+            _categoryRepo.UpdateAsync(id, existingCategory);
             await _categoryRepo.SaveChangesAsync();
 
             return _mapper.Map<CategoryDTO>(existingCategory);
