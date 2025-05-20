@@ -67,6 +67,7 @@ public class TagService : ITagService
 
     public Tag UpdateTag(int id, Tag tag)
     {
+        tag.Id = id;
         tagRepository.UpdateAsync(id, tag);
         tagRepository.SaveChanges();
 
@@ -75,6 +76,7 @@ public class TagService : ITagService
 
     public async Task<Tag> UpdateTagAsync(int id, Tag tag)
     {
+        tag.Id = id;
         await tagRepository.UpdateAsync(id, tag);
         await tagRepository.SaveChangesAsync();
 

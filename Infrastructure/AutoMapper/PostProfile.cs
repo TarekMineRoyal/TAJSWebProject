@@ -11,5 +11,7 @@ public class PostProfile : Profile
         CreateMap<Post, PostResponse>();
 
         CreateMap<AddPostRequest, Post>();
+
+        CreateMap<UpdatePostRequest, Post>();
     }
 }
