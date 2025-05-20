@@ -47,11 +47,7 @@ namespace Application.Services
             if (existingPlan == null) return null;
 
             _mapper.Map(dto, existingPlan);
-<<<<<<< HEAD
-            _tripPlanRepo.Update(existingPlan);
-=======
             _tripPlanRepo.UpdateAsync(id, existingPlan);
->>>>>>> Add-Post-Service
             await _tripPlanRepo.SaveChangesAsync();
 
             return _mapper.Map<TripPlanDTO>(existingPlan);
