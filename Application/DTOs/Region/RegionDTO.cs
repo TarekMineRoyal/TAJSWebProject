@@ -10,9 +10,6 @@ namespace Application.DTOs.Region
     {
         public int Id { get; set; }
         public string Name { get; set; }
-<<<<<<< HEAD
-       
-=======
->>>>>>> dd027430a6e70ec331f0186f2862cf9b59ad822a
+
     }
 }

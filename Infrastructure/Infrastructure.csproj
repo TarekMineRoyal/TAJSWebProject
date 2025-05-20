@@ -7,14 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-<<<<<<< HEAD
-    <Folder Include="Migrations\IUserDb\" />
-    <Folder Include="Migrations\TourAgencyDb\" />
-=======
+
     <Compile Remove="Migrations\IUserDb\**" />
     <EmbeddedResource Remove="Migrations\IUserDb\**" />
     <None Remove="Migrations\IUserDb\**" />
->>>>>>> dd027430a6e70ec331f0186f2862cf9b59ad822a
+
   </ItemGroup>
 
   <ItemGroup>
@@ -34,6 +31,10 @@
   <ItemGroup>
     <ProjectReference Include="..\Application\Application.csproj" />
     <ProjectReference Include="..\Domain\Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Migrations\TourAgencyDb\" />
   </ItemGroup>
 
 </Project>

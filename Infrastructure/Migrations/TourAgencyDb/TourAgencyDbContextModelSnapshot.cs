@@ -17,11 +17,7 @@ namespace Infrastructure.Migrations.TourAgencyDb
         {
 #pragma warning disable 612, 618
             modelBuilder
-<<<<<<< HEAD
                 .HasAnnotation("ProductVersion", "8.0.16")
-=======
-                .HasAnnotation("ProductVersion", "8.0.15")
->>>>>>> dd027430a6e70ec331f0186f2862cf9b59ad822a
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);

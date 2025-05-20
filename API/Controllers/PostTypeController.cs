@@ -1,6 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using 
+using Application.IServices;
+using Application.DTOs.PostType;
+using Domain.Entities;
+
+
 namespace API.Controllers;
 
 [ApiController]

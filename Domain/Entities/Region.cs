@@ -21,11 +21,6 @@ namespace Domain.Entities
         [Column("id")]
         public int Id { get; set; }
 
-<<<<<<< HEAD
-        
-
-=======
->>>>>>> dd027430a6e70ec331f0186f2862cf9b59ad822a
         [Required]
         [Column("name", TypeName = "nvarchar(50)")]
         public string? Name { get; set; }

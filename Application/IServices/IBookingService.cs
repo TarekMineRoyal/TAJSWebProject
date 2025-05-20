@@ -8,8 +8,8 @@ namespace Application.IServices
     {
         Task<BookingDTO?> GetBookingByIdAsync(int id);
         Task<IEnumerable<BookingDTO>> GetAllBookingsAsync();
-        Task<CreateBookingDTO> AddBookingAsync(CreateBookingDTO dto);
-        Task<BookingDTO?> UpdateBookingAsync(int id, UpdateBookingDTO dto);
+        Task<BookingDTO> AddBookingAsync(CreateBookingDTO dto);
+        Task<BookingDTO?> UpdateBookingAsync(int id, CreateBookingDTO dto);
         Task<BookingDTO> DeleteBookingAsync(int id);
     }
 }

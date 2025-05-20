@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations.TourAgencyDb
 {
     [DbContext(typeof(TourAgencyDbContext))]
-    [Migration("20250519234735_Second")]
-    partial class Second
+    [Migration("20250520094340_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -498,11 +498,6 @@ namespace Infrastructure.Migrations.TourAgencyDb
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("BookingId")
-                        .IsRequired()
-                        .HasColumnType("int")
-                        .HasColumnName("bookingId");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(50)")
@@ -788,7 +783,7 @@ namespace Infrastructure.Migrations.TourAgencyDb
                     b.HasOne("Domain.Entities.Payment", "Payment")
                         .WithMany("PaymentTransactions")
                         .HasForeignKey("PaymentId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Domain.Entities.PaymentMethod", "PaymentMethod")

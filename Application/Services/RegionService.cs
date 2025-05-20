@@ -5,6 +5,7 @@ using Application.IRepositories;
 using AutoMapper;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Application.DTOs.Payment;
 
 namespace Application.Services
 {
@@ -30,7 +31,16 @@ namespace Application.Services
         public async Task<IEnumerable<ResponseRegionDTO>> GetAllRegionsAsync()
         {
             var regions = await _regionRepo.GetAllAsync();
-            return regions?.Select(r => _mapper.Map<ResponseRegionDTO>(r));
+            var regionsDto = new List<ResponseRegionDTO>();
+            if (regions != null)
+            {
+                foreach (Region region in regions)
+                {
+                    regionsDto.Add(_mapper.Map<ResponseRegionDTO>(region));
+                }
+            }
+            return regionsDto;
+
         }
 
         public async Task<ResponseRegionDTO> AddRegionAsync(RequestRegionDTO dto)

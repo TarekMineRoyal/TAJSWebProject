@@ -9,9 +9,9 @@ namespace Infrastructure.AutoMapper
     {
         public RegionProfile()
         {
-            CreateMap<Region, RegionDTO>();
+            CreateMap<Region, RegionDTO>().ReverseMap();
             CreateMap<RequestRegionDTO, Region>().ReverseMap();
-            CreateMap<ResponseRegionDTO, Region>();
+            CreateMap<ResponseRegionDTO, Region>().ReverseMap();
         }
     }
 }

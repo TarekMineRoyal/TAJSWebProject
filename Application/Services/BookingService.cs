@@ -5,6 +5,7 @@ using Application.IRepositories;
 using AutoMapper;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Application.DTOs.Payment;
 
 namespace Application.Services
 {
@@ -30,20 +31,28 @@ namespace Application.Services
         public async Task<IEnumerable<BookingDTO>> GetAllBookingsAsync()
         {
             var bookings = await _bookingRepo.GetAllAsync();
-            return bookings?.Select(b => _mapper.Map<BookingDTO>(b));
+            var bookingsDto = new List<BookingDTO>();
+            if (bookings != null)
+            {
+                foreach (Booking booking in bookings)
+                {
+                    bookingsDto.Add(_mapper.Map<BookingDTO>(booking));
+                }
+            }
+            return bookingsDto;
         }
 
-        public async Task<CreateBookingDTO> AddBookingAsync(CreateBookingDTO dto)
+        public async Task<BookingDTO> AddBookingAsync(CreateBookingDTO dto)
         {
             var booking = _mapper.Map<Booking>(dto);
 
             var addedBooking = await _bookingRepo.AddAsync(booking);
             await _bookingRepo.SaveChangesAsync();
 
-            return _mapper.Map<CreateBookingDTO>(addedBooking);
+            return _mapper.Map<BookingDTO>(addedBooking);
         }
 
-        public async Task<BookingDTO?> UpdateBookingAsync(int id, UpdateBookingDTO dto)
+        public async Task<BookingDTO?> UpdateBookingAsync(int id, CreateBookingDTO dto)
         {
             var existingBooking = await _bookingRepo.GetByIdAsync(id);
             if (existingBooking == null) return null;
