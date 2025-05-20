@@ -1,4 +1,4 @@
-﻿using Application.DTOs;
+﻿using Application.DTOs.Car;
 using Application.IRepositories;
 using Application.IServices;
 using AutoMapper;
@@ -53,14 +53,8 @@ namespace Application.Services
         {
             var car = _mapper.Map<Car>(carAddDto);
 
-            var maxId = _carRepository.GetAll().Max(e => (int?)e.Id) ?? 0;
-            var newId = maxId + 1;
-
-            car.Id = newId;
-
             car = await _carRepository.AddAsync(car);
-
-            _carRepository.SaveChanges();
+            await _carRepository.SaveChangesAsync();
 
             return _mapper.Map<CreateCarDTO>(car);
         }

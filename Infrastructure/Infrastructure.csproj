@@ -7,7 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Migrations\IUserDb\" />
+    <Compile Remove="Migrations\IUserDb\**" />
+    <EmbeddedResource Remove="Migrations\IUserDb\**" />
+    <None Remove="Migrations\IUserDb\**" />
   </ItemGroup>
 
   <ItemGroup>

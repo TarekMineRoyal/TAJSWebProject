@@ -9,6 +9,8 @@ using Application.IRepositories;
 using Infrastructure;
 using Hotel_Restaurant_Reservation.API.OptionsSetup;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Domain.Entities;
+using Infrastructure.AutoMapper;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,8 +30,29 @@ builder.Services.ConfigureOptions<JwtBearerOptionsSetup>();
 //builder.Services.AddScoped<CarService>();
 //builder.Services.AddScoped<CarBookingService>();
 //builder.Services.AddScoped<IPaymentService, PaymentService>();
-
-
+// Program.cs
+builder.Services.AddAutoMapper(
+    typeof(ImageShotProfile),
+    typeof(BookingProfile),
+    typeof(TripBookingProfile),
+    typeof(CategoryProfile),
+    typeof(CarProfile),
+    typeof(CarBookingProfile),
+    typeof(RegionProfile),
+    typeof(TripPlanProfile),
+    typeof(TripPlanCarProfile),
+    typeof(TripProfile)
+);
+builder.Services.AddScoped<IImageShotService, ImageShotService>();
+builder.Services.AddScoped<IBookingService, BookingService>();
+builder.Services.AddScoped<ITripBookingService, TripBookingService>();
+builder.Services.AddScoped<IGenericRepository<Category>, SqlGenericRepository<Category>>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<ICarBookingService, CarBookingService>();
+builder.Services.AddScoped<IRegionService, RegionService>();
+builder.Services.AddScoped<ITripPlanService, TripPlanService>();
+builder.Services.AddScoped<ITripPlanCarService, TripPlanCarService>();
+builder.Services.AddScoped<ITripService, TripService>();
 
 builder.Services.AddScoped<CarService>();
 builder.Services.AddScoped<CarBookingService>();

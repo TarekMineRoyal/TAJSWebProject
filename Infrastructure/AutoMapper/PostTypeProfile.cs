@@ -8,10 +8,10 @@ public class PostTypeProfile : Profile
 {
     public PostTypeProfile()
     {
-        CreateMap<PostType, PostTypeResponse>();
+        CreateMap<PostType, PostTypeResponse>().ReverseMap();
 
-        CreateMap<AddPostTypeRequest, PostType>();
+        CreateMap<AddPostTypeRequest, PostType>().ReverseMap();
 
-        CreateMap<UpdatePostTypeRequest, PostType>();
+        CreateMap<UpdatePostTypeRequest, PostType>().ReverseMap();
     }
 }
