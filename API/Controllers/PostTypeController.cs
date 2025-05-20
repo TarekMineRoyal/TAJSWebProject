@@ -1,9 +1,6 @@
-﻿using Application.DTOs.PostType;
-using Application.IServices;
-using AutoMapper;
-using Domain.Entities;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-
+using 
 namespace API.Controllers;
 
 [ApiController]
