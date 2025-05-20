@@ -6,10 +6,10 @@ namespace Application.IServices
 {
     public interface IRegionService
     {
-        Task<RegionDTO?> GetRegionByIdAsync(int id);
-        Task<IEnumerable<RegionDTO>> GetAllRegionsAsync();
-        Task<CreateRegionDTO> AddRegionAsync(CreateRegionDTO dto);
-        Task<RegionDTO?> UpdateRegionAsync(int id, UpdateRegionDTO dto);
-        Task<RegionDTO> DeleteRegionAsync(int id);
+        Task<ResponseRegionDTO?> GetRegionByIdAsync(int id);
+        Task<IEnumerable<ResponseRegionDTO>> GetAllRegionsAsync();
+        Task<ResponseRegionDTO> AddRegionAsync(RequestRegionDTO dto);
+        Task<ResponseRegionDTO?> UpdateRegionAsync(int id, RequestRegionDTO dto);
+        Task<ResponseRegionDTO> DeleteRegionAsync(int id);
     }
 }

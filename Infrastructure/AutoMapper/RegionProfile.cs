@@ -10,8 +10,8 @@ namespace Infrastructure.AutoMapper
         public RegionProfile()
         {
             CreateMap<Region, RegionDTO>();
-            CreateMap<CreateRegionDTO, Region>().ReverseMap();
-            CreateMap<UpdateRegionDTO, Region>();
+            CreateMap<RequestRegionDTO, Region>().ReverseMap();
+            CreateMap<ResponseRegionDTO, Region>();
         }
     }
 }

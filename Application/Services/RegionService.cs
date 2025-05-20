@@ -21,27 +21,27 @@ namespace Application.Services
             _mapper = mapper;
         }
 
-        public async Task<RegionDTO?> GetRegionByIdAsync(int id)
+        public async Task<ResponseRegionDTO?> GetRegionByIdAsync(int id)
         {
             var region = await _regionRepo.GetByIdAsync(id);
-            return region != null ? _mapper.Map<RegionDTO>(region) : null;
+            return region != null ? _mapper.Map<ResponseRegionDTO>(region) : null;
         }
 
-        public async Task<IEnumerable<RegionDTO>> GetAllRegionsAsync()
+        public async Task<IEnumerable<ResponseRegionDTO>> GetAllRegionsAsync()
         {
             var regions = await _regionRepo.GetAllAsync();
-            return regions?.Select(r => _mapper.Map<RegionDTO>(r));
+            return regions?.Select(r => _mapper.Map<ResponseRegionDTO>(r));
         }
 
-        public async Task<CreateRegionDTO> AddRegionAsync(CreateRegionDTO dto)
+        public async Task<ResponseRegionDTO> AddRegionAsync(RequestRegionDTO dto)
         {
             var region = _mapper.Map<Region>(dto);
             var addedRegion = await _regionRepo.AddAsync(region);
             await _regionRepo.SaveChangesAsync();
-            return _mapper.Map<CreateRegionDTO>(addedRegion);
+            return _mapper.Map<ResponseRegionDTO>(addedRegion);
         }
 
-        public async Task<RegionDTO?> UpdateRegionAsync(int id, UpdateRegionDTO dto)
+        public async Task<ResponseRegionDTO?> UpdateRegionAsync(int id, RequestRegionDTO dto)
         {
             var existingRegion = await _regionRepo.GetByIdAsync(id);
             if (existingRegion == null) return null;
@@ -50,14 +50,14 @@ namespace Application.Services
             _regionRepo.Update(existingRegion);
             await _regionRepo.SaveChangesAsync();
 
-            return _mapper.Map<RegionDTO>(existingRegion);
+            return _mapper.Map<ResponseRegionDTO>(existingRegion);
         }
 
-        public async Task<RegionDTO> DeleteRegionAsync(int id)
+        public async Task<ResponseRegionDTO> DeleteRegionAsync(int id)
         {
             var deletedRegion = await _regionRepo.RemoveAsync(id);
             await _regionRepo.SaveChangesAsync();
-            return _mapper.Map<RegionDTO>(deletedRegion);
+            return _mapper.Map<ResponseRegionDTO>(deletedRegion);
         }
     }
 }

@@ -9,23 +9,23 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace DataAccess.Migrations.TourAgencyDb
+namespace Infrastructure.Migrations.TourAgencyDb
 {
     [DbContext(typeof(TourAgencyDbContext))]
-    [Migration("20250415080328_main")]
-    partial class main
+    [Migration("20250519234735_Second")]
+    partial class Second
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.3")
+                .HasAnnotation("ProductVersion", "8.0.16")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("DataAccess.Entities.Booking", b =>
+            modelBuilder.Entity("Domain.Entities.Booking", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -37,10 +37,6 @@ namespace DataAccess.Migrations.TourAgencyDb
                     b.Property<bool>("BookingType")
                         .HasColumnType("bit")
                         .HasColumnName("bookingType");
-
-                    b.Property<int?>("CarBookingId")
-                        .HasColumnType("int")
-                        .HasColumnName("carBookingId");
 
                     b.Property<string>("CustomerUserId")
                         .HasColumnType("nvarchar(450)");
@@ -67,28 +63,16 @@ namespace DataAccess.Migrations.TourAgencyDb
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("status");
 
-                    b.Property<int?>("TripBookingId")
-                        .HasColumnType("int")
-                        .HasColumnName("tripBookingId");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("CarBookingId")
-                        .IsUnique()
-                        .HasFilter("[carBookingId] IS NOT NULL");
 
                     b.HasIndex("CustomerUserId");
 
                     b.HasIndex("EmployeeId");
 
-                    b.HasIndex("TripBookingId")
-                        .IsUnique()
-                        .HasFilter("[tripBookingId] IS NOT NULL");
-
                     b.ToTable("Bookings", (string)null);
                 });
 
-            modelBuilder.Entity("DataAccess.Entities.Car", b =>
+            modelBuilder.Entity("Domain.Entities.Car", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -141,7 +125,7 @@ namespace DataAccess.Migrations.TourAgencyDb
                     b.ToTable("Cars", (string)null);
                 });
 
-            modelBuilder.Entity("DataAccess.Entities.CarBooking", b =>
+            modelBuilder.Entity("Domain.Entities.CarBooking", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -176,12 +160,15 @@ namespace DataAccess.Migrations.TourAgencyDb
 
                     b.HasKey("Id");
 
+                    b.HasIndex("BookingId")
+                        .IsUnique();
+
                     b.HasIndex("CarId");
 
                     b.ToTable("CarBookings", (string)null);
                 });
 
-            modelBuilder.Entity("DataAccess.Entities.Category", b =>
+            modelBuilder.Entity("Domain.Entities.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -201,7 +188,7 @@ namespace DataAccess.Migrations.TourAgencyDb
                     b.ToTable("Categories", (string)null);
                 });
 
-            modelBuilder.Entity("DataAccess.Entities.Customer", b =>
+            modelBuilder.Entity("Domain.Entities.Customer", b =>
                 {
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)")
@@ -235,7 +222,7 @@ namespace DataAccess.Migrations.TourAgencyDb
                     b.ToTable("Customers", (string)null);
                 });
 
-            modelBuilder.Entity("DataAccess.Entities.Employee", b =>
+            modelBuilder.Entity("Domain.Entities.Employee", b =>
                 {
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)")
@@ -250,59 +237,7 @@ namespace DataAccess.Migrations.TourAgencyDb
                     b.ToTable("Employees", (string)null);
                 });
 
-            modelBuilder.Entity("DataAccess.Entities.IdUser.User", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("User");
-                });
-
-            modelBuilder.Entity("DataAccess.Entities.ImageShot", b =>
+            modelBuilder.Entity("Domain.Entities.ImageShot", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -334,7 +269,7 @@ namespace DataAccess.Migrations.TourAgencyDb
                     b.ToTable("ImageShots", (string)null);
                 });
 
-            modelBuilder.Entity("DataAccess.Entities.Payment", b =>
+            modelBuilder.Entity("Domain.Entities.Payment", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -375,7 +310,7 @@ namespace DataAccess.Migrations.TourAgencyDb
                     b.ToTable("Payments", (string)null);
                 });
 
-            modelBuilder.Entity("DataAccess.Entities.PaymentMethod", b =>
+            modelBuilder.Entity("Domain.Entities.PaymentMethod", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -399,7 +334,7 @@ namespace DataAccess.Migrations.TourAgencyDb
                     b.ToTable("PaymentMethods", (string)null);
                 });
 
-            modelBuilder.Entity("DataAccess.Entities.PaymentTransaction", b =>
+            modelBuilder.Entity("Domain.Entities.PaymentTransaction", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -439,7 +374,7 @@ namespace DataAccess.Migrations.TourAgencyDb
                     b.ToTable("PaymentTransactions", (string)null);
                 });
 
-            modelBuilder.Entity("DataAccess.Entities.Post", b =>
+            modelBuilder.Entity("Domain.Entities.Post", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -504,7 +439,7 @@ namespace DataAccess.Migrations.TourAgencyDb
                     b.ToTable("Posts", (string)null);
                 });
 
-            modelBuilder.Entity("DataAccess.Entities.PostTag", b =>
+            modelBuilder.Entity("Domain.Entities.PostTag", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -530,7 +465,7 @@ namespace DataAccess.Migrations.TourAgencyDb
                     b.ToTable("PostTags", (string)null);
                 });
 
-            modelBuilder.Entity("DataAccess.Entities.PostType", b =>
+            modelBuilder.Entity("Domain.Entities.PostType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -554,7 +489,7 @@ namespace DataAccess.Migrations.TourAgencyDb
                     b.ToTable("PostTypes", (string)null);
                 });
 
-            modelBuilder.Entity("DataAccess.Entities.Region", b =>
+            modelBuilder.Entity("Domain.Entities.Region", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -563,7 +498,8 @@ namespace DataAccess.Migrations.TourAgencyDb
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("BookingId")
+                    b.Property<int?>("BookingId")
+                        .IsRequired()
                         .HasColumnType("int")
                         .HasColumnName("bookingId");
 
@@ -577,7 +513,7 @@ namespace DataAccess.Migrations.TourAgencyDb
                     b.ToTable("Regions", (string)null);
                 });
 
-            modelBuilder.Entity("DataAccess.Entities.SeoMetadata", b =>
+            modelBuilder.Entity("Domain.Entities.SeoMetadata", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -617,7 +553,7 @@ namespace DataAccess.Migrations.TourAgencyDb
                     b.ToTable("SeoMetadata", (string)null);
                 });
 
-            modelBuilder.Entity("DataAccess.Entities.Tag", b =>
+            modelBuilder.Entity("Domain.Entities.Tag", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -636,7 +572,7 @@ namespace DataAccess.Migrations.TourAgencyDb
                     b.ToTable("Tags", (string)null);
                 });
 
-            modelBuilder.Entity("DataAccess.Entities.Trip", b =>
+            modelBuilder.Entity("Domain.Entities.Trip", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -668,7 +604,7 @@ namespace DataAccess.Migrations.TourAgencyDb
                     b.ToTable("Trips", (string)null);
                 });
 
-            modelBuilder.Entity("DataAccess.Entities.TripBooking", b =>
+            modelBuilder.Entity("Domain.Entities.TripBooking", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -677,7 +613,8 @@ namespace DataAccess.Migrations.TourAgencyDb
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("BookingId")
+                    b.Property<int?>("BookingId")
+                        .IsRequired()
                         .HasColumnType("int")
                         .HasColumnName("BookingId");
 
@@ -691,12 +628,15 @@ namespace DataAccess.Migrations.TourAgencyDb
 
                     b.HasKey("Id");
 
+                    b.HasIndex("BookingId")
+                        .IsUnique();
+
                     b.HasIndex("TripPlanId");
 
                     b.ToTable("TripBookings", (string)null);
                 });
 
-            modelBuilder.Entity("DataAccess.Entities.TripPlan", b =>
+            modelBuilder.Entity("Domain.Entities.TripPlan", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -754,7 +694,7 @@ namespace DataAccess.Migrations.TourAgencyDb
                     b.ToTable("TripPlans", (string)null);
                 });
 
-            modelBuilder.Entity("DataAccess.Entities.TripPlanCar", b =>
+            modelBuilder.Entity("Domain.Entities.TripPlanCar", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -784,119 +724,93 @@ namespace DataAccess.Migrations.TourAgencyDb
                     b.ToTable("TripPlanCars", (string)null);
                 });
 
-            modelBuilder.Entity("DataAccess.Entities.Booking", b =>
+            modelBuilder.Entity("Domain.Entities.Booking", b =>
                 {
-                    b.HasOne("DataAccess.Entities.CarBooking", "CarBooking")
-                        .WithOne("Booking")
-                        .HasForeignKey("DataAccess.Entities.Booking", "CarBookingId");
-
-                    b.HasOne("DataAccess.Entities.Customer", null)
+                    b.HasOne("Domain.Entities.Customer", null)
                         .WithMany("Bookings")
                         .HasForeignKey("CustomerUserId");
 
-                    b.HasOne("DataAccess.Entities.Employee", "Employee")
+                    b.HasOne("Domain.Entities.Employee", "Employee")
                         .WithMany("Bookings")
                         .HasForeignKey("EmployeeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DataAccess.Entities.TripBooking", "TripBooking")
-                        .WithOne("Booking")
-                        .HasForeignKey("DataAccess.Entities.Booking", "TripBookingId");
-
-                    b.Navigation("CarBooking");
-
                     b.Navigation("Employee");
-
-                    b.Navigation("TripBooking");
                 });
 
-            modelBuilder.Entity("DataAccess.Entities.Car", b =>
+            modelBuilder.Entity("Domain.Entities.Car", b =>
                 {
-                    b.HasOne("DataAccess.Entities.Category", "Category")
+                    b.HasOne("Domain.Entities.Category", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId");
 
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("DataAccess.Entities.CarBooking", b =>
+            modelBuilder.Entity("Domain.Entities.CarBooking", b =>
                 {
-                    b.HasOne("DataAccess.Entities.Car", null)
+                    b.HasOne("Domain.Entities.Booking", "Booking")
+                        .WithOne("CarBooking")
+                        .HasForeignKey("Domain.Entities.CarBooking", "BookingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.Car", null)
                         .WithMany("CarBookings")
                         .HasForeignKey("CarId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Booking");
                 });
 
-            modelBuilder.Entity("DataAccess.Entities.Customer", b =>
+            modelBuilder.Entity("Domain.Entities.ImageShot", b =>
                 {
-                    b.HasOne("DataAccess.Entities.IdUser.User", "User")
-                        .WithOne()
-                        .HasForeignKey("DataAccess.Entities.Customer", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("DataAccess.Entities.Employee", b =>
-                {
-                    b.HasOne("DataAccess.Entities.IdUser.User", "User")
-                        .WithOne()
-                        .HasForeignKey("DataAccess.Entities.Employee", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("DataAccess.Entities.ImageShot", b =>
-                {
-                    b.HasOne("DataAccess.Entities.CarBooking", "CarBooking")
+                    b.HasOne("Domain.Entities.CarBooking", "CarBooking")
                         .WithMany("ImageShots")
                         .HasForeignKey("CarBookingId");
 
                     b.Navigation("CarBooking");
                 });
 
-            modelBuilder.Entity("DataAccess.Entities.Payment", b =>
+            modelBuilder.Entity("Domain.Entities.Payment", b =>
                 {
-                    b.HasOne("DataAccess.Entities.Booking", "Booking")
+                    b.HasOne("Domain.Entities.Booking", "Booking")
                         .WithMany("Payments")
                         .HasForeignKey("BookingId");
 
                     b.Navigation("Booking");
                 });
 
-            modelBuilder.Entity("DataAccess.Entities.PaymentTransaction", b =>
+            modelBuilder.Entity("Domain.Entities.PaymentTransaction", b =>
                 {
-                    b.HasOne("DataAccess.Entities.Payment", "Paymwnt")
+                    b.HasOne("Domain.Entities.Payment", "Payment")
                         .WithMany("PaymentTransactions")
                         .HasForeignKey("PaymentId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("DataAccess.Entities.PaymentMethod", "PaymentMethod")
+                    b.HasOne("Domain.Entities.PaymentMethod", "PaymentMethod")
                         .WithMany("PaymentTransactions")
                         .HasForeignKey("PaymentMethodId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("PaymentMethod");
+                    b.Navigation("Payment");
 
-                    b.Navigation("Paymwnt");
+                    b.Navigation("PaymentMethod");
                 });
 
-            modelBuilder.Entity("DataAccess.Entities.Post", b =>
+            modelBuilder.Entity("Domain.Entities.Post", b =>
                 {
-                    b.HasOne("DataAccess.Entities.Employee", "Employee")
+                    b.HasOne("Domain.Entities.Employee", "Employee")
                         .WithMany("Posts")
                         .HasForeignKey("EmployeeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DataAccess.Entities.PostType", "PostType")
+                    b.HasOne("Domain.Entities.PostType", "PostType")
                         .WithMany("Posts")
                         .HasForeignKey("PostTypeId");
 
@@ -905,13 +819,13 @@ namespace DataAccess.Migrations.TourAgencyDb
                     b.Navigation("PostType");
                 });
 
-            modelBuilder.Entity("DataAccess.Entities.PostTag", b =>
+            modelBuilder.Entity("Domain.Entities.PostTag", b =>
                 {
-                    b.HasOne("DataAccess.Entities.Post", "Post")
+                    b.HasOne("Domain.Entities.Post", "Post")
                         .WithMany("PostTags")
                         .HasForeignKey("PostId");
 
-                    b.HasOne("DataAccess.Entities.Tag", "Tag")
+                    b.HasOne("Domain.Entities.Tag", "Tag")
                         .WithMany("PostTags")
                         .HasForeignKey("TagId");
 
@@ -920,31 +834,39 @@ namespace DataAccess.Migrations.TourAgencyDb
                     b.Navigation("Tag");
                 });
 
-            modelBuilder.Entity("DataAccess.Entities.SeoMetadata", b =>
+            modelBuilder.Entity("Domain.Entities.SeoMetadata", b =>
                 {
-                    b.HasOne("DataAccess.Entities.Post", "Post")
+                    b.HasOne("Domain.Entities.Post", "Post")
                         .WithMany("SeoMetadata")
                         .HasForeignKey("PostId");
 
                     b.Navigation("Post");
                 });
 
-            modelBuilder.Entity("DataAccess.Entities.TripBooking", b =>
+            modelBuilder.Entity("Domain.Entities.TripBooking", b =>
                 {
-                    b.HasOne("DataAccess.Entities.TripPlan", "TripPlan")
+                    b.HasOne("Domain.Entities.Booking", "Booking")
+                        .WithOne("TripBooking")
+                        .HasForeignKey("Domain.Entities.TripBooking", "BookingId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.TripPlan", "TripPlan")
                         .WithMany("TripBookings")
                         .HasForeignKey("TripPlanId");
+
+                    b.Navigation("Booking");
 
                     b.Navigation("TripPlan");
                 });
 
-            modelBuilder.Entity("DataAccess.Entities.TripPlan", b =>
+            modelBuilder.Entity("Domain.Entities.TripPlan", b =>
                 {
-                    b.HasOne("DataAccess.Entities.Region", "Region")
+                    b.HasOne("Domain.Entities.Region", "Region")
                         .WithMany("TripPlans")
                         .HasForeignKey("RegionId");
 
-                    b.HasOne("DataAccess.Entities.Trip", "Trip")
+                    b.HasOne("Domain.Entities.Trip", "Trip")
                         .WithMany("TripPlans")
                         .HasForeignKey("TripId");
 
@@ -953,13 +875,13 @@ namespace DataAccess.Migrations.TourAgencyDb
                     b.Navigation("Trip");
                 });
 
-            modelBuilder.Entity("DataAccess.Entities.TripPlanCar", b =>
+            modelBuilder.Entity("Domain.Entities.TripPlanCar", b =>
                 {
-                    b.HasOne("DataAccess.Entities.Car", "Car")
+                    b.HasOne("Domain.Entities.Car", "Car")
                         .WithMany("TripPlanCars")
                         .HasForeignKey("CarId");
 
-                    b.HasOne("DataAccess.Entities.TripPlan", "TripPlan")
+                    b.HasOne("Domain.Entities.TripPlan", "TripPlan")
                         .WithMany("TripPlanCars")
                         .HasForeignKey("TripPlanId");
 
@@ -968,81 +890,77 @@ namespace DataAccess.Migrations.TourAgencyDb
                     b.Navigation("TripPlan");
                 });
 
-            modelBuilder.Entity("DataAccess.Entities.Booking", b =>
+            modelBuilder.Entity("Domain.Entities.Booking", b =>
                 {
+                    b.Navigation("CarBooking");
+
                     b.Navigation("Payments");
+
+                    b.Navigation("TripBooking");
                 });
 
-            modelBuilder.Entity("DataAccess.Entities.Car", b =>
+            modelBuilder.Entity("Domain.Entities.Car", b =>
                 {
                     b.Navigation("CarBookings");
 
                     b.Navigation("TripPlanCars");
                 });
 
-            modelBuilder.Entity("DataAccess.Entities.CarBooking", b =>
+            modelBuilder.Entity("Domain.Entities.CarBooking", b =>
                 {
-                    b.Navigation("Booking");
-
                     b.Navigation("ImageShots");
                 });
 
-            modelBuilder.Entity("DataAccess.Entities.Customer", b =>
+            modelBuilder.Entity("Domain.Entities.Customer", b =>
                 {
                     b.Navigation("Bookings");
                 });
 
-            modelBuilder.Entity("DataAccess.Entities.Employee", b =>
+            modelBuilder.Entity("Domain.Entities.Employee", b =>
                 {
                     b.Navigation("Bookings");
 
                     b.Navigation("Posts");
                 });
 
-            modelBuilder.Entity("DataAccess.Entities.Payment", b =>
+            modelBuilder.Entity("Domain.Entities.Payment", b =>
                 {
                     b.Navigation("PaymentTransactions");
                 });
 
-            modelBuilder.Entity("DataAccess.Entities.PaymentMethod", b =>
+            modelBuilder.Entity("Domain.Entities.PaymentMethod", b =>
                 {
                     b.Navigation("PaymentTransactions");
                 });
 
-            modelBuilder.Entity("DataAccess.Entities.Post", b =>
+            modelBuilder.Entity("Domain.Entities.Post", b =>
                 {
                     b.Navigation("PostTags");
 
                     b.Navigation("SeoMetadata");
                 });
 
-            modelBuilder.Entity("DataAccess.Entities.PostType", b =>
+            modelBuilder.Entity("Domain.Entities.PostType", b =>
                 {
                     b.Navigation("Posts");
                 });
 
-            modelBuilder.Entity("DataAccess.Entities.Region", b =>
+            modelBuilder.Entity("Domain.Entities.Region", b =>
                 {
                     b.Navigation("TripPlans");
                 });
 
-            modelBuilder.Entity("DataAccess.Entities.Tag", b =>
+            modelBuilder.Entity("Domain.Entities.Tag", b =>
                 {
                     b.Navigation("PostTags");
                 });
 
-            modelBuilder.Entity("DataAccess.Entities.Trip", b =>
+            modelBuilder.Entity("Domain.Entities.Trip", b =>
                 {
                     b.Navigation("TripPlans");
                 });
 
-            modelBuilder.Entity("DataAccess.Entities.TripBooking", b =>
-                {
-                    b.Navigation("Booking")
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("DataAccess.Entities.TripPlan", b =>
+            modelBuilder.Entity("Domain.Entities.TripPlan", b =>
                 {
                     b.Navigation("TripBookings");
 

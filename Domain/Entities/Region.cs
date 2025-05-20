@@ -20,9 +20,7 @@ namespace Domain.Entities
         [Column("id")]
         public int Id { get; set; }
 
-        [Required]
-        [Column("bookingId")]
-        public int? BookingId { get; set; }
+        
 
         [Required]
         [Column("name", TypeName = "nvarchar(50)")]

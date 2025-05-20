@@ -1,4 +1,7 @@
-﻿using Application.IServices;
+﻿using Application.DTOs.Payment;
+using Application.IRepositories;
+using Application.IServices;
+using AutoMapper;
 using Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -10,14 +13,42 @@ namespace Application.Services
 {
     public class PaymentService : IPaymentService
     {
-        public Task<PaymentTransaction> AddPaymentTransaction(PaymentTransaction transaction)
+        private readonly IGenericRepository<Payment> _paymentrepo;
+        private readonly IMapper _mapper;
+        public PaymentService(IGenericRepository<Payment> paymentrepo,
+            IMapper mapper)
         {
-            throw new NotImplementedException();
+            _mapper = mapper;
+            _paymentrepo = paymentrepo;
+        }
+        public async Task<IEnumerable<ResponsePaymentDTO>> GetAllPayments()
+        {
+            var payments = await _paymentrepo.GetAllAsync();
+            var paymentsDto = new List<ResponsePaymentDTO>();
+            if (payments != null)
+            {
+                foreach (Payment payment in payments)
+                {
+                    paymentsDto.Add(_mapper.Map<ResponsePaymentDTO>(payment));
+                }
+            }
+            return paymentsDto;
         }
 
-        public Task<PaymentTransaction> GetPaymentTransaction(int id)
+        public async Task<ResponsePaymentDTO> GetPaymentById(int id)
         {
-            throw new NotImplementedException();
+            var payment = await _paymentrepo.GetByIdAsync(id);
+            var paymentDto = _mapper.Map<ResponsePaymentDTO>(payment);
+            return paymentDto;
         }
+
+        public async Task<ResponsePaymentDTO> AddPayment(RequestPaymentDTO addPaymentDto)
+        {
+            var payment = _mapper.Map<Payment>(addPaymentDto);
+            payment = await _paymentrepo.AddAsync(payment);
+            await _paymentrepo.SaveChangesAsync();
+            return _mapper.Map<ResponsePaymentDTO>(payment);
+        }
+
     }
 }

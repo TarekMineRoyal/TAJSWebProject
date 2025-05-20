@@ -87,12 +87,22 @@ namespace Infrastructure.DataAccess
                 .Property(e => e.Status)
                 .HasConversion<string>();
 
+            
+            
+
             modelBuilder.Entity<PaymentMethod>().ToTable("PaymentMethods");
 
             modelBuilder.Entity<PaymentTransaction>()
                 .ToTable("PaymentTransactions")
                 .Property(e => e.TransactionType)
                 .HasConversion<string>();
+
+            
+
+            
+
+
+
 
             modelBuilder.Entity<PaymentTransaction>().HasIndex(p => new { p.PaymentId, p.PaymentMethodId, p.TransactionDate }).IsUnique(true);
 

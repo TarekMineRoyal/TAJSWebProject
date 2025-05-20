@@ -41,7 +41,9 @@ builder.Services.AddAutoMapper(
     typeof(RegionProfile),
     typeof(TripPlanProfile),
     typeof(TripPlanCarProfile),
-    typeof(TripProfile)
+    typeof(TripProfile),
+    typeof(PaymentProfile),
+    typeof(PaymentTransactionProfile)
 );
 builder.Services.AddScoped<IImageShotService, ImageShotService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
@@ -53,10 +55,11 @@ builder.Services.AddScoped<IRegionService, RegionService>();
 builder.Services.AddScoped<ITripPlanService, TripPlanService>();
 builder.Services.AddScoped<ITripPlanCarService, TripPlanCarService>();
 builder.Services.AddScoped<ITripService, TripService>();
-
+builder.Services.AddScoped<IPaymentTransactionService, PaymentTransactionService>();
+builder.Services.AddScoped<IPaymentService, PaymentService>();
 builder.Services.AddScoped<CarService>();
 builder.Services.AddScoped<CarBookingService>();
-builder.Services.AddScoped<IPaymentService, PaymentService>();
+builder.Services.AddScoped<IPaymentTransactionService, PaymentTransactionService>();
 builder.Services.AddScoped<IPostService, PostService>();
 
 // Register AutoMapper with the specific profile
@@ -64,7 +67,7 @@ builder.Services.AddAutoMapper(typeof(CarProfile));
 
 
 builder.Services.AddDbContext<TourAgencyDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("MainDatabase")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DBTourismAgencyContainer")));
 builder.Services.AddDbContext<IUserDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Identity")));
 

@@ -4,6 +4,7 @@ using Infrastructure.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations.TourAgencyDb
 {
     [DbContext(typeof(TourAgencyDbContext))]
-    partial class TourAgencyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250520071627_Rollback")]
+    partial class Rollback
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -494,6 +497,11 @@ namespace Infrastructure.Migrations.TourAgencyDb
                         .HasColumnName("id");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("BookingId")
+                        .IsRequired()
+                        .HasColumnType("int")
+                        .HasColumnName("bookingId");
 
                     b.Property<string>("Name")
                         .IsRequired()

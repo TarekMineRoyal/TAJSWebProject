@@ -33,7 +33,7 @@ namespace API.Controllers
 
         // POST /api/regions
         [HttpPost]
-        public async Task<IActionResult> CreateRegion([FromBody] CreateRegionDTO dto)
+        public async Task<IActionResult> CreateRegion([FromBody] RequestRegionDTO dto)
         {
             var createdDto = await _regionService.AddRegionAsync(dto);
             return CreatedAtAction(nameof(GetRegionById), new { id = createdDto.Id }, createdDto);
@@ -41,7 +41,7 @@ namespace API.Controllers
 
         // PUT /api/regions/{id}
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateRegion(int id, [FromBody] UpdateRegionDTO dto)
+        public async Task<IActionResult> UpdateRegion(int id, [FromBody] RequestRegionDTO dto)
         {
             var updated = await _regionService.UpdateRegionAsync(id, dto);
             return updated != null ? Ok(updated) : NotFound();

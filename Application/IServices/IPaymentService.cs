@@ -1,4 +1,4 @@
-﻿using Domain.Entities;
+﻿using Application.DTOs.Payment;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +9,8 @@ namespace Application.IServices
 {
     public interface IPaymentService
     {
-        public Task<PaymentTransaction> AddPaymentTransaction(PaymentTransaction transaction);
-        public Task<PaymentTransaction> GetPaymentTransaction(int id);
+        public Task<IEnumerable<ResponsePaymentDTO>> GetAllPayments();
+        public Task<ResponsePaymentDTO> GetPaymentById(int id);
+        public Task<ResponsePaymentDTO> AddPayment(RequestPaymentDTO payment);
     }
 }
