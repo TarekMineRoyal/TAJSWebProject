@@ -9,5 +9,10 @@ public class PostProfile : Profile
     public PostProfile()
     {
         CreateMap<Post, PostResponse>();
+<<<<<<< HEAD
+=======
+
+        CreateMap<AddPostRequest, Post>();
+>>>>>>> Add-Post-Service
     }
 }

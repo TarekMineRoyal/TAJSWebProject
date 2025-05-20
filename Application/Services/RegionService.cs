@@ -47,7 +47,11 @@ namespace Application.Services
             if (existingRegion == null) return null;
 
             _mapper.Map(dto, existingRegion);
+<<<<<<< HEAD
             _regionRepo.Update(existingRegion);
+=======
+            _regionRepo.UpdateAsync(id, existingRegion);
+>>>>>>> Add-Post-Service
             await _regionRepo.SaveChangesAsync();
 
             return _mapper.Map<RegionDTO>(existingRegion);

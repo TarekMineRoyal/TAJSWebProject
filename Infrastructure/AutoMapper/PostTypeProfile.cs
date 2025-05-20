@@ -1,0 +1,17 @@
+﻿using Application.DTOs.PostType;
+using AutoMapper;
+using Domain.Entities;
+
+namespace Infrastructure.AutoMapper;
+
+public class PostTypeProfile : Profile
+{
+    public PostTypeProfile()
+    {
+        CreateMap<PostType, PostTypeResponse>();
+
+        CreateMap<AddPostTypeRequest, PostType>();
+
+        CreateMap<UpdatePostTypeRequest, PostType>();
+    }
+}
