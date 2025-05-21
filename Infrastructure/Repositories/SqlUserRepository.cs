@@ -54,17 +54,17 @@ public class SqlUserRepository<TEntity> : IUserRepository<TEntity> where TEntity
         return await _dbSet.ToListAsync();
     }
 
-    public TEntity? GetById(int id)
+    public TEntity? GetById(string id)
     {
         return _dbSet.Find(id);
     }
 
-    public async Task<TEntity?> GetByIdAsync(int id)
+    public async Task<TEntity?> GetByIdAsync(string id)
     {
         return await _dbSet.FindAsync(id);
     }
 
-    public TEntity? Remove(int id)
+    public TEntity? Remove(string id)
     {
         var entity = _dbSet.Find(id);
 
@@ -76,7 +76,7 @@ public class SqlUserRepository<TEntity> : IUserRepository<TEntity> where TEntity
         return entity;
     }
 
-    public async Task<TEntity?> RemoveAsync(int id)
+    public async Task<TEntity?> RemoveAsync(string id)
     {
         var entity = await _dbSet.FindAsync(id);
 
@@ -98,7 +98,7 @@ public class SqlUserRepository<TEntity> : IUserRepository<TEntity> where TEntity
         await userDbContext.SaveChangesAsync();
     }
 
-    public TEntity? Update(int id, TEntity entity)
+    public TEntity? Update(string id, TEntity entity)
     {
         // 1. Get existing entity
         var existingEntity = _dbSet.Find(id);
@@ -120,7 +120,7 @@ public class SqlUserRepository<TEntity> : IUserRepository<TEntity> where TEntity
         return existingEntity;
     }
 
-    public async Task<TEntity?> UpdateAsync(int id, TEntity entity)
+    public async Task<TEntity?> UpdateAsync(string id, TEntity entity)
     {
         // 1. Get existing entity
         var existingEntity = await _dbSet.FindAsync(id);

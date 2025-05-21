@@ -5,15 +5,15 @@ namespace Application.IRepositories;
 
 public interface IUserRepository<TEntity> where TEntity : class
 {
-    public Task<TEntity?> GetByIdAsync(int id);
+    public Task<TEntity?> GetByIdAsync(string id);
 
     public Task<IEnumerable<TEntity>?> GetAllAsync();
 
     public Task<TEntity> AddAsync(TEntity entity);
 
-    public Task<TEntity?> UpdateAsync(int id, TEntity newEntity);
+    public Task<TEntity?> UpdateAsync(string id, TEntity newEntity);
 
-    public Task<TEntity?> RemoveAsync(int id);
+    public Task<TEntity?> RemoveAsync(string id);
 
     public Task<TEntity> AttachAsync(TEntity entity);
 
@@ -32,13 +32,13 @@ public interface IUserRepository<TEntity> where TEntity : class
     public TEntity? GetFirstOrDefault(Expression<Func<TEntity, bool>> predicate);
 
 
-    public TEntity? GetById(int id);
+    public TEntity? GetById(string id);
 
     public IEnumerable<TEntity>? GetAll();
 
     public TEntity Add(TEntity entity);
 
-    public TEntity? Update(int id, TEntity entity);
+    public TEntity? Update(string id, TEntity entity);
 
-    public TEntity? Remove(int id);
+    public TEntity? Remove(string id);
 }

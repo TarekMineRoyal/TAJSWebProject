@@ -8,24 +8,28 @@ public interface IUserService
 
     public User Signup(User user);
 
-    public User? ChangePassword(int id, string newPassword);
+    public User? ChangePassword(string id, string newPassword);
 
-    public User? ChangeEmail(int id, string newEmail);
+    public User? ChangeEmail(string id, string newEmail);
 
-    public User? DeleteUser(int id);
+    public User? DeleteUser(string id);
 
-    public User? GetUserById(int id);
+    public User? GetUserById(string id);
+
+    public IEnumerable<User>? GetAllUsers();
 
 
     public Task<string> LogInAsync(string userName, string password);
 
     public Task<User> SignupAsync(User user);
 
-    public Task<User?> ChangePasswordAsync(int id, string newPassword);
+    public Task<User?> ChangePasswordAsync(string id, string newPassword);
 
-    public Task<User?> ChangeEmailAsync(int id, string newEmail);
+    public Task<User?> ChangeEmailAsync(string id, string newEmail);
 
-    public Task<User?> DeleteUserAsync(int id);
+    public Task<User?> DeleteUserAsync(string id);
 
-    public Task<User?> GetUserByIdAsync(int id);
+    public Task<User?> GetUserByIdAsync(string id);
+
+    public Task<IEnumerable<User>?> GetAllUsersAsync();
 }

@@ -6,16 +6,16 @@ namespace Application.Services;
 
 public class UserService : IUserService
 {
-    private readonly IGenericRepository<User> userRepository;
+    private readonly IUserRepository<User> userRepository;
     private readonly IJwtProvider jwtProvider;
 
-    public UserService(IGenericRepository<User> userRepository, IJwtProvider jwtProvider)
+    public UserService(IUserRepository<User> userRepository, IJwtProvider jwtProvider)
     {
         this.userRepository = userRepository;
         this.jwtProvider = jwtProvider;
     }
 
-    public User? ChangeEmail(int id, string newEmail)
+    public User? ChangeEmail(string id, string newEmail)
     {
         var user = userRepository.GetById(id);
 
@@ -29,7 +29,7 @@ public class UserService : IUserService
         return user;
     }
 
-    public async Task<User?> ChangeEmailAsync(int id, string newEmail)
+    public async Task<User?> ChangeEmailAsync(string id, string newEmail)
     {
         var user = await userRepository.GetByIdAsync(id);
 
@@ -43,7 +43,7 @@ public class UserService : IUserService
         return user;
     }
 
-    public User? ChangePassword(int id, string newPassword)
+    public User? ChangePassword(string id, string newPassword)
     {
         // Add Hashing the password
 
@@ -59,7 +59,7 @@ public class UserService : IUserService
         return user;
     }
 
-    public async Task<User?> ChangePasswordAsync(int id, string newPassword)
+    public async Task<User?> ChangePasswordAsync(string id, string newPassword)
     {
         // Add Hashing the password
 
@@ -75,7 +75,7 @@ public class UserService : IUserService
         return user;
     }
 
-    public User? DeleteUser(int id)
+    public User? DeleteUser(string id)
     {
         var user = userRepository.Remove(id);
 
@@ -84,7 +84,7 @@ public class UserService : IUserService
         return user;
     }
 
-    public async Task<User?> DeleteUserAsync(int id)
+    public async Task<User?> DeleteUserAsync(string id)
     {
         var user = await userRepository.RemoveAsync(id);
         
@@ -93,12 +93,22 @@ public class UserService : IUserService
         return user;
     }
 
-    public User? GetUserById(int id)
+    public IEnumerable<User>? GetAllUsers()
+    {
+        return userRepository.GetAll();
+    }
+
+    public Task<IEnumerable<User>?> GetAllUsersAsync()
+    {
+        return userRepository.GetAllAsync();
+    }
+
+    public User? GetUserById(string id)
     {
         return userRepository.GetById(id);
     }
 
-    public async Task<User?> GetUserByIdAsync(int id)
+    public async Task<User?> GetUserByIdAsync(string id)
     {
         return await userRepository.GetByIdAsync(id);
     }

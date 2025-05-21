@@ -9,6 +9,7 @@ using Hotel_Restaurant_Reservation.API.OptionsSetup;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Domain.Entities;
 using Hotel_Restaurant_Reservation.Infrastructure.Authentication;
+using Infrastructure.Repositories;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,7 +24,7 @@ builder.Services.ConfigureOptions<JwtOptionsSetup>();
 
 builder.Services.ConfigureOptions<JwtBearerOptionsSetup>();
 
-builder.Services.AddAutoMapper(typeof(Infrastructure.AssemplyReference).Assembly);
+builder.Services.AddAutoMapper(typeof(Application.AssemplyReference).Assembly);
 
 
 builder.Services.AddScoped<IImageShotService, ImageShotService>();
@@ -45,9 +46,10 @@ builder.Services.AddScoped<IPostService, PostService>();
 builder.Services.AddScoped<ITagService, TagService>();
 builder.Services.AddScoped<IPostTypeService, PostTypeService>();
 builder.Services.AddScoped<IJwtProvider, JwtProvider>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 
-builder.Services.AddAutoMapper(typeof(Infrastructure.AssemplyReference).Assembly);
+builder.Services.AddAutoMapper(typeof(Application.AssemplyReference).Assembly);
 
 
 builder.Services.AddDbContext<TourAgencyDbContext>(options =>
@@ -56,6 +58,8 @@ builder.Services.AddDbContext<IUserDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Identity")));
 
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(SqlGenericRepository<>));
+builder.Services.AddScoped(typeof(IUserRepository<>), typeof(SqlUserRepository<>));
+
 builder.Services.AddScoped<ICarService, CarService>();  
 
 

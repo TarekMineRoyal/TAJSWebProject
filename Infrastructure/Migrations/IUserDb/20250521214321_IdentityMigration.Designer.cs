@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations.IUserDb
 {
     [DbContext(typeof(IUserDbContext))]
-    [Migration("20250521204217_IdentityMigration")]
+    [Migration("20250521214321_IdentityMigration")]
     partial class IdentityMigration
     {
         /// <inheritdoc />
