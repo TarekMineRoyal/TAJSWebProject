@@ -103,16 +103,30 @@ public class UserService : IUserService
         return await userRepository.GetByIdAsync(id);
     }
 
-    public string LogIn(string userName, string password)
+    public string? LogIn(string userName, string password)
     {
         // Need to discuss abou the customer and the employee and adding another JwtTokenProvider
-        throw new NotImplementedException();
+        var user = userRepository.GetFirstOrDefault(x => x.UserName == userName && x.PasswordHash == password);
+
+        if (user is null)
+            return null;
+
+        var token = jwtProvider.Generate(user.Id, user.Email, null, null);
+
+        return token;
     }
 
-    public Task<string> LogInAsync(string userName, string password)
+    public async Task<string> LogInAsync(string userName, string password)
     {
         // Need to discuss abou the customer and the employee and adding another JwtTokenProvider
-        throw new NotImplementedException();
+        var user = await userRepository.GetFirstOrDefaultAsync(x => x.UserName == userName && x.PasswordHash == password);
+
+        if (user is null)
+            return null;
+
+        var token = jwtProvider.Generate(user.Id, user.Email, null, null);
+
+        return token;
     }
 
     public User Signup(User user)

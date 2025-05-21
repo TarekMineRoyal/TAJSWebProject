@@ -4,7 +4,7 @@ namespace Application.IServices;
 
 public interface IUserService
 {
-    public string LogIn(string userName, string password);
+    public string? LogIn(string userName, string password);
 
     public User Signup(User user);
 

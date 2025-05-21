@@ -31,20 +31,9 @@ builder.Services.ConfigureOptions<JwtBearerOptionsSetup>();
 //builder.Services.AddScoped<CarBookingService>();
 //builder.Services.AddScoped<IPaymentService, PaymentService>();
 // Program.cs
-builder.Services.AddAutoMapper(
-    typeof(ImageShotProfile),
-    typeof(BookingProfile),
-    typeof(TripBookingProfile),
-    typeof(CategoryProfile),
-    typeof(CarProfile),
-    typeof(CarBookingProfile),
-    typeof(RegionProfile),
-    typeof(TripPlanProfile),
-    typeof(TripPlanCarProfile),
-    typeof(TripProfile),
-    typeof(PaymentProfile),
-    typeof(PaymentTransactionProfile)
-);
+builder.Services.AddAutoMapper(typeof(Infrastructure.AssemplyReference).Assembly);
+
+
 builder.Services.AddScoped<IImageShotService, ImageShotService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddScoped<ITripBookingService, TripBookingService>();

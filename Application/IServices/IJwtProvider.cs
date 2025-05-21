@@ -5,5 +5,5 @@ namespace Application.IServices;
 
 public interface IJwtProvider
 {
-    public string Generate(Employee employee, IEnumerable<Role> roles, string email);
+    public string Generate(string userId, string email, string? phoneNumber,Role? role);
 }
