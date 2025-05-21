@@ -8,6 +8,7 @@ using Infrastructure;
 using Hotel_Restaurant_Reservation.API.OptionsSetup;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Domain.Entities;
+using Hotel_Restaurant_Reservation.Infrastructure.Authentication;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -43,6 +44,7 @@ builder.Services.AddScoped<IPaymentTransactionService, PaymentTransactionService
 builder.Services.AddScoped<IPostService, PostService>();
 builder.Services.AddScoped<ITagService, TagService>();
 builder.Services.AddScoped<IPostTypeService, PostTypeService>();
+builder.Services.AddScoped<IJwtProvider, JwtProvider>();
 
 
 builder.Services.AddAutoMapper(typeof(Infrastructure.AssemplyReference).Assembly);
