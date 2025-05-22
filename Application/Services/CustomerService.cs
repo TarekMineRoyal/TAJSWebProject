@@ -18,7 +18,7 @@ public class CustomerService : ICustomerService
         this.userRepository = userRepository;
     }
 
-    public Customer CreateCustomer(User user, Customer customer)
+    public Customer AddCustomer(User user, Customer customer)
     {
         customer.UserId = user.Id;
 
@@ -29,7 +29,7 @@ public class CustomerService : ICustomerService
         return returnedCustomer;
     }
 
-    public async Task<Customer> CreateCustomerAsync(User user, Customer customer)
+    public async Task<Customer> AddCustomerAsync(User user, Customer customer)
     {
         customer.UserId = user.Id;
 

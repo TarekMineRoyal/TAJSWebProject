@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Infrastructure.Migrations.TourAgencyDb
+namespace Infrastructure.Migrations
 {
     [DbContext(typeof(TourAgencyDbContext))]
     partial class TourAgencyDbContextModelSnapshot : ModelSnapshot
