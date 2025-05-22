@@ -13,6 +13,6 @@ namespace Application.DTOs.Payment
         public int Id { get; set; }
         public StatusEnum Status { get; set; }
         public decimal AmountPaid { get; set; }
-        public BookingDTO Booking { get; set; }
+        public BookingResponse Booking { get; set; }
     }
 }

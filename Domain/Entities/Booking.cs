@@ -36,8 +36,6 @@ namespace Domain.Entities
         public Booking()
         {
             Payments = new HashSet<Payment>();
-            CarBooking = new CarBooking();
-            TripBooking = new TripBooking();
         }
 
         #region Key Properties

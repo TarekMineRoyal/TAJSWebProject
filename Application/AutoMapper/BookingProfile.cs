@@ -9,8 +9,8 @@ namespace Infrastructure.AutoMapper
     {
         public BookingProfile()
         {
-            CreateMap<Booking, BookingDTO>().ReverseMap();
-            CreateMap<CreateBookingDTO, Booking>().ReverseMap();
+            CreateMap<Booking, BookingResponse>().ReverseMap();
+            CreateMap<AddBookingRequest, Booking>().ReverseMap();
             CreateMap<UpdateBookingDTO, Booking>().ReverseMap();
         }
     }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Application.DTOs.Booking
 {
-    public class BookingDTO
+    public class BookingResponse
     {
         public int Id { get; set; }
         public int CarBookingId { get; set; }
