@@ -45,7 +45,7 @@ public class UserController : ControllerBase
     {
         var user = mapper.Map<User>(signUpUserRequest);
 
-        user = await userService.SignupAsync(user);
+        user = await userService.AddUserAsync(user);
 
         var userResponse = mapper.Map<UserResponse>(user);
 

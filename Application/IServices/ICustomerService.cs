@@ -2,18 +2,26 @@
 
 namespace Application.IServices;
 
-public interface ICustomerService
+public interface ICustomerService : IUserService
 {
+    public Customer? GetCustomerById(Guid id);
+
     public Customer AddCustomer(User user, Customer customer);
 
-    public Customer? UpdateCustomer(int id, Customer customer);
+    public Customer? UpdateCustomer(Guid id, Customer customer);
 
-    public Customer? DeleteCustomer(int customerId);
+    public Customer? DeleteCustomer(Guid id);
 
+    public string? LogIn(string userName, string password);
+
+
+    public Task<Customer?> GetCustomerByIdAsync(Guid id);
 
     public Task<Customer> AddCustomerAsync(User user, Customer customer);
 
-    public Task<Customer?> UpdateCustomerAsync(int id, Customer customer);
+    public Task<Customer?> UpdateCustomerAsync(Guid id, Customer customer);
 
-    public Task<Customer?> DeleteCustomerAsync(int customerId);
+    public Task<Customer?> DeleteCustomerAsync(Guid id);
+
+    public Task<string> LogInAsync(string userName, string password);
 }

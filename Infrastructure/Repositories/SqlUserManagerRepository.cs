@@ -5,12 +5,12 @@ using System.Linq.Expressions;
 
 namespace Infrastructure.Repositories;
 
-public class SqlUserRepository<TEntity> : IUserRepository<TEntity> where TEntity : class
+public class SqlUserManagerRepository<TEntity> : IUserManagerRepository<TEntity> where TEntity : class
 {
     private readonly IUserDbContext userDbContext;
     private readonly DbSet<TEntity> _dbSet;
 
-    public SqlUserRepository(IUserDbContext userDbContext)
+    public SqlUserManagerRepository(IUserDbContext userDbContext)
     {
         this.userDbContext = userDbContext;
         _dbSet = userDbContext.Set<TEntity>();
@@ -54,19 +54,25 @@ public class SqlUserRepository<TEntity> : IUserRepository<TEntity> where TEntity
         return await _dbSet.ToListAsync();
     }
 
-    public TEntity? GetById(string id)
+    public TEntity? GetById(Guid id)
     {
-        return _dbSet.Find(id);
+        var stringId = id.ToString();
+
+        return _dbSet.Find(stringId);
     }
 
-    public async Task<TEntity?> GetByIdAsync(string id)
+    public async Task<TEntity?> GetByIdAsync(Guid id)
     {
-        return await _dbSet.FindAsync(id);
+        var stringId = id.ToString();
+
+        return await _dbSet.FindAsync(stringId);
     }
 
-    public TEntity? Remove(string id)
+    public TEntity? Remove(Guid id)
     {
-        var entity = _dbSet.Find(id);
+        var stringId = id.ToString();
+
+        var entity = _dbSet.Find(stringId);
 
         if (entity != null)
         {
@@ -76,9 +82,11 @@ public class SqlUserRepository<TEntity> : IUserRepository<TEntity> where TEntity
         return entity;
     }
 
-    public async Task<TEntity?> RemoveAsync(string id)
+    public async Task<TEntity?> RemoveAsync(Guid id)
     {
-        var entity = await _dbSet.FindAsync(id);
+        var stringId = id.ToString();
+
+        var entity = await _dbSet.FindAsync(stringId);
 
         if (entity != null)
         {
@@ -98,10 +106,12 @@ public class SqlUserRepository<TEntity> : IUserRepository<TEntity> where TEntity
         await userDbContext.SaveChangesAsync();
     }
 
-    public TEntity? Update(string id, TEntity entity)
+    public TEntity? Update(Guid id, TEntity entity)
     {
+        var stringId = id.ToString();
+
         // 1. Get existing entity
-        var existingEntity = _dbSet.Find(id);
+        var existingEntity = _dbSet.Find(stringId);
 
         if (existingEntity == null)
             return null;
@@ -120,10 +130,12 @@ public class SqlUserRepository<TEntity> : IUserRepository<TEntity> where TEntity
         return existingEntity;
     }
 
-    public async Task<TEntity?> UpdateAsync(string id, TEntity entity)
+    public async Task<TEntity?> UpdateAsync(Guid id, TEntity entity)
     {
+        var stringId = id.ToString();
+
         // 1. Get existing entity
-        var existingEntity = await _dbSet.FindAsync(id);
+        var existingEntity = await _dbSet.FindAsync(stringId);
 
         if (existingEntity == null)
             return null;

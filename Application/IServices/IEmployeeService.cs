@@ -4,20 +4,24 @@ namespace Application.IServices;
 
 public interface IEmployeeService
 {
-    public Employee? GetEmployeeById(int id);
+    public Employee? GetEmployeeById(Guid id);
 
-    public Employee AddEmployee(Employee employee);
+    public Employee? AddEmployee(User user, Employee employee);
 
-    public Employee? UpdateEmployee(Employee employee);
+    public Employee? UpdateEmployee(Guid id, Employee employee);
 
-    public Employee? DeleteEmployee(Employee employee);
+    public Employee? DeleteEmployee(Guid employeeId);
+
+    public string? LogIn(string userName, string password);
 
 
-    public Task<Employee?> GetEmployeeByIdAsync(int id);
+    public Task<Employee?> GetEmployeeByIdAsync(Guid id);
 
-    public Task<Employee> AddEmployeeAsync(Employee employee);
+    public Task<Employee?> AddEmployeeAsync(User user, Employee employee);
 
-    public Task<Employee?> UpdateEmployeeAsync(Employee employee);
+    public Task<Employee?> UpdateEmployeeAsync(Guid id, Employee employee);
 
-    public Task<Employee?> DeleteEmployeeAsync(Employee employee);
+    public Task<Employee?> DeleteEmployeeAsync(Guid id);
+
+    public Task<string> LogInAsync(string userName, string password);
 }

@@ -58,7 +58,7 @@ builder.Services.AddDbContext<IUserDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Identity")));
 
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(SqlGenericRepository<>));
-builder.Services.AddScoped(typeof(IUserRepository<>), typeof(SqlUserRepository<>));
+builder.Services.AddScoped(typeof(IUserManagerRepository<>), typeof(SqlUserManagerRepository<>));
 
 builder.Services.AddScoped<ICarService, CarService>();  
 

@@ -1,19 +1,18 @@
-﻿using Domain.Entities;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 
 namespace Application.IRepositories;
 
-public interface IUserRepository<TEntity> where TEntity : class
+public interface IUserManagerRepository<TEntity> where TEntity : class
 {
-    public Task<TEntity?> GetByIdAsync(string id);
+    public Task<TEntity?> GetByIdAsync(Guid id);
 
     public Task<IEnumerable<TEntity>?> GetAllAsync();
 
     public Task<TEntity> AddAsync(TEntity entity);
 
-    public Task<TEntity?> UpdateAsync(string id, TEntity newEntity);
+    public Task<TEntity?> UpdateAsync(Guid id, TEntity newEntity);
 
-    public Task<TEntity?> RemoveAsync(string id);
+    public Task<TEntity?> RemoveAsync(Guid id);
 
     public Task<TEntity> AttachAsync(TEntity entity);
 
@@ -32,13 +31,13 @@ public interface IUserRepository<TEntity> where TEntity : class
     public TEntity? GetFirstOrDefault(Expression<Func<TEntity, bool>> predicate);
 
 
-    public TEntity? GetById(string id);
+    public TEntity? GetById(Guid id);
 
     public IEnumerable<TEntity>? GetAll();
 
     public TEntity Add(TEntity entity);
 
-    public TEntity? Update(string id, TEntity entity);
+    public TEntity? Update(Guid id, TEntity entity);
 
-    public TEntity? Remove(string id);
+    public TEntity? Remove(Guid id);
 }
