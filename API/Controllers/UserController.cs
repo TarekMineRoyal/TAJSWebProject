@@ -30,12 +30,12 @@ public class UserController : ControllerBase
     }
 
     [HttpGet]
-    [Route("{id:alpha}")]
-    public async Task<IActionResult> GetUserById(string id)
+    [Route("{id:guid}")]
+    public async Task<IActionResult> GetUserById(Guid id)
     {
         var users = await userService.GetUserByIdAsync(id);
 
-        var userResponses = mapper.Map<IEnumerable<UserResponse>>(users);
+        var userResponses = mapper.Map<UserResponse>(users);
 
         return Ok(userResponses);
     }
@@ -55,21 +55,19 @@ public class UserController : ControllerBase
     [HttpPost("LogIn")]
     public async Task<IActionResult> LogIn(string userName, string password)
     {
-        var user = await userService.LogInAsync(userName, password);
+        var token = await userService.LogInAsync(userName, password);
 
-        if(user != null)
+        if(token != null)
         {
-            var userResponse = mapper.Map<UserResponse>(user);
-
-            return Ok(userResponse);
+            return Ok(token);
         }
 
         return BadRequest();
     }
 
     [HttpPut]
-    [Route("{id:alpha}/email")]
-    public async Task<IActionResult> ChangeEmail(string id, string email)
+    [Route("{id:guid}/email")]
+    public async Task<IActionResult> ChangeEmail(Guid id, string email)
     {
         var user = await userService.ChangeEmailAsync(id, email);
 
@@ -79,8 +77,8 @@ public class UserController : ControllerBase
     }
 
     [HttpPut]
-    [Route("{id:alpha}/password")]
-    public async Task<IActionResult> ChangePassword(string id, string password)
+    [Route("{id:guid}/password")]
+    public async Task<IActionResult> ChangePassword(Guid id, string password)
     {
         var user = await userService.ChangePasswordAsync(id, password);
 
@@ -90,8 +88,8 @@ public class UserController : ControllerBase
     }
 
     [HttpDelete]
-    [Route("{is:alpha}")]
-    public async Task<IActionResult> Delete(string id)
+    [Route("{id:guid}")]
+    public async Task<IActionResult> Delete(Guid id)
     {
         var user = await userService.DeleteUserAsync(id);
 

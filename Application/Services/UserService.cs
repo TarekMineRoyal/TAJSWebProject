@@ -15,9 +15,9 @@ public class UserService : IUserService
         this.jwtProvider = jwtProvider;
     }
 
-    public User? ChangeEmail(string id, string newEmail)
+    public User? ChangeEmail(Guid id, string newEmail)
     {
-        var user = userRepository.GetById(id);
+        var user = userRepository.GetById(id.ToString());
 
         if (user == null)
             return null;
@@ -29,9 +29,9 @@ public class UserService : IUserService
         return user;
     }
 
-    public async Task<User?> ChangeEmailAsync(string id, string newEmail)
+    public async Task<User?> ChangeEmailAsync(Guid id, string newEmail)
     {
-        var user = await userRepository.GetByIdAsync(id);
+        var user = await userRepository.GetByIdAsync(id.ToString());
 
         if (user == null)
             return null;
@@ -43,11 +43,11 @@ public class UserService : IUserService
         return user;
     }
 
-    public User? ChangePassword(string id, string newPassword)
+    public User? ChangePassword(Guid id, string newPassword)
     {
         // Add Hashing the password
 
-        var user = userRepository.GetById(id);
+        var user = userRepository.GetById(id.ToString());
 
         if (user == null)
             return null;
@@ -59,11 +59,11 @@ public class UserService : IUserService
         return user;
     }
 
-    public async Task<User?> ChangePasswordAsync(string id, string newPassword)
+    public async Task<User?> ChangePasswordAsync(Guid id, string newPassword)
     {
         // Add Hashing the password
 
-        var user = await userRepository.GetByIdAsync(id);
+        var user = await userRepository.GetByIdAsync(id.ToString());
 
         if (user == null)
             return null;
@@ -75,18 +75,18 @@ public class UserService : IUserService
         return user;
     }
 
-    public User? DeleteUser(string id)
+    public User? DeleteUser(Guid id)
     {
-        var user = userRepository.Remove(id);
+        var user = userRepository.Remove(id.ToString());
 
         userRepository.SaveChanges();
 
         return user;
     }
 
-    public async Task<User?> DeleteUserAsync(string id)
+    public async Task<User?> DeleteUserAsync(Guid id)
     {
-        var user = await userRepository.RemoveAsync(id);
+        var user = await userRepository.RemoveAsync(id.ToString());
         
         await userRepository.SaveChangesAsync();
 
@@ -103,14 +103,14 @@ public class UserService : IUserService
         return userRepository.GetAllAsync();
     }
 
-    public User? GetUserById(string id)
+    public User? GetUserById(Guid id)
     {
-        return userRepository.GetById(id);
+        return userRepository.GetById(id.ToString());
     }
 
-    public async Task<User?> GetUserByIdAsync(string id)
+    public async Task<User?> GetUserByIdAsync(Guid id)
     {
-        return await userRepository.GetByIdAsync(id);
+        return await userRepository.GetByIdAsync(id.ToString());
     }
 
     public string? LogIn(string userName, string password)
