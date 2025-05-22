@@ -1,19 +1,19 @@
 ﻿using Application.IRepositories;
+using Infrastructure.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
-namespace Infrastructure.DataAccess.Repositories;
+namespace Infrastructure.Repositories;
 
-public class SqlGenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
+public class SqlUserRepository<TEntity> : IUserRepository<TEntity> where TEntity : class
 {
-    protected readonly TourAgencyDbContext _tourAgencyDbContext;
-    protected readonly DbSet<TEntity> _dbSet;
+    private readonly IUserDbContext userDbContext;
+    private readonly DbSet<TEntity> _dbSet;
 
-
-    public SqlGenericRepository(TourAgencyDbContext tourAgencyDbContext)
+    public SqlUserRepository(IUserDbContext userDbContext)
     {
-        _tourAgencyDbContext = tourAgencyDbContext;
-        _dbSet = tourAgencyDbContext.Set<TEntity>();
+        this.userDbContext = userDbContext;
+        _dbSet = userDbContext.Set<TEntity>();
     }
 
     public TEntity Add(TEntity entity)
@@ -54,17 +54,17 @@ public class SqlGenericRepository<TEntity> : IGenericRepository<TEntity> where T
         return await _dbSet.ToListAsync();
     }
 
-    public TEntity? GetById(int id)
+    public TEntity? GetById(string id)
     {
         return _dbSet.Find(id);
     }
 
-    public async Task<TEntity?> GetByIdAsync(int id)
+    public async Task<TEntity?> GetByIdAsync(string id)
     {
         return await _dbSet.FindAsync(id);
     }
 
-    public TEntity? Remove(int id)
+    public TEntity? Remove(string id)
     {
         var entity = _dbSet.Find(id);
 
@@ -76,7 +76,7 @@ public class SqlGenericRepository<TEntity> : IGenericRepository<TEntity> where T
         return entity;
     }
 
-    public async Task<TEntity?> RemoveAsync(int id)
+    public async Task<TEntity?> RemoveAsync(string id)
     {
         var entity = await _dbSet.FindAsync(id);
 
@@ -90,15 +90,15 @@ public class SqlGenericRepository<TEntity> : IGenericRepository<TEntity> where T
 
     public void SaveChanges()
     {
-        _tourAgencyDbContext.SaveChanges();
+        userDbContext.SaveChanges();
     }
 
     public async Task SaveChangesAsync()
     {
-        await _tourAgencyDbContext.SaveChangesAsync();
+        await userDbContext.SaveChangesAsync();
     }
 
-    public TEntity? Update(int id, TEntity entity)
+    public TEntity? Update(string id, TEntity entity)
     {
         // 1. Get existing entity
         var existingEntity = _dbSet.Find(id);
@@ -107,20 +107,20 @@ public class SqlGenericRepository<TEntity> : IGenericRepository<TEntity> where T
             return null;
 
         // 2. Get all properties EXCEPT the primary key
-        var properties = _tourAgencyDbContext.Entry(existingEntity).Properties
+        var properties = userDbContext.Entry(existingEntity).Properties
             .Where(p => !p.Metadata.IsPrimaryKey());
 
         // 3. Update only non-key properties
         foreach (var property in properties)
         {
-            var newValue = _tourAgencyDbContext.Entry(entity).Property(property.Metadata.Name).CurrentValue;
+            var newValue = userDbContext.Entry(entity).Property(property.Metadata.Name).CurrentValue;
             property.CurrentValue = newValue;
         }
 
         return existingEntity;
     }
 
-    public async Task<TEntity?> UpdateAsync(int id, TEntity entity)
+    public async Task<TEntity?> UpdateAsync(string id, TEntity entity)
     {
         // 1. Get existing entity
         var existingEntity = await _dbSet.FindAsync(id);
@@ -129,13 +129,13 @@ public class SqlGenericRepository<TEntity> : IGenericRepository<TEntity> where T
             return null;
 
         // 2. Get all properties EXCEPT the primary key
-        var properties = _tourAgencyDbContext.Entry(existingEntity).Properties
+        var properties = userDbContext.Entry(existingEntity).Properties
             .Where(p => !p.Metadata.IsPrimaryKey());
 
         // 3. Update only non-key properties
         foreach (var property in properties)
         {
-            var newValue = _tourAgencyDbContext.Entry(entity).Property(property.Metadata.Name).CurrentValue;
+            var newValue = userDbContext.Entry(entity).Property(property.Metadata.Name).CurrentValue;
             property.CurrentValue = newValue;
         }
 

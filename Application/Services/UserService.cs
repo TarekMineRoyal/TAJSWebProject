@@ -6,18 +6,18 @@ namespace Application.Services;
 
 public class UserService : IUserService
 {
-    private readonly IGenericRepository<User> userRepository;
+    private readonly IUserRepository<User> userRepository;
     private readonly IJwtProvider jwtProvider;
 
-    public UserService(IGenericRepository<User> userRepository, IJwtProvider jwtProvider)
+    public UserService(IUserRepository<User> userRepository, IJwtProvider jwtProvider)
     {
         this.userRepository = userRepository;
         this.jwtProvider = jwtProvider;
     }
 
-    public User? ChangeEmail(int id, string newEmail)
+    public User? ChangeEmail(Guid id, string newEmail)
     {
-        var user = userRepository.GetById(id);
+        var user = userRepository.GetById(id.ToString());
 
         if (user == null)
             return null;
@@ -29,9 +29,9 @@ public class UserService : IUserService
         return user;
     }
 
-    public async Task<User?> ChangeEmailAsync(int id, string newEmail)
+    public async Task<User?> ChangeEmailAsync(Guid id, string newEmail)
     {
-        var user = await userRepository.GetByIdAsync(id);
+        var user = await userRepository.GetByIdAsync(id.ToString());
 
         if (user == null)
             return null;
@@ -43,11 +43,11 @@ public class UserService : IUserService
         return user;
     }
 
-    public User? ChangePassword(int id, string newPassword)
+    public User? ChangePassword(Guid id, string newPassword)
     {
         // Add Hashing the password
 
-        var user = userRepository.GetById(id);
+        var user = userRepository.GetById(id.ToString());
 
         if (user == null)
             return null;
@@ -59,11 +59,11 @@ public class UserService : IUserService
         return user;
     }
 
-    public async Task<User?> ChangePasswordAsync(int id, string newPassword)
+    public async Task<User?> ChangePasswordAsync(Guid id, string newPassword)
     {
         // Add Hashing the password
 
-        var user = await userRepository.GetByIdAsync(id);
+        var user = await userRepository.GetByIdAsync(id.ToString());
 
         if (user == null)
             return null;
@@ -75,44 +75,68 @@ public class UserService : IUserService
         return user;
     }
 
-    public User? DeleteUser(int id)
+    public User? DeleteUser(Guid id)
     {
-        var user = userRepository.Remove(id);
+        var user = userRepository.Remove(id.ToString());
 
         userRepository.SaveChanges();
 
         return user;
     }
 
-    public async Task<User?> DeleteUserAsync(int id)
+    public async Task<User?> DeleteUserAsync(Guid id)
     {
-        var user = await userRepository.RemoveAsync(id);
+        var user = await userRepository.RemoveAsync(id.ToString());
         
         await userRepository.SaveChangesAsync();
 
         return user;
     }
 
-    public User? GetUserById(int id)
+    public IEnumerable<User>? GetAllUsers()
     {
-        return userRepository.GetById(id);
+        return userRepository.GetAll();
     }
 
-    public async Task<User?> GetUserByIdAsync(int id)
+    public Task<IEnumerable<User>?> GetAllUsersAsync()
     {
-        return await userRepository.GetByIdAsync(id);
+        return userRepository.GetAllAsync();
     }
 
-    public string LogIn(string userName, string password)
+    public User? GetUserById(Guid id)
+    {
+        return userRepository.GetById(id.ToString());
+    }
+
+    public async Task<User?> GetUserByIdAsync(Guid id)
+    {
+        return await userRepository.GetByIdAsync(id.ToString());
+    }
+
+    public string? LogIn(string userName, string password)
     {
         // Need to discuss abou the customer and the employee and adding another JwtTokenProvider
-        throw new NotImplementedException();
+        var user = userRepository.GetFirstOrDefault(x => x.UserName == userName && x.PasswordHash == password);
+
+        if (user is null)
+            return null;
+
+        var token = jwtProvider.Generate(user.Id, user.Email, null, null);
+
+        return token;
     }
 
-    public Task<string> LogInAsync(string userName, string password)
+    public async Task<string> LogInAsync(string userName, string password)
     {
         // Need to discuss abou the customer and the employee and adding another JwtTokenProvider
-        throw new NotImplementedException();
+        var user = await userRepository.GetFirstOrDefaultAsync(x => x.UserName == userName && x.PasswordHash == password);
+
+        if (user is null)
+            return null;
+
+        var token = jwtProvider.Generate(user.Id, user.Email, null, null);
+
+        return token;
     }
 
     public User Signup(User user)
