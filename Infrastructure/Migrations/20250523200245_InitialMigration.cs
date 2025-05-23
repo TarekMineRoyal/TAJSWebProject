@@ -6,11 +6,29 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class TourAgencyMigration : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Bookings",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    bookingType = table.Column<bool>(type: "bit", nullable: false),
+                    startDateTime = table.Column<DateTime>(type: "datetime2(7)", nullable: false),
+                    endDateTime = table.Column<DateTime>(type: "datetime2(7)", nullable: false),
+                    status = table.Column<int>(type: "int", nullable: false),
+                    numOfPassengers = table.Column<int>(type: "int", nullable: false),
+                    employeeId = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Bookings", x => x.id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Categories",
                 columns: table => new
@@ -22,34 +40,6 @@ namespace Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Categories", x => x.id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Customers",
-                columns: table => new
-                {
-                    id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    firstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    lastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    phoneNumber = table.Column<string>(type: "char(12)", nullable: false),
-                    whatsapp = table.Column<string>(type: "char(14)", nullable: true),
-                    Country = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Customers", x => x.id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Employees",
-                columns: table => new
-                {
-                    id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    hireDate = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Employees", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -123,6 +113,29 @@ namespace Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Payments",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    bookingId = table.Column<int>(type: "int", nullable: true),
+                    satatus = table.Column<int>(type: "int", nullable: false),
+                    amountDue = table.Column<decimal>(type: "decimal(16,2)", nullable: false),
+                    amountPaid = table.Column<decimal>(type: "decimal(16,2)", nullable: false),
+                    paymentDate = table.Column<DateTime>(type: "datetime2(7)", nullable: false),
+                    notes = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Payments", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_Payments_Bookings_bookingId",
+                        column: x => x.bookingId,
+                        principalTable: "Bookings",
+                        principalColumn: "id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Cars",
                 columns: table => new
                 {
@@ -148,36 +161,6 @@ namespace Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Bookings",
-                columns: table => new
-                {
-                    id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    bookingType = table.Column<bool>(type: "bit", nullable: false),
-                    startDateTime = table.Column<DateTime>(type: "datetime2(7)", nullable: false),
-                    endDateTime = table.Column<DateTime>(type: "datetime2(7)", nullable: false),
-                    status = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    numOfPassengers = table.Column<int>(type: "int", nullable: false),
-                    employeeId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    CustomerUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Bookings", x => x.id);
-                    table.ForeignKey(
-                        name: "FK_Bookings_Customers_CustomerUserId",
-                        column: x => x.CustomerUserId,
-                        principalTable: "Customers",
-                        principalColumn: "id");
-                    table.ForeignKey(
-                        name: "FK_Bookings_Employees_employeeId",
-                        column: x => x.employeeId,
-                        principalTable: "Employees",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Posts",
                 columns: table => new
                 {
@@ -188,21 +171,15 @@ namespace Infrastructure.Migrations
                     image = table.Column<string>(type: "nvarchar(50)", nullable: false),
                     slug = table.Column<string>(type: "nvarchar(50)", nullable: false),
                     views = table.Column<int>(type: "int", nullable: false),
-                    status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    status = table.Column<int>(type: "int", nullable: false),
                     postTypeId = table.Column<int>(type: "int", nullable: true),
                     summary = table.Column<string>(type: "nvarchar(50)", nullable: false),
                     publishDate = table.Column<DateTime>(type: "datetime2(7)", nullable: false),
-                    employeeId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    employeeId = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Posts", x => x.id);
-                    table.ForeignKey(
-                        name: "FK_Posts_Employees_employeeId",
-                        column: x => x.employeeId,
-                        principalTable: "Employees",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Posts_PostTypes_postTypeId",
                         column: x => x.postTypeId,
@@ -242,6 +219,35 @@ namespace Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "PaymentTransactions",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    type = table.Column<int>(type: "int", nullable: false),
+                    amount = table.Column<decimal>(type: "decimal(16,2)", nullable: false),
+                    transactionDate = table.Column<DateTime>(type: "datetime2(7)", nullable: false),
+                    paymentId = table.Column<int>(type: "int", nullable: false),
+                    paymentMethodId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PaymentTransactions", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_PaymentTransactions_PaymentMethods_paymentMethodId",
+                        column: x => x.paymentMethodId,
+                        principalTable: "PaymentMethods",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PaymentTransactions_Payments_paymentId",
+                        column: x => x.paymentId,
+                        principalTable: "Payments",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "CarBookings",
                 columns: table => new
                 {
@@ -268,29 +274,6 @@ namespace Infrastructure.Migrations
                         principalTable: "Cars",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Payments",
-                columns: table => new
-                {
-                    id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    bookingId = table.Column<int>(type: "int", nullable: true),
-                    satatus = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    amountDue = table.Column<decimal>(type: "decimal(16,2)", nullable: false),
-                    amountPaid = table.Column<decimal>(type: "decimal(16,2)", nullable: false),
-                    paymentDate = table.Column<DateTime>(type: "datetime2(7)", nullable: false),
-                    notes = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Payments", x => x.id);
-                    table.ForeignKey(
-                        name: "FK_Payments_Bookings_bookingId",
-                        column: x => x.bookingId,
-                        principalTable: "Bookings",
-                        principalColumn: "id");
                 });
 
             migrationBuilder.CreateTable(
@@ -410,45 +393,6 @@ namespace Infrastructure.Migrations
                         principalColumn: "id");
                 });
 
-            migrationBuilder.CreateTable(
-                name: "PaymentTransactions",
-                columns: table => new
-                {
-                    id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    type = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    amount = table.Column<decimal>(type: "decimal(16,2)", nullable: false),
-                    transactionDate = table.Column<DateTime>(type: "datetime2(7)", nullable: false),
-                    paymentId = table.Column<int>(type: "int", nullable: false),
-                    paymentMethodId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PaymentTransactions", x => x.id);
-                    table.ForeignKey(
-                        name: "FK_PaymentTransactions_PaymentMethods_paymentMethodId",
-                        column: x => x.paymentMethodId,
-                        principalTable: "PaymentMethods",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_PaymentTransactions_Payments_paymentId",
-                        column: x => x.paymentId,
-                        principalTable: "Payments",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Bookings_CustomerUserId",
-                table: "Bookings",
-                column: "CustomerUserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Bookings_employeeId",
-                table: "Bookings",
-                column: "employeeId");
-
             migrationBuilder.CreateIndex(
                 name: "IX_CarBookings_bookingId",
                 table: "CarBookings",
@@ -476,20 +420,14 @@ namespace Infrastructure.Migrations
                 column: "bookingId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PaymentTransactions_paymentId_paymentMethodId_transactionDate",
+                name: "IX_PaymentTransactions_paymentId",
                 table: "PaymentTransactions",
-                columns: new[] { "paymentId", "paymentMethodId", "transactionDate" },
-                unique: true);
+                column: "paymentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PaymentTransactions_paymentMethodId",
                 table: "PaymentTransactions",
                 column: "paymentMethodId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Posts_employeeId",
-                table: "Posts",
-                column: "employeeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Posts_postTypeId",
@@ -599,12 +537,6 @@ namespace Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Categories");
-
-            migrationBuilder.DropTable(
-                name: "Customers");
-
-            migrationBuilder.DropTable(
-                name: "Employees");
         }
     }
 }

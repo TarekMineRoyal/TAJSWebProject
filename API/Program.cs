@@ -47,6 +47,7 @@ builder.Services.AddScoped<ITagService, TagService>();
 builder.Services.AddScoped<IPostTypeService, PostTypeService>();
 builder.Services.AddScoped<IJwtProvider, JwtProvider>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ICustomerService, CustomerService>();
 
 
 builder.Services.AddAutoMapper(typeof(Application.AssemplyReference).Assembly);
@@ -54,11 +55,13 @@ builder.Services.AddAutoMapper(typeof(Application.AssemplyReference).Assembly);
 
 builder.Services.AddDbContext<TourAgencyDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("MainDatabase")));
-builder.Services.AddDbContext<IUserDbContext>(options =>
+
+builder.Services.AddDbContext<CustomIdentityDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Identity")));
 
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(SqlGenericRepository<>));
 builder.Services.AddScoped(typeof(IUserManagerRepository<>), typeof(SqlUserManagerRepository<>));
+//builder.Services.AddScoped(typeof(IRoleManagerRepository<>), typeof(SqlUserManagerRepository<>));
 
 builder.Services.AddScoped<ICarService, CarService>();  
 

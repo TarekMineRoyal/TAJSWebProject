@@ -125,7 +125,7 @@ namespace Domain.Entities
         /// </summary>
         public virtual TripBooking? TripBooking { get; set; }
 
-        public Employee? Employee { get; set; }
+        //public Employee? Employee { get; set; }
         #endregion
     }
 }

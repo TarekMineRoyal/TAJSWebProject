@@ -7,10 +7,10 @@ namespace Infrastructure.Repositories;
 
 public class SqlUserManagerRepository<TEntity> : IUserManagerRepository<TEntity> where TEntity : class
 {
-    private readonly IUserDbContext userDbContext;
+    private readonly CustomIdentityDbContext userDbContext;
     private readonly DbSet<TEntity> _dbSet;
 
-    public SqlUserManagerRepository(IUserDbContext userDbContext)
+    public SqlUserManagerRepository(CustomIdentityDbContext userDbContext)
     {
         this.userDbContext = userDbContext;
         _dbSet = userDbContext.Set<TEntity>();

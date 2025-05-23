@@ -8,8 +8,6 @@ public partial class Employee
 {   
     public Employee()
     {
-        Bookings = new HashSet<Booking>();
-        Posts = new HashSet<Post>();
     }
     [Key, Column("id", TypeName = "nvarchar(450)")]
     [ForeignKey("User")]
@@ -20,10 +18,12 @@ public partial class Employee
 
     public string RoleId { get; set; }
 
-    public ICollection<Booking> Bookings { get; set; }
+    //public ICollection<Booking> Bookings { get; set; }
 
-    public ICollection<Post> Posts { get; set; }
+    //public ICollection<Post> Posts { get; set; }
 
     public Role Role { get; set; }
+
+    public User User { get; set; }
 
 }

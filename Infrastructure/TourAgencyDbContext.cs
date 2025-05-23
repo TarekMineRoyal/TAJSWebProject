@@ -60,42 +60,37 @@ namespace Infrastructure.DataAccess
         public DbSet<ImageShot> ImageShots { get; set; }
         #endregion
 
-        #region DbSets - User Type
-        public DbSet<Customer> Customers { get; set; }
-        public DbSet<Employee> Employees { get; set; }
-        #endregion
+        //#region Model Configuration
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
+        //    base.OnModelCreating(modelBuilder);
 
-        #region Model Configuration
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
+        //    // Configure enum conversions and table mappings
+        //    ConfigureEnumsAndTables(modelBuilder);
 
-            // Configure enum conversions and table mappings
-            ConfigureEnumsAndTables(modelBuilder);
+        //    // Configure relationships
+        //    ConfigureRelationships(modelBuilder);
+        //}
 
-            // Configure relationships
-            ConfigureRelationships(modelBuilder);
-        }
+        //private void ConfigureEnumsAndTables(ModelBuilder modelBuilder)
+        //{
+        //    modelBuilder.Entity<Category>().ToTable("Categories");
+        //    modelBuilder.Entity<Car>().ToTable("Cars");
 
-        private void ConfigureEnumsAndTables(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Category>().ToTable("Categories");
-            modelBuilder.Entity<Car>().ToTable("Cars");
-
-            modelBuilder.Entity<Payment>()
-                .ToTable("Payments")
-                .Property(e => e.Status)
-                .HasConversion<string>();
+        //    modelBuilder.Entity<Payment>()
+        //        .ToTable("Payments")
+        //        .Property(e => e.Status)
+        //        .HasConversion<string>();
 
             
             
 
-            modelBuilder.Entity<PaymentMethod>().ToTable("PaymentMethods");
+        //    modelBuilder.Entity<PaymentMethod>().ToTable("PaymentMethods");
 
-            modelBuilder.Entity<PaymentTransaction>()
-                .ToTable("PaymentTransactions")
-                .Property(e => e.TransactionType)
-                .HasConversion<string>();
+        //    modelBuilder.Entity<PaymentTransaction>()
+        //        .ToTable("PaymentTransactions")
+        //        .Property(e => e.TransactionType)
+        //        .HasConversion<string>();
 
             
 
@@ -104,51 +99,51 @@ namespace Infrastructure.DataAccess
 
 
 
-            modelBuilder.Entity<PaymentTransaction>().HasIndex(p => new { p.PaymentId, p.PaymentMethodId, p.TransactionDate }).IsUnique(true);
+        //    modelBuilder.Entity<PaymentTransaction>().HasIndex(p => new { p.PaymentId, p.PaymentMethodId, p.TransactionDate }).IsUnique(true);
 
-            modelBuilder.Entity<Tag>().ToTable("Tags");
+        //    modelBuilder.Entity<Tag>().ToTable("Tags");
 
-            modelBuilder.Entity<Post>()
-                .ToTable("Posts")
-                .Property(e => e.Status)
-                .HasConversion<string>();
+        //    modelBuilder.Entity<Post>()
+        //        .ToTable("Posts")
+        //        .Property(e => e.Status)
+        //        .HasConversion<string>();
 
-            modelBuilder.Entity<PostTag>().ToTable("PostTags");
-            modelBuilder.Entity<SeoMetadata>().ToTable("SeoMetadata");
-            modelBuilder.Entity<PostType>().ToTable("PostTypes");
-            modelBuilder.Entity<ImageShot>().ToTable("ImageShots");
+        //    modelBuilder.Entity<PostTag>().ToTable("PostTags");
+        //    modelBuilder.Entity<SeoMetadata>().ToTable("SeoMetadata");
+        //    modelBuilder.Entity<PostType>().ToTable("PostTypes");
+        //    modelBuilder.Entity<ImageShot>().ToTable("ImageShots");
 
-            modelBuilder.Entity<Booking>()
-                .ToTable("Bookings")
-                .Property(e => e.Status)
-                .HasConversion<string>();
+        //    modelBuilder.Entity<Booking>()
+        //        .ToTable("Bookings")
+        //        .Property(e => e.Status)
+        //        .HasConversion<string>();
 
-            modelBuilder.Entity<CarBooking>().ToTable("CarBookings");
-            modelBuilder.Entity<TripBooking>().ToTable("TripBookings");
-            modelBuilder.Entity<TripPlan>().ToTable("TripPlans");
-            modelBuilder.Entity<TripPlanCar>().ToTable("TripPlanCars");
-            modelBuilder.Entity<Region>().ToTable("Regions");
-            modelBuilder.Entity<Trip>().ToTable("Trips");
-            modelBuilder.Entity<Employee>().ToTable("Employees");
-            modelBuilder.Entity<Customer>().ToTable("Customers");
-        }
+        //    modelBuilder.Entity<CarBooking>().ToTable("CarBookings");
+        //    modelBuilder.Entity<TripBooking>().ToTable("TripBookings");
+        //    modelBuilder.Entity<TripPlan>().ToTable("TripPlans");
+        //    modelBuilder.Entity<TripPlanCar>().ToTable("TripPlanCars");
+        //    modelBuilder.Entity<Region>().ToTable("Regions");
+        //    modelBuilder.Entity<Trip>().ToTable("Trips");
+        //    modelBuilder.Entity<Employee>().ToTable("Employees");
+        //    modelBuilder.Entity<Customer>().ToTable("Customers");
+        //}
 
-        private void ConfigureRelationships(ModelBuilder modelBuilder)
-        {
-            // Configure the one-to-one relationship between Booking and CarBooking
-            modelBuilder.Entity<Booking>()
-                .HasOne(p => p.CarBooking)
-                .WithOne(p => p.Booking)
-                .HasForeignKey<CarBooking>(p => p.BookingId);
+        //private void ConfigureRelationships(ModelBuilder modelBuilder)
+        //{
+        //    // Configure the one-to-one relationship between Booking and CarBooking
+        //    modelBuilder.Entity<Booking>()
+        //        .HasOne(p => p.CarBooking)
+        //        .WithOne(p => p.Booking)
+        //        .HasForeignKey<CarBooking>(p => p.BookingId);
 
-            // Configure the one-to-one relationship between Booking and TripBooking
-            modelBuilder.Entity<Booking>()
-                .HasOne(p => p.TripBooking)
-                .WithOne(p => p.Booking)
-                .HasForeignKey<TripBooking>(p => p.BookingId);
+        //    // Configure the one-to-one relationship between Booking and TripBooking
+        //    modelBuilder.Entity<Booking>()
+        //        .HasOne(p => p.TripBooking)
+        //        .WithOne(p => p.Booking)
+        //        .HasForeignKey<TripBooking>(p => p.BookingId);
 
 
-        }
-        #endregion
+        //}
+        //#endregion
     }
 }

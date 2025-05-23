@@ -1,7 +1,6 @@
 ﻿using Application.DTOs.User;
 using Application.IServices;
 using AutoMapper;
-using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
