@@ -1,12 +1,17 @@
-﻿namespace Application.DTOs.Customer;
+﻿using Application.DTOs.User;
+
+namespace Application.DTOs.Customer;
 
 public class CustomerResponse
 {
-    public string Id { get; set; }
 
-    public string UserName { get; set; }
+    public UserResponse UserResponse { get; set; }
 
-    public string Email { get; set; }
+    //public string Id { get; set; }
+
+    //public string UserName { get; set; }
+
+    //public string Email { get; set; }
 
     public string? FirstName { get; set; }
 

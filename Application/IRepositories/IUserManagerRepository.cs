@@ -6,6 +6,8 @@ public interface IUserManagerRepository<TEntity> where TEntity : class
 {
     public Task<TEntity?> GetByIdAsync(Guid id);
 
+    public Task<TEntity?> GetByIdAsync(string id);
+
     public Task<IEnumerable<TEntity>?> GetAllAsync();
 
     public Task<TEntity> AddAsync(TEntity entity);
@@ -32,6 +34,8 @@ public interface IUserManagerRepository<TEntity> where TEntity : class
 
 
     public TEntity? GetById(Guid id);
+
+    public TEntity? GetById(string id);
 
     public IEnumerable<TEntity>? GetAll();
 

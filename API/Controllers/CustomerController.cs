@@ -1,4 +1,5 @@
 ﻿using Application.DTOs.Customer;
+using Application.DTOs.User;
 using Application.IServices;
 using AutoMapper;
 using Domain.Entities;
@@ -20,6 +21,7 @@ public class CustomerController : ControllerBase
     }
 
     [HttpGet]
+    [Route("{id:guid}")]
     public async Task<IActionResult> GetCustomerById(Guid id)
     {
         var customer = await customerService.GetCustomerByIdAsync(id);
@@ -29,7 +31,31 @@ public class CustomerController : ControllerBase
 
         var customerResponse = mapper.Map<CustomerResponse>(customer);
 
+        customerResponse.UserResponse = mapper.Map<UserResponse>(customer.User);
+
         return Ok(customerResponse);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetAllCustomer()
+    {
+        var customers = await customerService.GetAllCustomersAsync();
+
+        if (customers == null)
+            return BadRequest();
+
+        var customerResponses = new List<CustomerResponse>();
+
+        foreach (var customer in customers)
+        {
+            var customerResponse = mapper.Map<CustomerResponse>(customer);
+
+            customerResponse.UserResponse = mapper.Map<UserResponse>(customer.User);
+
+            customerResponses.Add(customerResponse);
+        }
+
+        return Ok(customerResponses);
     }
 
     [HttpPost]
@@ -42,6 +68,8 @@ public class CustomerController : ControllerBase
         customer = await customerService.AddCustomerAsync(user, customer);
 
         var customerResponse = mapper.Map<CustomerResponse>(customer);
+
+        customerResponse.UserResponse = mapper.Map<UserResponse>(customer.User);
 
         return Ok(customerResponse);
     }
@@ -59,6 +87,8 @@ public class CustomerController : ControllerBase
 
         var customerResponse = mapper.Map<CustomerResponse>(customer);
 
+        customerResponse.UserResponse = mapper.Map<UserResponse>(customer.User);
+
         return Ok(customerResponse);
     }
 
@@ -72,6 +102,8 @@ public class CustomerController : ControllerBase
             return BadRequest();
 
         var customerResponse = mapper.Map<CustomerResponse>(customer);
+
+        customerResponse.UserResponse = mapper.Map<UserResponse>(customer.User);
 
         return Ok(customerResponse);
     }

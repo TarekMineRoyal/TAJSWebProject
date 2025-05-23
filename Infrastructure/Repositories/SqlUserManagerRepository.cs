@@ -181,4 +181,14 @@ public class SqlUserManagerRepository<TEntity> : IUserManagerRepository<TEntity>
     {
         return await _dbSet.FirstOrDefaultAsync(predicate);
     }
+
+    public async Task<TEntity?> GetByIdAsync(string id)
+    {
+        return await _dbSet.FindAsync(id);
+    }
+
+    public TEntity? GetById(string id)
+    {
+        return _dbSet.Find(id);
+    }
 }

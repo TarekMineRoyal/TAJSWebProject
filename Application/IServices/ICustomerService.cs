@@ -6,6 +6,8 @@ public interface ICustomerService : IUserService
 {
     public Customer? GetCustomerById(Guid id);
 
+    public IEnumerable<Customer>? GetAllCustomers();
+
     public Customer AddCustomer(User user, Customer customer);
 
     public Customer? UpdateCustomer(Guid id, Customer customer);
@@ -16,6 +18,8 @@ public interface ICustomerService : IUserService
 
 
     public Task<Customer?> GetCustomerByIdAsync(Guid id);
+
+    public Task<IEnumerable<Customer>?> GetAllCustomersAsync();
 
     public Task<Customer> AddCustomerAsync(User user, Customer customer);
 
