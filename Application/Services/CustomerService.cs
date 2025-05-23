@@ -1,6 +1,7 @@
 ﻿using Application.IRepositories;
 using Application.IServices;
-using Domain.Entities;
+using Domain.Entities.AppEntities;
+using Domain.Entities.Identity;
 
 namespace Application.Services;
 
@@ -18,7 +19,7 @@ public class CustomerService : ICustomerService
         this.userRepository = userRepository;
     }
 
-    public Customer AddCustomer(User user, Customer customer)
+    public Customer CreateCustomer(User user, Customer customer)
     {
         customer.UserId = user.Id;
 
@@ -29,7 +30,7 @@ public class CustomerService : ICustomerService
         return returnedCustomer;
     }
 
-    public async Task<Customer> AddCustomerAsync(User user, Customer customer)
+    public async Task<Customer> CreateCustomerAsync(User user, Customer customer)
     {
         customer.UserId = user.Id;
 

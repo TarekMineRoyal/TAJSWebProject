@@ -1,6 +1,6 @@
 ﻿using Application.DTOs.TripBooking;
-using Domain.Entities;
 using AutoMapper;
+using Domain.Entities.AppEntities;
 
 namespace Infrastructure.AutoMapper
 {

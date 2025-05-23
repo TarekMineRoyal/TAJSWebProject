@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace Domain.Entities
+namespace Domain.Entities.AppEntities
 {
     public enum StatusEnum
     {

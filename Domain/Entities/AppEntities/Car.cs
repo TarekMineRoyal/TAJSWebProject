@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Entities
+namespace Domain.Entities.AppEntities
 {
     /// <summary>
     /// Represents a vehicle available for rental or inclusion in trips

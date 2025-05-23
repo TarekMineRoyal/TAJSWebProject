@@ -2,7 +2,7 @@
 using Application.IRepositories;
 using Application.IServices;
 using AutoMapper;
-using Domain.Entities;
+using Domain.Entities.AppEntities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

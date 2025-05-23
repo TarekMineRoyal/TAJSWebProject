@@ -1,5 +1,6 @@
 ﻿using Application.IServices;
-using Domain.Entities;
+using Domain.Entities.AppEntities;
+using Domain.Entities.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -26,21 +27,22 @@ public class JwtProvider : IJwtProvider
             throw new ArgumentNullException(nameof(JwtOptions.Audience), "JWT Audience is not configured.");
     }
 
-    public string Generate(string userId, string email, string? phoneNumber, Role? role)
+    public string Generate(Employee employee, IEnumerable<Role> roles, string email)
     {
         var claims = new List<Claim>
         {
-            new Claim(JwtRegisteredClaimNames.Sub, userId.ToString()),
+            new Claim(JwtRegisteredClaimNames.Sub, employee.UserId.ToString()),
             new Claim(JwtRegisteredClaimNames.Email, email),
         };
 
 
-        if(role is not null)
-            claims.Add(new Claim(ClaimTypes.Role, role.Name));
-        
-        if(phoneNumber is not null)
-            claims.Add(new Claim(ClaimTypes.MobilePhone, phoneNumber));
-
+        if (roles != null)
+        {
+            foreach (var role in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role.Name));
+            }
+        }
 
         var signingCredentials = new SigningCredentials(
             new SymmetricSecurityKey(

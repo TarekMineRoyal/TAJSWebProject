@@ -1,6 +1,6 @@
 ﻿using Application.DTOs.Post;
 using AutoMapper;
-using Domain.Entities;
+using Domain.Entities.AppEntities;
 
 namespace Application.Profiles;
 

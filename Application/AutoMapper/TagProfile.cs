@@ -1,6 +1,6 @@
 ﻿using Application.DTOs.Tag;
 using AutoMapper;
-using Domain.Entities;
+using Domain.Entities.AppEntities;
 
 namespace Infrastructure.AutoMapper;
 

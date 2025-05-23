@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace Domain.Entities
+namespace Domain.Entities.AppEntities
 {
     /// <summary>
     /// Represents a car rental booking with specific vehicle and location details

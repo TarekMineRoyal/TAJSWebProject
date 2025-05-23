@@ -3,9 +3,9 @@ using Application.DTOs.Booking;
 using Application.IServices;
 using Application.IRepositories;
 using AutoMapper;
-using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Application.DTOs.Payment;
+using Domain.Entities.AppEntities;
 
 namespace Application.Services
 {

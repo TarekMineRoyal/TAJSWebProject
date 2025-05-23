@@ -1,7 +1,7 @@
 ﻿// Infrastructure/AutoMapper/BookingProfile.cs
 using Application.DTOs.Booking;
-using Domain.Entities;
 using AutoMapper;
+using Domain.Entities.AppEntities;
 
 namespace Infrastructure.AutoMapper
 {

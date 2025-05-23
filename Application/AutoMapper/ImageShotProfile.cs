@@ -1,7 +1,7 @@
 ﻿// Infrastructure/AutoMapper/ImageShotProfile.cs
 using Application.DTOs.ImageShot;
-using Domain.Entities;
 using AutoMapper;
+using Domain.Entities.AppEntities;
 
 namespace Infrastructure.AutoMapper
 {

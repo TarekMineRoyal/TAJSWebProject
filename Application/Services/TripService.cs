@@ -3,8 +3,8 @@ using Application.DTOs.Trip;
 using Application.IServices;
 using Application.IRepositories;
 using AutoMapper;
-using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Domain.Entities.AppEntities;
 
 namespace Application.Services
 {

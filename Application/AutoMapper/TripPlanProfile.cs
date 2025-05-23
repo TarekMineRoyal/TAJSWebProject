@@ -1,7 +1,7 @@
 ﻿// Infrastructure/AutoMapper/TripPlanProfile.cs
 using Application.DTOs.TripPlan;
-using Domain.Entities;
 using AutoMapper;
+using Domain.Entities.AppEntities;
 
 namespace Infrastructure.AutoMapper
 {
