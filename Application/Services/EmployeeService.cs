@@ -9,15 +9,17 @@ public class EmployeeService : IEmployeeService
     private readonly IUserManagerRepository<Employee> employeeRepository;
     private readonly IUserManagerRepository<User> userRepository;
     private readonly IJwtProvider jwtProvider;
-    private readonly IRoleManagerRepository<Role> roleManagerRepository;
+    private readonly IRoleManagerRepository<Role> roleRepository;
+    private readonly IRolePermissionService rolePermissionService;
 
     public EmployeeService(IUserManagerRepository<Employee> employeeRepository, IUserManagerRepository<User> userRepository,
-        IJwtProvider jwtProvider, IRoleManagerRepository<Role> roleManagerRepository)
+        IJwtProvider jwtProvider, IRoleManagerRepository<Role> roleRepository, IRolePermissionService rolePermissionService)
     {
         this.employeeRepository = employeeRepository;
         this.userRepository = userRepository;
         this.jwtProvider = jwtProvider;
-        this.roleManagerRepository = roleManagerRepository;
+        this.roleRepository = roleRepository;
+        this.rolePermissionService = rolePermissionService;
     }
 
     public Employee? AddEmployee(User user, Employee employee)
@@ -103,11 +105,11 @@ public class EmployeeService : IEmployeeService
         if (employee is null)
             return null;
 
-        //var permissions = roleManagerRepository.GetFirstOrDefault(x => x.Id == employee.UserId);
+        var role = roleRepository.GetById(employee.UserId);
 
-        // pass the permissions to the jwtProvider ot use them
+        var permissions = rolePermissionService.GetPermissionsByRoleId(role.Id);
 
-        var token = jwtProvider.Generate(user.Id, user.Email, null, null);
+        var token = jwtProvider.Generate(user.Id, user.Email, null, permissions);
 
         return token;
     }
@@ -125,11 +127,11 @@ public class EmployeeService : IEmployeeService
         if (employee is null)
             return null;
 
-        //var permissions = roleManagerRepository.GetFirstOrDefault(x => x.Id == employee.UserId);
+        var role = await roleRepository.GetByIdAsync(employee.UserId);
 
-        // pass the permissions to the jwtProvider ot use them
+        var permissions = await rolePermissionService.GetPermissionsByRoleIdAsync(role.Id);
 
-        var token = jwtProvider.Generate(user.Id, user.Email, null, null);
+        var token = jwtProvider.Generate(user.Id, user.Email, null, permissions);
 
         return token;
     }

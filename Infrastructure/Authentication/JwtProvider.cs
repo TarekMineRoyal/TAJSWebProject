@@ -26,7 +26,7 @@ public class JwtProvider : IJwtProvider
             throw new ArgumentNullException(nameof(JwtOptions.Audience), "JWT Audience is not configured.");
     }
 
-    public string Generate(string userId, string email, string? phoneNumber, Role? role)
+    public string Generate(string userId, string email, string? phoneNumber, IEnumerable<Permission>? permissions)
     {
         var claims = new List<Claim>
         {
@@ -35,10 +35,16 @@ public class JwtProvider : IJwtProvider
         };
 
 
-        if(role is not null)
-            claims.Add(new Claim(ClaimTypes.Role, role.Name));
-        
-        if(phoneNumber is not null)
+        if (permissions is not null)
+        {
+            foreach (var permission in permissions)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, permission.Name));
+            }
+        }
+            
+
+        if (phoneNumber is not null)
             claims.Add(new Claim(ClaimTypes.MobilePhone, phoneNumber));
 
 

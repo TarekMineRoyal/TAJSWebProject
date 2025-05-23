@@ -4,4 +4,5 @@ namespace Domain.Entities;
 
 public class Role : IdentityRole
 {
+    public ICollection<RolePermission> RolePermissions { get; set; }
 }
