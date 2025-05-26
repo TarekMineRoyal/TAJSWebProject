@@ -7,12 +7,7 @@ using Application.IRepositories;
 using Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Domain.Entities.AppEntities;
-using Hotel_Restaurant_Reservation.Infrastructure.Authentication;
 using Infrastructure.Repositories;
-using Infrastructure.Repositories;
-using Infrastructure.Authentication;
-using API.OptionsSetup;
-
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,9 +18,6 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer();
 
-builder.Services.ConfigureOptions<JwtOptionsSetup>();
-
-builder.Services.ConfigureOptions<JwtBearerOptionsSetup>();
 
 builder.Services.AddScoped<IImageShotService, ImageShotService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
@@ -45,7 +37,6 @@ builder.Services.AddScoped<IPaymentTransactionService, PaymentTransactionService
 builder.Services.AddScoped<IPostService, PostService>();
 builder.Services.AddScoped<ITagService, TagService>();
 builder.Services.AddScoped<IPostTypeService, PostTypeService>();
-builder.Services.AddScoped<IJwtProvider, JwtProvider>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
