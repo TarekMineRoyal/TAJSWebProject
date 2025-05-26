@@ -10,6 +10,8 @@ namespace Infrastructure.AutoMapper
         {
             CreateMap<CarBooking, CarBookingDTO>();
             CreateMap<CreateCarBookingDTO, CarBooking>().ReverseMap();
+            CreateMap<AddCarBookingRequest, CarBooking>().ReverseMap();
+            CreateMap<AddCarBookingResponse, CarBooking>().ReverseMap();
             CreateMap<UpdateCarBookingDTO, CarBooking>();
         }
     }

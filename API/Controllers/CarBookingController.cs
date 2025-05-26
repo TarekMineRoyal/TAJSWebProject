@@ -32,15 +32,15 @@ namespace API.Controllers
 
         // POST /api/carbookings
         [HttpPost]
-        public async Task<IActionResult> CreateCarBooking([FromBody] CreateCarBookingDTO dto)
+        public async Task<IActionResult> CreateCarBooking([FromBody] AddCarBookingRequest dto)
         {
             var createdDto = await _carBookingService.AddCarBookingAsync(dto);
-            return CreatedAtAction(nameof(GetCarBookingById), new { id = createdDto.Id }, createdDto);
+            return CreatedAtAction(nameof(GetCarBookingById), new { id = createdDto.BookingId }, createdDto);
         }
 
         // PUT /api/carbookings/{id}
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateCarBooking(int id, [FromBody] UpdateCarBookingDTO dto)
+        public async Task<IActionResult> UpdateCarBooking(int id, [FromBody] AddCarBookingRequest dto)
         {
             var updated = await _carBookingService.UpdateCarBookingAsync(id, dto);
             return updated != null ? Ok(updated) : NotFound();

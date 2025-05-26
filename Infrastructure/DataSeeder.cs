@@ -1,8 +1,9 @@
 ﻿using Domain.Entities;
 using Domain.Entities.AppEntities;
+using Infrastructure.DataAccess;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.DataAccess
+namespace Infrastructure
 {
     public static class DataSeeder
     {

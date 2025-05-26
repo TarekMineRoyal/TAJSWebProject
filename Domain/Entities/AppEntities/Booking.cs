@@ -101,7 +101,7 @@ namespace Domain.Entities.AppEntities
         [Range(1, int.MaxValue, ErrorMessage = "Number of passengers must be at least 1")]
         public int NumberOfPassengers { get; set; }
 
-        [Required]
+        //[Required]
         [Column("employeeId")]
         [ForeignKey("Employee")]
         public string? EmployeeId { get; set; }

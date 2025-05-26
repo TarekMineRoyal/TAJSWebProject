@@ -54,6 +54,8 @@ builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 builder.Services.AddScoped<IRoleService, RoleService>();
 builder.Services.AddScoped<IPermissionService, PermissionService>();
 builder.Services.AddScoped<IRolePermissionService, RolePermissionService>();
+builder.Services.AddScoped<IGenericRepository<CarBooking>, SqlGenericRepository<CarBooking>>();
+builder.Services.AddScoped<IGenericRepository<Booking>, SqlGenericRepository<Booking>>();
 
 builder.Services.AddAutoMapper(typeof(Application.AssemplyReference).Assembly);
 
@@ -79,7 +81,7 @@ if (app.Environment.IsDevelopment())
 {
     using var scope = app.Services.CreateScope();
     var dbContext = scope.ServiceProvider.GetRequiredService<TourAgencyDbContext>();
-    dbContext.Database.EnsureCreated();
+    //dbContext.Database.EnsureCreated();
     dbContext.Seed();
     app.UseSwagger();
     app.UseSwaggerUI();

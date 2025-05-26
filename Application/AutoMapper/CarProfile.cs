@@ -1,4 +1,6 @@
-﻿using Application.DTOs.Car;
+﻿using Application.DTOs.Booking;
+using Application.DTOs.Car;
+using Application.DTOs.CarBooking;
 using AutoMapper;
 using Domain.Entities.AppEntities;
 
@@ -13,5 +15,6 @@ public class CarProfile : Profile
         CreateMap<CreateCarDTO, Car>().ReverseMap();
 
         CreateMap<UpdateCarDTO, Car>().ReverseMap();
+        CreateMap<AddCarBookingRequest, Car>().ReverseMap();
     }
 }

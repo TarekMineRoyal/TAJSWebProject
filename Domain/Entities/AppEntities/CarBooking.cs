@@ -23,20 +23,13 @@ namespace Domain.Entities.AppEntities
             ImageShots = new HashSet<ImageShot>();
         }
 
-        #region Key Properties
-        /// <summary>
-        /// The unique identifier for the car booking
-        /// </summary>
-        [Key]
-        [Column("id")]
-        public int Id { get; set; }
-        #endregion
+        
 
         #region Booking Reference
         /// <summary>
         /// Foreign key to the associated booking
         /// </summary>
-        [Column("bookingId")]
+        [Key,Column("bookingId")]
         public int BookingId { get; set; }
         #endregion
 
