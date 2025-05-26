@@ -42,7 +42,7 @@ public class CustomerController : ControllerBase
         var customers = await customerService.GetAllCustomersAsync();
 
         if (customers == null)
-            return BadRequest();
+            return NoContent();
 
         var customerResponses = new List<CustomerResponse>();
 
@@ -76,7 +76,7 @@ public class CustomerController : ControllerBase
 
     [HttpPut]
     [Route("{id:guid}")]
-    public async Task<IActionResult> UpdateCustomer(Guid id, UpdateCustomerRequest updateCustomerRequest)
+    public async Task<IActionResult> UpdateCustomer(Guid id, [FromBody] UpdateCustomerRequest updateCustomerRequest)
     {
         var customer = mapper.Map<Customer>(updateCustomerRequest);
 

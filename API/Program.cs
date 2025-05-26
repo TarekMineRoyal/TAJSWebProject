@@ -15,6 +15,7 @@ using Infrastructure.Repositories;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
+builder.Services.AddControllersWithViews(); 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -48,6 +49,10 @@ builder.Services.AddScoped<IPostTypeService, PostTypeService>();
 builder.Services.AddScoped<IJwtProvider, JwtProvider>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
+builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+builder.Services.AddScoped<IRoleService, RoleService>();
+builder.Services.AddScoped<IPermissionService, PermissionService>();
+builder.Services.AddScoped<IRolePermissionService, RolePermissionService>();
 
 
 builder.Services.AddAutoMapper(typeof(Application.AssemplyReference).Assembly);
@@ -61,7 +66,7 @@ builder.Services.AddDbContext<CustomIdentityDbContext>(options =>
 
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(SqlGenericRepository<>));
 builder.Services.AddScoped(typeof(IUserManagerRepository<>), typeof(SqlUserManagerRepository<>));
-//builder.Services.AddScoped(typeof(IRoleManagerRepository<>), typeof(SqlUserManagerRepository<>));
+builder.Services.AddScoped(typeof(IRoleManagerRepository<>), typeof(SqlRoleManagerRepository<>));
 
 builder.Services.AddScoped<ICarService, CarService>();  
 
