@@ -13,6 +13,11 @@ using Infrastructure.AutoMapper;
 using Domain.Entities.AppEntities;
 using Hotel_Restaurant_Reservation.Infrastructure.Authentication;
 using Infrastructure.Repositories;
+using Microsoft.OpenApi.Models;
+using Infrastructure.Authentication;
+using Domain.Entities.Identity;
+using Microsoft.AspNetCore.Identity;
+using Infrastructure.Seeds;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,7 +26,30 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+    var securityScheme = new OpenApiSecurityScheme
+    {
+        Name = "Jwt Authentication",
+        Description = "Enter a valid JWT bearer token",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT",
+        Reference = new OpenApiReference
+        {
+            Id = JwtBearerDefaults.AuthenticationScheme,
+            Type = ReferenceType.SecurityScheme
+        }
+    };
+
+    options.AddSecurityDefinition("Bearer", securityScheme);
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {securityScheme, new String[]{} }
+    });
+});
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer();
 
@@ -55,6 +83,9 @@ builder.Services.AddScoped<IRoleService, RoleService>();
 builder.Services.AddScoped<IPermissionService, PermissionService>();
 builder.Services.AddScoped<IRolePermissionService, RolePermissionService>();
 
+builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+
 builder.Services.AddAutoMapper(typeof(Application.AssemplyReference).Assembly);
 
 
@@ -68,8 +99,32 @@ builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(SqlGenericReposi
 builder.Services.AddScoped(typeof(IUserManagerRepository<>), typeof(SqlUserManagerRepository<>));
 builder.Services.AddScoped(typeof(IRoleManagerRepository<>), typeof(SqlRoleManagerRepository<>));
 
-builder.Services.AddScoped<ICarService, CarService>();  
+builder.Services.AddIdentity<User, IdentityRole>(
+    options =>
+    {
+        options.Password.RequiredUniqueChars = 0;
+        options.Password.RequireUppercase = false;
+        options.Password.RequiredLength = 6;
+        options.Password.RequireNonAlphanumeric = false;
+    })
+    .AddEntityFrameworkStores<CustomIdentityDbContext>()
+    .AddDefaultTokenProviders()
+    .AddRoles<IdentityRole>();
 
+
+builder.Services.AddScoped<ICarService, CarService>();
+
+
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowReactApp",
+        policy => policy
+            .WithOrigins("http://localhost:3000")
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials());
+});
 
 var app = builder.Build();
 
@@ -83,7 +138,19 @@ if (app.Environment.IsDevelopment())
     dbContext.Seed();
     app.UseSwagger();
     app.UseSwaggerUI();
+
 }
+
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var userManager = services.GetRequiredService<UserManager<User>>();
+    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+    await IdentitySeed.SeedRolesAndAdmin(userManager, roleManager);
+}
+
+app.UseCors("AllowReactApp");
 
 app.UseAuthorization();
 

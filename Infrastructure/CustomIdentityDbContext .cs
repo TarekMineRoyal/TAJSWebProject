@@ -6,7 +6,7 @@ using Domain.Entities.Identity;
 
 namespace Infrastructure
 {
-    public class CustomIdentityDbContext : IdentityDbContext<User, Role, string>
+    public class CustomIdentityDbContext : IdentityDbContext<User>
     {
         public DbSet<Permission> Permissions { get; set; }
 
@@ -16,7 +16,7 @@ namespace Infrastructure
 
         public DbSet<Employee> Employees { get; set; }
 
-
+        public DbSet<User> Users { get; set; }
         public CustomIdentityDbContext(DbContextOptions<CustomIdentityDbContext> options)
             : base(options)
         {
