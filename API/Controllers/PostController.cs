@@ -4,6 +4,7 @@ using Application.DTOs.Tag;
 using Application.IServices;
 using AutoMapper;
 using Azure;
+using Domain.Entities;
 using Domain.Entities.AppEntities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -47,11 +48,12 @@ public class PostController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddPost([FromBody] AddPostRequest addPostRequest)
+    [Route("{employeeId:guid}")]
+    public async Task<IActionResult> AddPost(Guid employeeId, [FromBody] AddPostRequest addPostRequest)
     {
         var post = mapper.Map<Post>(addPostRequest);
 
-        post = await postService.AddPostAsync(post);
+        post = await postService.AddPostAsync(post, employeeId);
 
         if (post == null)
             return BadRequest();
@@ -63,9 +65,9 @@ public class PostController : Controller
 
     [HttpDelete]
     [Route("{id:int}")]
-    public async Task<IActionResult> DeletePost(int id)
+    public async Task<IActionResult> DeletePost(int id, Guid employeeId)
     {
-        var post = await postService.DeletePostAsync(id);
+        var post = await postService.DeletePostAsync(id, employeeId);
         var postResponse = mapper.Map<PostResponse>(post);
 
         return Ok(postResponse);
@@ -73,11 +75,11 @@ public class PostController : Controller
 
     [HttpPut]
     [Route("{id:int}")]
-    public async Task<IActionResult> UpdatePost(int id, [FromBody] UpdatePostRequest updatePostRequest)
+    public async Task<IActionResult> UpdatePost(int id, Guid employeeId, [FromBody] UpdatePostRequest updatePostRequest)
     {
         var post = mapper.Map<Post>(updatePostRequest);
 
-        var updatePost = await postService.UpdatePostAsync(id, post);
+        var updatePost = await postService.UpdatePostAsync(id, post, employeeId);
 
         if(updatePost == null)
             return BadRequest();
@@ -143,5 +145,33 @@ public class PostController : Controller
         var tagResponse = mapper.Map<IEnumerable<TagResponse>>(tag);
 
         return Ok(tagResponse);
+    }
+
+    [HttpPut]
+    [Route("{postId:int}/views")]
+    public async Task<IActionResult> AddViewToPost(int postId)
+    {
+        var post = postService.AddViewToPost(postId);
+
+        if (post == null)
+            return BadRequest();
+
+        var postResponse = mapper.Map<PostResponse>(post);
+
+        return Ok(postResponse);
+    }
+
+    [HttpPut]
+    [Route("{postId:int}/postStatus")]
+    public async Task<IActionResult> UpdatePostStatus(int postId, Guid employeeId, PostStatus postStatus)
+    {
+        var post = await postService.UpdatePostStatusAsync(postId, postStatus, employeeId);
+
+        if (post == null)
+            return BadRequest();
+
+        var postResponse = mapper.Map<PostResponse>(post);
+
+        return Ok(postResponse);
     }
 }

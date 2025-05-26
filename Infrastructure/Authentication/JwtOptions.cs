@@ -1,4 +1,4 @@
-﻿namespace Hotel_Restaurant_Reservation.Infrastructure.Authentication;
+﻿namespace Infrastructure.Authentication;
 
 public class JwtOptions
 {

@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Domain.Entities.AppEntities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.DataAccess

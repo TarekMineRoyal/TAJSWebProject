@@ -1,10 +1,10 @@
-﻿using Hotel_Restaurant_Reservation.Infrastructure.Authentication;
+﻿using Infrastructure.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
-namespace Hotel_Restaurant_Reservation.API.OptionsSetup;
+namespace API.OptionsSetup;
 
 public class JwtBearerOptionsSetup : IConfigureOptions<JwtBearerOptions>
 {

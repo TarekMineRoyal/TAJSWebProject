@@ -1,6 +1,7 @@
 ﻿using Application.IRepositories;
 using Application.IServices;
 using Domain.Entities;
+using Domain.Entities.Identity;
 
 namespace Application.Services;
 

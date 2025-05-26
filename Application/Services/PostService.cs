@@ -21,7 +21,7 @@ public class PostService : IPostService
         this.tagRepository = tagRepository;
     }
 
-    private Post InitiatePost(Post? post, Guid? employeeId, PostStatus? postStatus, int? views)
+    private Post InitiatePost(Post post, Guid? employeeId, PostStatus? postStatus, int views)
     {
         post.EmployeeId = employeeId.ToString();
         post.Status = postStatus;
@@ -299,5 +299,69 @@ public class PostService : IPostService
 
 
         return returnedSEOMetaData;
+    }
+
+    public Post? AddViewToPost(int postId)
+    {
+        var post = postRepository.GetById(postId);
+
+        if (post == null) 
+            return null;
+
+        post.Views += 1;
+
+        post = postRepository.Update(postId, post);
+
+        postRepository.SaveChanges();
+
+        return post;
+    }
+
+    public async Task<Post?> AddViewToPostAsync(int postId)
+    {
+        var post = await postRepository.GetByIdAsync(postId);
+
+        if (post == null)
+            return null;
+
+        post.Views += 1;
+
+        post = await postRepository.UpdateAsync(postId, post);
+
+        await postRepository.SaveChangesAsync();
+
+        return post;
+    }
+
+    public Post? UpdatePostStatus(int postId, PostStatus postStatus, Guid employeeId)
+    {
+        var post = postRepository.GetById(postId);
+
+        if(post == null)
+            return null;
+
+        post = InitiatePost(post, employeeId, postStatus, post.Views);
+
+        post = postRepository.Update(postId, post);
+
+        postRepository.SaveChanges();
+
+        return post;
+    }
+
+    public async Task<Post?> UpdatePostStatusAsync(int postId, PostStatus postStatus, Guid employeeId)
+    {
+        var post = await postRepository.GetByIdAsync(postId);
+
+        if (post == null)
+            return null;
+
+        post = InitiatePost(post, employeeId, postStatus, post.Views);
+
+        post = await postRepository.UpdateAsync(postId, post);
+
+        await postRepository.SaveChangesAsync();
+
+        return post;
     }
 }

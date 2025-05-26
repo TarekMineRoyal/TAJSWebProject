@@ -19,7 +19,7 @@ public class CustomerService : ICustomerService
         this.userRepository = userRepository;
     }
 
-    public Customer CreateCustomer(User user, Customer customer)
+    public Customer AddCustomer(User user, Customer customer)
     {
         //var returnedUser = userRepository.GetFirstOrDefault(x => x.UserName == user.UserName 
         //&& x.PasswordHash == user.PasswordHash);
@@ -40,7 +40,7 @@ public class CustomerService : ICustomerService
         return returnedCustomer;
     }
 
-    public async Task<Customer> CreateCustomerAsync(User user, Customer customer)
+    public async Task<Customer> AddCustomerAsync(User user, Customer customer)
     {
         //var returnedUser = await userRepository.GetFirstOrDefaultAsync(x => x.UserName == user.UserName
         //&& x.PasswordHash == user.PasswordHash);

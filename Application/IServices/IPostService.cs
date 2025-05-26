@@ -44,4 +44,12 @@ public interface IPostService
     public Task<IEnumerable<Tag>?> AddTagsToPostAsync(int postId, IEnumerable<int> tagIds);
 
     public Task<IEnumerable<Tag>?> DeleteTagsFromPostAsync(int postId, IEnumerable<int> tagIds);
+
+    public Post? AddViewToPost(int postId);
+
+    public Task<Post?> AddViewToPostAsync(int postId);
+
+    public Post? UpdatePostStatus(int postId, PostStatus postStatus, Guid employeeId);
+
+    public Task<Post?> UpdatePostStatusAsync(int postId, PostStatus postStatus, Guid employeeId);
 }

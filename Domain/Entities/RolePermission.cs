@@ -1,4 +1,5 @@
 ﻿
+using Domain.Entities.Identity;
 using System.Security;
 
 namespace Domain.Entities;

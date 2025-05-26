@@ -1,7 +1,7 @@
-﻿using Hotel_Restaurant_Reservation.Infrastructure.Authentication;
+﻿using Infrastructure.Authentication;
 using Microsoft.Extensions.Options;
 
-namespace Hotel_Restaurant_Reservation.API.OptionsSetup;
+namespace API.OptionsSetup;
 
 public class JwtOptionsSetup : IConfigureOptions<JwtOptions>
 {
