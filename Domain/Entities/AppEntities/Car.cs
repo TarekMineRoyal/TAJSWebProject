@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Entities
+namespace Domain.Entities.AppEntities
 {
     /// <summary>
     /// Represents a vehicle available for rental or inclusion in trips
@@ -69,7 +69,7 @@ namespace Domain.Entities
         /// </summary>
         [Required(ErrorMessage = "Maximum baggage weight is required")]
         [Column("mbw", TypeName = "decimal(16,2)")]
-        [Range(0.01, 1000, ErrorMessage = "Baggage weight must be between 0.01 and 1,000 kg")]
+        [Range(0, 1000, ErrorMessage = "Baggage weight must be between 0 (can't carry any baggage) and 1,000 kg")]
         public decimal Mbw { get; set; }
 
         #endregion
@@ -80,7 +80,7 @@ namespace Domain.Entities
         /// </summary>
         [Required(ErrorMessage = "Price per hour is required")]
         [Column("pph", TypeName = "decimal(16,2)")]
-        [Range(0.01, 10000000, ErrorMessage = "Price must be between 0.01 and 10,000,000")]
+        [Range(0, 10000000, ErrorMessage = "Price must be between 0 (free to rent) and 10,000,000")]
         public decimal Pph { get; set; }
 
         /// <summary>
@@ -88,20 +88,21 @@ namespace Domain.Entities
         /// </summary>
         [Required(ErrorMessage = "Price per day is required")]
         [Column("ppd", TypeName = "decimal(16,2)")]
-        [Range(0.01, 10000000, ErrorMessage = "Price must be between 0.01 and 10,000,000")]
+        [Range(0, 10000000, ErrorMessage = "Price must be between 0 (free to rent) and 10,000,000")]
         public decimal Ppd { get; set; }
         #endregion
 
         #region Relationships
         /// <summary>
-        /// Foreign key for the car's category (optional)
+        /// Foreign key for the car's category
         /// </summary>
+        [Required(ErrorMessage = "CategoryID is required")]
         [Column("categoryId")]
         [ForeignKey("CategoryId")]
-        public int? CategoryId { get; set; }
+        public int CategoryId { get; set; }
 
         /// <summary>
-        /// The category this car belongs to (optional)
+        /// The category this car belongs to
         /// </summary>
         public Category? Category { get; set; }
 

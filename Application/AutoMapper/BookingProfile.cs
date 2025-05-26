@@ -1,7 +1,7 @@
 ﻿// Infrastructure/AutoMapper/BookingProfile.cs
 using Application.DTOs.Booking;
-using Domain.Entities;
 using AutoMapper;
+using Domain.Entities.AppEntities;
 
 namespace Infrastructure.AutoMapper
 {
@@ -9,8 +9,8 @@ namespace Infrastructure.AutoMapper
     {
         public BookingProfile()
         {
-            CreateMap<Booking, BookingDTO>().ReverseMap();
-            CreateMap<CreateBookingDTO, Booking>().ReverseMap();
+            CreateMap<Booking, BookingResponse>().ReverseMap();
+            CreateMap<AddBookingRequest, Booking>().ReverseMap();
             CreateMap<UpdateBookingDTO, Booking>().ReverseMap();
         }
     }

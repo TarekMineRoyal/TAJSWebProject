@@ -1,7 +1,7 @@
 ﻿// Infrastructure/AutoMapper/TripPlanCarProfile.cs
 using Application.DTOs.TripPlanCar;
-using Domain.Entities;
 using AutoMapper;
+using Domain.Entities.AppEntities;
 
 namespace Infrastructure.AutoMapper
 {

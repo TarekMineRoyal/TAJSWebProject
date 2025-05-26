@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Application.IServices;
 using Application.DTOs.PostType;
-using Domain.Entities;
+using Domain.Entities.AppEntities;
 
 
 namespace API.Controllers;

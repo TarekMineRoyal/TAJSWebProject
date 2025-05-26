@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Application.DTOs.Booking
 {
-    public class CreateBookingDTO
+    public class AddBookingRequest
     {
         //public int Id { get; set; }
         [Required] public DateTime StartDateTime { get; set; }

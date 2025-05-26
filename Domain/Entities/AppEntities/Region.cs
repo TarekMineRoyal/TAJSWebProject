@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace Domain.Entities
+namespace Domain.Entities.AppEntities
 {
     public partial class Region
     {
@@ -21,9 +21,11 @@ namespace Domain.Entities
         [Column("id")]
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Name is required")]
         [Column("name", TypeName = "nvarchar(50)")]
+        [StringLength(50, ErrorMessage = "Name cannot exceed 50 characters")]
         public string? Name { get; set; }
+
         public virtual ICollection<TripPlan> TripPlans { get; set; }
 
     }

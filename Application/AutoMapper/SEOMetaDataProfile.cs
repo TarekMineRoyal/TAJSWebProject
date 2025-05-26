@@ -1,7 +1,7 @@
 ﻿using Application.DTOs.Post;
 using Application.DTOs.SEOMetaData;
 using AutoMapper;
-using Domain.Entities;
+using Domain.Entities.AppEntities;
 
 namespace Infrastructure.AutoMapper;
 

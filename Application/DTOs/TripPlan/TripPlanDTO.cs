@@ -22,7 +22,6 @@ namespace Application.DTOs.TripPlan
         [StringLength(100)]
         public string DurationSummary => $"{Duration} Days"; // Derived field
         public List<string> IncludedServices { get; set; }
-        public RegionDTO Region { get; set; }
 
         // Hidden from serialization
         [JsonIgnore]

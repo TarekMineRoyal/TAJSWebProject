@@ -33,7 +33,7 @@ namespace API.Controllers
 
         // POST /api/bookings
         [HttpPost]
-        public async Task<IActionResult> CreateBooking([FromBody] CreateBookingDTO dto)
+        public async Task<IActionResult> CreateBooking([FromBody] AddBookingRequest dto)
         {
             var createdDto = await _bookingService.AddBookingAsync(dto);
             return CreatedAtAction(nameof(GetBookingById), new { id = createdDto.Id }, createdDto);
@@ -41,7 +41,7 @@ namespace API.Controllers
 
         // PUT /api/bookings/{id}
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateBooking(int id, [FromBody] CreateBookingDTO dto)
+        public async Task<IActionResult> UpdateBooking(int id, [FromBody] AddBookingRequest dto)
         {
             var updated = await _bookingService.UpdateBookingAsync(id, dto);
             return updated != null ? Ok(updated) : NotFound();

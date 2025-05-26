@@ -6,10 +6,10 @@ namespace Application.IServices
 {
     public interface IBookingService
     {
-        Task<BookingDTO?> GetBookingByIdAsync(int id);
-        Task<IEnumerable<BookingDTO>> GetAllBookingsAsync();
-        Task<BookingDTO> AddBookingAsync(CreateBookingDTO dto);
-        Task<BookingDTO?> UpdateBookingAsync(int id, CreateBookingDTO dto);
-        Task<BookingDTO> DeleteBookingAsync(int id);
+        Task<BookingResponse?> GetBookingByIdAsync(int id);
+        Task<IEnumerable<BookingResponse>> GetAllBookingsAsync();
+        Task<BookingResponse> AddBookingAsync(AddBookingRequest dto);
+        Task<BookingResponse?> UpdateBookingAsync(int id, AddBookingRequest dto);
+        Task<BookingResponse> DeleteBookingAsync(int id);
     }
 }

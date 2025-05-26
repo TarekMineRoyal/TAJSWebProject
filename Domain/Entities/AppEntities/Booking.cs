@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace Domain.Entities
+namespace Domain.Entities.AppEntities
 {
     /// <summary>
     /// Represents the status of a booking
@@ -36,8 +36,6 @@ namespace Domain.Entities
         public Booking()
         {
             Payments = new HashSet<Payment>();
-            CarBooking = new CarBooking();
-            TripBooking = new TripBooking();
         }
 
         #region Key Properties

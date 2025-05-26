@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace Domain.Entities
+namespace Domain.Entities.AppEntities
 {
     public partial class Trip
     {
@@ -17,18 +17,24 @@ namespace Domain.Entities
         }
 
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("id")]
         public int Id { get; set; }
-        [Required]
+
+        [Required(ErrorMessage = "Slug is required")]
         [Column("slug", TypeName = "nvarchar(50)")]
+        [StringLength(50, ErrorMessage = "Slug cannot exceed 50 characters")]
         public string? Slug { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Trip Availibility is required")]
         [Column("isAvailable")]
         public bool IsAvailable { get; set; }
-        [Required]
-        [Column("description")]
+
+        [Required(ErrorMessage = "Description is required")]
+        [Column("description", TypeName = "nvarchar(250)")]
+        [StringLength(50, ErrorMessage = "Description cannot exceed 250 characters")]
         public string? Description { get; set; }
+
         [Required]
         [Column("isPrivate")]
         public bool IsPrivate { get; set; }

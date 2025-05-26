@@ -1,6 +1,6 @@
 ﻿using Application.DTOs.Payment;
 using AutoMapper;
-using Domain.Entities;
+using Domain.Entities.AppEntities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

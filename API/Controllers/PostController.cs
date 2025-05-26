@@ -4,7 +4,7 @@ using Application.DTOs.Tag;
 using Application.IServices;
 using AutoMapper;
 using Azure;
-using Domain.Entities;
+using Domain.Entities.AppEntities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;

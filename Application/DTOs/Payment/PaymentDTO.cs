@@ -1,5 +1,5 @@
 ﻿using Application.DTOs.Booking;
-using Domain.Entities;
+using Domain.Entities.AppEntities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +13,6 @@ namespace Application.DTOs.Payment
         public int Id { get; set; }
         public StatusEnum Status { get; set; }
         public decimal AmountPaid { get; set; }
-        public BookingDTO Booking { get; set; }
+        public BookingResponse Booking { get; set; }
     }
 }
