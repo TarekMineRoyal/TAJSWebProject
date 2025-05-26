@@ -11,5 +11,7 @@ public class EmployeeProfile : Profile
         CreateMap<Employee, EmployeeResponse>();
 
         CreateMap<AddEmployeeRequest, Employee>();
+
+        CreateMap<UpdateEmployeeRequest, Employee>();
     }
 }

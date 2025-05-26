@@ -1,5 +1,4 @@
-﻿using Application.DTOs.Customer;
-using Application.DTOs.Employee;
+﻿using Application.DTOs.Employee;
 using Application.DTOs.User;
 using Application.IServices;
 using AutoMapper;

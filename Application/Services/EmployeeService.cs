@@ -206,7 +206,10 @@ public class EmployeeService : IEmployeeService
         if (employee is null)
             return null;
 
-        var role = await roleRepository.GetByIdAsync(employee.UserId);
+        var role = await roleRepository.GetByIdAsync(employee.RoleId);
+
+        if (role is null)
+            return null;
 
         var permissions = await rolePermissionService.GetPermissionsByRoleIdAsync(role.Id);
 

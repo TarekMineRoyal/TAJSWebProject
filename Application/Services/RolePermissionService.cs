@@ -74,16 +74,16 @@ public class RolePermissionService : IRolePermissionService
 
     public async Task<IEnumerable<Permission>?> GetPermissionsByRoleIdAsync(Guid roleId)
     {
-        var rolePermissionIds = await rolePermissionRepository.WhereAsync(x => x.RoleId == roleId.ToString());
+        var rolePermissions = await rolePermissionRepository.WhereAsync(x => x.RoleId == roleId.ToString());
 
-        if (rolePermissionIds is null)
+        if (rolePermissions is null)
             return null;
 
         var permissions = new List<Permission>();
 
-        foreach (var permissionId in rolePermissionIds)
+        foreach (var rolePermission in rolePermissions)
         {
-            permissions.Add(await permissionRepository.GetByIdAsync(permissionId.PermissionId));
+            permissions.Add(await permissionRepository.GetByIdAsync(rolePermission.PermissionId));
         }
 
         return permissions;
@@ -91,16 +91,16 @@ public class RolePermissionService : IRolePermissionService
 
     public async Task<IEnumerable<Permission>?> GetPermissionsByRoleIdAsync(string roleId)
     {
-        var permissionIds = await rolePermissionRepository.WhereAsync(x => x.RoleId == roleId.ToString());
+        var rolePermissions = await rolePermissionRepository.WhereAsync(x => x.RoleId == roleId.ToString());
 
-        if (permissionIds is null)
+        if (rolePermissions is null)
             return null;
 
         var permissions = new List<Permission>();
 
-        foreach (var permissionId in permissionIds)
+        foreach (var rolePermission in rolePermissions)
         {
-            permissions.Add(await permissionRepository.GetByIdAsync(roleId));
+            permissions.Add(await permissionRepository.GetByIdAsync(rolePermission.PermissionId));
         }
 
         return permissions;
