@@ -17,6 +17,4 @@ public class UpdatePostRequest
     public int? PostTypeId { get; set; }
 
     public string? Summary { get; set; }
-
-    public string? EmployeeId { get; set; }
 }
