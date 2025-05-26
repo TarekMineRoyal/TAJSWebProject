@@ -74,52 +74,6 @@ public class CustomerService : ICustomerService
         return user;
     }
 
-    public async Task<User?> ChangeEmailAsync(Guid id, string newEmail)
-    {
-        var user = await userRepository.GetByIdAsync(id);
-
-        if (user == null)
-            return null;
-
-        user.Email = newEmail;
-
-        await userRepository.SaveChangesAsync();
-
-        return user;
-    }
-
-    public User? ChangePassword(Guid id, string newPassword)
-    {
-        // Add Hashing the password
-
-        var user = userRepository.GetById(id);
-
-        if (user == null)
-            return null;
-
-        user.PasswordHash = newPassword;
-
-        userRepository.SaveChanges();
-
-        return user;
-    }
-
-    public async Task<User?> ChangePasswordAsync(Guid id, string newPassword)
-    {
-        // Add Hashing the password
-
-        var user = await userRepository.GetByIdAsync(id);
-
-        if (user == null)
-            return null;
-
-        user.PasswordHash = newPassword;
-
-        await userRepository.SaveChangesAsync();
-
-        return user;
-    }
-
     public Customer? DeleteCustomer(Guid id)
     {
         var customer = customerRepository.Remove(id);

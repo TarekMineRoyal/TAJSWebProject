@@ -2,7 +2,7 @@
 
 namespace Application.IServices;
 
-public interface ICustomerService : IUserService
+public interface ICustomerService
 {
     public Customer? GetCustomerById(Guid id);
 
