@@ -76,7 +76,7 @@ namespace Infrastructure.Migrations
                 {
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    name = table.Column<string>(type: "nvarchar(50)", nullable: false)
+                    name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -102,9 +102,9 @@ namespace Infrastructure.Migrations
                 {
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    slug = table.Column<string>(type: "nvarchar(50)", nullable: false),
+                    slug = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     isAvailable = table.Column<bool>(type: "bit", nullable: false),
-                    description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    description = table.Column<string>(type: "nvarchar(250)", maxLength: 50, nullable: false),
                     isPrivate = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -148,7 +148,7 @@ namespace Infrastructure.Migrations
                     mbw = table.Column<decimal>(type: "decimal(16,2)", nullable: false),
                     pph = table.Column<decimal>(type: "decimal(16,2)", nullable: false),
                     ppd = table.Column<decimal>(type: "decimal(16,2)", nullable: false),
-                    categoryId = table.Column<int>(type: "int", nullable: true)
+                    categoryId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -157,7 +157,8 @@ namespace Infrastructure.Migrations
                         name: "FK_Cars_Categories_categoryId",
                         column: x => x.categoryId,
                         principalTable: "Categories",
-                        principalColumn: "id");
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -200,8 +201,8 @@ namespace Infrastructure.Migrations
                     stops = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     mealsPlan = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     hotelsStays = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    regionId = table.Column<int>(type: "int", nullable: true),
-                    tripId = table.Column<int>(type: "int", nullable: true)
+                    regionId = table.Column<int>(type: "int", nullable: false),
+                    tripId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -210,12 +211,14 @@ namespace Infrastructure.Migrations
                         name: "FK_TripPlans_Regions_regionId",
                         column: x => x.regionId,
                         principalTable: "Regions",
-                        principalColumn: "id");
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_TripPlans_Trips_tripId",
                         column: x => x.tripId,
                         principalTable: "Trips",
-                        principalColumn: "id");
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(

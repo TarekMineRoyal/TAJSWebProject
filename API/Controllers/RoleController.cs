@@ -2,6 +2,7 @@
 using Application.IServices;
 using AutoMapper;
 using Domain.Entities;
+using Domain.Entities.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;

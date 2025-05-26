@@ -11,6 +11,8 @@ using Hotel_Restaurant_Reservation.API.OptionsSetup;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Infrastructure.AutoMapper;
 using Domain.Entities.AppEntities;
+using Hotel_Restaurant_Reservation.Infrastructure.Authentication;
+using Infrastructure.Repositories;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,11 +20,6 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
-<<<<<<< HEAD
-builder.Services.AddControllersWithViews(); 
-=======
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
->>>>>>> 7fa6cce8e9f093d84c3295cd73b8e4a1cda36e25
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -31,24 +28,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 builder.Services.ConfigureOptions<JwtOptionsSetup>();
 
 builder.Services.ConfigureOptions<JwtBearerOptionsSetup>();
-//builder.Services.AddScoped<CarService>();
-//builder.Services.AddScoped<CarBookingService>();
-//builder.Services.AddScoped<IPaymentService, PaymentService>();
-// Program.cs
-builder.Services.AddAutoMapper(
-    typeof(ImageShotProfile),
-    typeof(BookingProfile),
-    typeof(TripBookingProfile),
-    typeof(CategoryProfile),
-    typeof(CarProfile),
-    typeof(CarBookingProfile),
-    typeof(RegionProfile),
-    typeof(TripPlanProfile),
-    typeof(TripPlanCarProfile),
-    typeof(TripProfile),
-    typeof(PaymentProfile),
-    typeof(PaymentTransactionProfile)
-);
+
 builder.Services.AddScoped<IImageShotService, ImageShotService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddScoped<ITripBookingService, TripBookingService>();
@@ -67,7 +47,6 @@ builder.Services.AddScoped<IPaymentTransactionService, PaymentTransactionService
 builder.Services.AddScoped<IPostService, PostService>();
 builder.Services.AddScoped<ITagService, TagService>();
 builder.Services.AddScoped<IPostTypeService, PostTypeService>();
-<<<<<<< HEAD
 builder.Services.AddScoped<IJwtProvider, JwtProvider>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
@@ -75,11 +54,8 @@ builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 builder.Services.AddScoped<IRoleService, RoleService>();
 builder.Services.AddScoped<IPermissionService, PermissionService>();
 builder.Services.AddScoped<IRolePermissionService, RolePermissionService>();
-=======
->>>>>>> 7fa6cce8e9f093d84c3295cd73b8e4a1cda36e25
 
-// Register AutoMapper for all the profiles
-builder.Services.AddAutoMapper(typeof(Infrastructure.AssemplyReference).Assembly);
+builder.Services.AddAutoMapper(typeof(Application.AssemplyReference).Assembly);
 
 
 builder.Services.AddDbContext<TourAgencyDbContext>(options =>
@@ -89,12 +65,9 @@ builder.Services.AddDbContext<CustomIdentityDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Identity")));
 
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(SqlGenericRepository<>));
-<<<<<<< HEAD
 builder.Services.AddScoped(typeof(IUserManagerRepository<>), typeof(SqlUserManagerRepository<>));
 builder.Services.AddScoped(typeof(IRoleManagerRepository<>), typeof(SqlRoleManagerRepository<>));
 
-=======
->>>>>>> 7fa6cce8e9f093d84c3295cd73b8e4a1cda36e25
 builder.Services.AddScoped<ICarService, CarService>();  
 
 

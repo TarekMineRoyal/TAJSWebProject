@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Domain.Entities.Identity;
 using System.Runtime;
 
 namespace Application.IServices;

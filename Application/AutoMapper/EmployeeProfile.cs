@@ -1,6 +1,7 @@
 ﻿using Application.DTOs.Employee;
 using AutoMapper;
 using Domain.Entities;
+using Domain.Entities.AppEntities;
 
 namespace Application.AutoMapper;
 
