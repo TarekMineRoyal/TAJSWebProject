@@ -110,14 +110,4 @@ public class CustomerController : ControllerBase
         return Ok(customerResponse);
     }
 
-    [HttpPost("LogIn")]
-    public async Task<IActionResult> LogIn(string userName, string password)
-    {
-        var token = await customerService.LogInAsync(userName, password);
-
-        if (token == null)
-            return BadRequest();
-
-        return Ok(token);
-    }
 }

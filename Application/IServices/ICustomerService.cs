@@ -15,7 +15,6 @@ public interface ICustomerService
 
     public Customer? DeleteCustomer(Guid id);
 
-    public string? LogIn(string userName, string password);
 
 
     public Task<Customer?> GetCustomerByIdAsync(Guid id);
@@ -28,5 +27,4 @@ public interface ICustomerService
 
     public Task<Customer?> DeleteCustomerAsync(Guid id);
 
-    public Task<string> LogInAsync(string userName, string password);
 }

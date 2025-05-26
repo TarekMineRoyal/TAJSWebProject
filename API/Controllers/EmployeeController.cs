@@ -3,6 +3,7 @@ using Application.DTOs.User;
 using Application.IServices;
 using AutoMapper;
 using Domain.Entities;
+using Domain.Entities.AppEntities;
 using Domain.Entities.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -108,14 +109,4 @@ public class EmployeeController : ControllerBase
         return Ok(employeeResponse);
     }
 
-    [HttpPost("LogIn")]
-    public async Task<IActionResult> LogIn(string userName, string password)
-    {
-        var token = await employeeService.LogInAsync(userName, password);
-
-        if (token == null)
-            return BadRequest();
-
-        return Ok(token);
-    }
 }

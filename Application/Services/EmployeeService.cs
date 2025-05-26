@@ -1,6 +1,7 @@
 ﻿using Application.IRepositories;
 using Application.IServices;
 using Domain.Entities;
+using Domain.Entities.AppEntities;
 using Domain.Entities.Identity;
 
 namespace Application.Services;
@@ -9,16 +10,14 @@ public class EmployeeService : IEmployeeService
 {
     private readonly IUserManagerRepository<Employee> employeeRepository;
     private readonly IUserManagerRepository<User> userRepository;
-    private readonly IJwtProvider jwtProvider;
     private readonly IRoleManagerRepository<Role> roleRepository;
     private readonly IRolePermissionService rolePermissionService;
 
     public EmployeeService(IUserManagerRepository<Employee> employeeRepository, IUserManagerRepository<User> userRepository,
-        IJwtProvider jwtProvider, IRoleManagerRepository<Role> roleRepository, IRolePermissionService rolePermissionService)
+         IRoleManagerRepository<Role> roleRepository, IRolePermissionService rolePermissionService)
     {
         this.employeeRepository = employeeRepository;
         this.userRepository = userRepository;
-        this.jwtProvider = jwtProvider;
         this.roleRepository = roleRepository;
         this.rolePermissionService = rolePermissionService;
     }
@@ -172,53 +171,8 @@ public class EmployeeService : IEmployeeService
         return employee;
     }
 
-    public string? LogIn(string userName, string password)
-    {
-        // Need to discuss abou the employee and the employee and adding another JwtTokenProvider
-        var user = userRepository.GetFirstOrDefault(x => x.UserName == userName && x.PasswordHash == password);
-
-        if (user is null)
-            return null;
-
-        var employee = employeeRepository.GetFirstOrDefault(x => x.UserId == user.Id);
-
-        if (employee is null)
-            return null;
-
-        var role = roleRepository.GetById(employee.UserId);
-
-        var permissions = rolePermissionService.GetPermissionsByRoleId(role.Id);
-
-        var token = jwtProvider.Generate(user.Id, user.Email, null, permissions);
-
-        return token;
-    }
-
-    public async Task<string> LogInAsync(string userName, string password)
-    {
-        // Need to discuss abou the employee and the employee and adding another JwtTokenProvider
-        var user = await userRepository.GetFirstOrDefaultAsync(x => x.UserName == userName && x.PasswordHash == password);
-
-        if (user is null)
-            return null;
-
-        var employee = await employeeRepository.GetFirstOrDefaultAsync(x => x.UserId == user.Id);
-
-        if (employee is null)
-            return null;
-
-        var role = await roleRepository.GetByIdAsync(employee.RoleId);
-
-        if (role is null)
-            return null;
-
-        var permissions = await rolePermissionService.GetPermissionsByRoleIdAsync(role.Id);
-
-        var token = jwtProvider.Generate(user.Id, user.Email, null, permissions);
-
-        return token;
-    }
-
+    
+    
     public Employee? UpdateEmployee(Guid id, Employee employee)
     {
         var returnedEmployee = employeeRepository.Update(id, employee);

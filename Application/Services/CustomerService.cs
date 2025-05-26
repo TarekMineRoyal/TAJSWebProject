@@ -8,14 +8,12 @@ namespace Application.Services;
 public class CustomerService : ICustomerService
 {
     private readonly IUserManagerRepository<Customer> customerRepository;
-    private readonly IJwtProvider jwtProvider;
     private readonly IUserManagerRepository<User> userRepository;
 
-    public CustomerService(IUserManagerRepository<Customer> customerRepository, IJwtProvider jwtProvider,
+    public CustomerService(IUserManagerRepository<Customer> customerRepository, 
         IUserManagerRepository<User> userRepository)
     {
         this.customerRepository = customerRepository;
-        this.jwtProvider = jwtProvider;
         this.userRepository = userRepository;
     }
 
@@ -187,41 +185,7 @@ public class CustomerService : ICustomerService
         return customer;
     }
 
-    public string? LogIn(string userName, string password)
-    {
-        // Need to discuss abou the customer and the employee and adding another JwtTokenProvider
-        var user = userRepository.GetFirstOrDefault(x => x.UserName == userName && x.PasswordHash == password);
 
-        if (user is null)
-            return null;
-
-        var customer = customerRepository.GetFirstOrDefault(x => x.UserId == user.Id);
-
-        if(customer is null)
-            return null;
-
-        var token = jwtProvider.Generate(user.Id, user.Email, customer.PhoneNumber, null);
-
-        return token;
-    }
-
-    public async Task<string> LogInAsync(string userName, string password)
-    {
-        // Need to discuss abou the customer and the employee and adding another JwtTokenProvider
-        var user = await userRepository.GetFirstOrDefaultAsync(x => x.UserName == userName && x.PasswordHash == password);
-
-        if (user is null)
-            return null;
-
-        var customer = await customerRepository.GetFirstOrDefaultAsync(x => x.UserId == user.Id);
-
-        if (customer is null)
-            return null;
-
-        var token = jwtProvider.Generate(user.Id, user.Email, customer.PhoneNumber, null);
-
-        return token;
-    }
 
     public Customer? UpdateCustomer(Guid id, Customer customer)
     {

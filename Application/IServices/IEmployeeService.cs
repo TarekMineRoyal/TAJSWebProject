@@ -16,8 +16,7 @@ public interface IEmployeeService
 
     public Employee? DeleteEmployee(Guid employeeId);
 
-    public string? LogIn(string userName, string password);
-
+    
 
     public Task<Employee?> GetEmployeeByIdAsync(Guid id);
 
@@ -29,5 +28,4 @@ public interface IEmployeeService
 
     public Task<Employee?> DeleteEmployeeAsync(Guid id);
 
-    public Task<string> LogInAsync(string userName, string password);
 }
