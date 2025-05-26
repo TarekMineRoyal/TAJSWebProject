@@ -1,14 +1,12 @@
 ﻿using Application.IServices;
 using Domain.Entities;
-using Domain.Entities.AppEntities;
-using Domain.Entities.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace Hotel_Restaurant_Reservation.Infrastructure.Authentication;
+namespace Infrastructure.Authentication;
 
 public class JwtProvider : IJwtProvider
 {

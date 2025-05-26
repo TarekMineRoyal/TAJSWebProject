@@ -1,6 +1,8 @@
-﻿using Application.IRepositories;
-using Application.IServices;
+﻿using Application.IServices;
+using Domain.Entities;
+using Application.IRepositories;
 using Domain.Entities.Identity;
+
 
 namespace Application.Services;
 

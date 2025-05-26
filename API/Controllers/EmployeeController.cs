@@ -3,7 +3,6 @@ using Application.DTOs.User;
 using Application.IServices;
 using AutoMapper;
 using Domain.Entities;
-using Domain.Entities.AppEntities;
 using Domain.Entities.Identity;
 using Microsoft.AspNetCore.Mvc;
 

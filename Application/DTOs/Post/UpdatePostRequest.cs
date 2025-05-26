@@ -12,15 +12,9 @@ public class UpdatePostRequest
 
     public string? Slug { get; set; }
 
-    public int Views { get; set; }
-
     public PostStatus? Status { get; set; }
 
     public int? PostTypeId { get; set; }
 
     public string? Summary { get; set; }
-
-    public DateTime PublishDate { get; set; }
-
-    public string? EmployeeId { get; set; }
 }

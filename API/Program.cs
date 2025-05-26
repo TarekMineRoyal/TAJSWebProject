@@ -1,23 +1,21 @@
 using Microsoft.EntityFrameworkCore;
-using AutoMapper;
 using Application.IServices;
-using Application.Profiles;
 using Application.Services;
 using Infrastructure.DataAccess;
 using Infrastructure.DataAccess.Repositories;
 using Application.IRepositories;
 using Infrastructure;
-using Hotel_Restaurant_Reservation.API.OptionsSetup;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Infrastructure.AutoMapper;
 using Domain.Entities.AppEntities;
 using Hotel_Restaurant_Reservation.Infrastructure.Authentication;
 using Infrastructure.Repositories;
+using Infrastructure.Repositories;
+using Infrastructure.Authentication;
+using API.OptionsSetup;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -74,7 +72,6 @@ builder.Services.AddScoped<ICarService, CarService>();
 var app = builder.Build();
 
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     using var scope = app.Services.CreateScope();

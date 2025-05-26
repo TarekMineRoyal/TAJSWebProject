@@ -1,5 +1,6 @@
 ﻿using Application.IRepositories;
 using Application.IServices;
+using Domain.Entities;
 using Domain.Entities.AppEntities;
 
 namespace Application.Services;
@@ -20,8 +21,20 @@ public class PostService : IPostService
         this.tagRepository = tagRepository;
     }
 
-    public Post AddPost(Post post)
+    private Post InitiatePost(Post post, Guid? employeeId, PostStatus? postStatus, int views)
     {
+        post.EmployeeId = employeeId.ToString();
+        post.Status = postStatus;
+        post.PublishDate = DateTime.Now;
+        post.Views = views;
+
+        return post;
+    }
+
+    public Post? AddPost(Post post, Guid employeeId)
+    {
+        post = InitiatePost(post, employeeId, PostStatus.Pending, 0);
+
         var returnedPpost = postRepository.Add(post);
 
         postRepository.SaveChanges();
@@ -29,8 +42,10 @@ public class PostService : IPostService
         return returnedPpost;
     }
 
-    public async Task<Post> AddPostAsync(Post post)
+    public async Task<Post?> AddPostAsync(Post post, Guid employeeId)
     {
+        post = InitiatePost(post, employeeId, PostStatus.Pending, 0);
+
         var returnedPpost = await postRepository.AddAsync(post);
 
         postRepository.SaveChanges();
@@ -38,7 +53,7 @@ public class PostService : IPostService
         return returnedPpost;
     }
 
-    public SeoMetadata AddSEOMetaDataToPost(int postId, SeoMetadata seoMetadata)
+    public SeoMetadata? AddSEOMetaDataToPost(int postId, SeoMetadata seoMetadata)
     {
         seoMetadata.PostId = postId;
 
@@ -48,7 +63,7 @@ public class PostService : IPostService
         return returnedSeoMetaData;
     }
 
-    public async Task<SeoMetadata> AddSEOMetaDataToPostAsync(int postId, SeoMetadata seoMetadata)
+    public async Task<SeoMetadata?> AddSEOMetaDataToPostAsync(int postId, SeoMetadata seoMetadata)
     {
         seoMetadata.PostId = postId;
 
@@ -58,7 +73,7 @@ public class PostService : IPostService
         return returnedSeoMetaData;
     }
 
-    public IEnumerable<Tag> AddTagsToPost(int postId, IEnumerable<int> tagIds)
+    public IEnumerable<Tag>? AddTagsToPost(int postId, IEnumerable<int> tagIds)
     {
         var postTags = new List<PostTag>();
 
@@ -86,7 +101,7 @@ public class PostService : IPostService
         return tags;
     }
 
-    public async Task<IEnumerable<Tag>> AddTagsToPostAsync(int postId, IEnumerable<int> tagIds)
+    public async Task<IEnumerable<Tag>?> AddTagsToPostAsync(int postId, IEnumerable<int> tagIds)
     {
         var postTags = new List<PostTag>();
 
@@ -114,41 +129,66 @@ public class PostService : IPostService
         return tags;
     }
 
-    public Post? DeletePost(int id)
+    public Post? DeletePost(int id, Guid employeeId)
     {
-        var returnedPost = postRepository.Remove(id);
+        //var returnedPost = postRepository.Remove(id);
+
+        var deletedPost = postRepository.GetById(id);
+
+        if(deletedPost == null) 
+            return null;
+
+        deletedPost = InitiatePost(deletedPost, employeeId, PostStatus.Deleted, deletedPost.Views);
+
+        deletedPost = postRepository.Update(id, deletedPost);
 
         postRepository.SaveChanges();
 
-        return returnedPost;
+        return deletedPost;
     }
 
-    public Task<Post?> DeletePostAsync(int id)
+    public async Task<Post?> DeletePostAsync(int id, Guid employeeId)
     {
-        var returnedPost = postRepository.RemoveAsync(id);
+        //var returnedPost = postRepository.RemoveAsync(id);
 
-        postRepository.SaveChangesAsync();
+        var deletedPost = await postRepository.GetByIdAsync(id);
 
-        return returnedPost;
+        if (deletedPost == null)
+            return null;
+
+        deletedPost = InitiatePost(deletedPost, employeeId, PostStatus.Deleted, deletedPost.Views);
+
+        deletedPost = await postRepository.UpdateAsync(id, deletedPost);
+
+        await postRepository.SaveChangesAsync();
+
+        return deletedPost;
     }
 
-    public SeoMetadata DeleteSEOMetaDataFromPost(int postId, int seoMetaDataId)
+    public SeoMetadata? DeleteSEOMetaDataFromPost(int postId, int seoMetaDataId)
     {
         var returnedSEOMetaData = seoMetaDataRepository.Remove(seoMetaDataId);
+
+        if (returnedSEOMetaData == null)
+            return null;
+
         postRepository.SaveChanges();
 
         return returnedSEOMetaData;
     }
 
-    public async Task<SeoMetadata> DeleteSEOMetaDataFromPostAsync(int postId, int seoMetaDataId)
+    public async Task<SeoMetadata?> DeleteSEOMetaDataFromPostAsync(int postId, int seoMetaDataId)
     {
         var returnedSEOMetaData = seoMetaDataRepository.Remove(seoMetaDataId);
         await postRepository.SaveChangesAsync();
 
+        if(returnedSEOMetaData == null)
+            return null;
+
         return returnedSEOMetaData;
     }
 
-    public IEnumerable<Tag> DeleteTagsFromPost(int postId, IEnumerable<int> tagIds)
+    public IEnumerable<Tag>? DeleteTagsFromPost(int postId, IEnumerable<int> tagIds)
     {
         var postTags = new List<PostTag>();
 
@@ -170,7 +210,7 @@ public class PostService : IPostService
         return tags;
     }
 
-    public async Task<IEnumerable<Tag>> DeleteTagsFromPostAsync(int postId, IEnumerable<int> tagIds)
+    public async Task<IEnumerable<Tag>?> DeleteTagsFromPostAsync(int postId, IEnumerable<int> tagIds)
     {
         var postTags = new List<PostTag>();
 
@@ -212,9 +252,10 @@ public class PostService : IPostService
         return postRepository.GetByIdAsync(id);
     }
 
-    public Post UpdatePost(int id, Post post)
+    public Post? UpdatePost(int id, Post post, Guid employeeId)
     {
         post.Id = id;
+        post = InitiatePost(post, employeeId, post.Status, post.Views);
 
         var updatedPost = postRepository.Update(id, post);
 
@@ -223,9 +264,10 @@ public class PostService : IPostService
         return updatedPost;
     }
 
-    public async Task<Post> UpdatePostAsync(int id, Post post)
+    public async Task<Post?> UpdatePostAsync(int id, Post post, Guid employeeId)
     {
         post.Id = id;
+        post = InitiatePost(post, employeeId, post.Status, post.Views);
 
         var updatedPost = await postRepository.UpdateAsync(id, post);
 
@@ -234,7 +276,7 @@ public class PostService : IPostService
         return updatedPost;
     }
 
-    public SeoMetadata UpdateSEOMetaDataToPost(int postId, SeoMetadata seoMetadata)
+    public SeoMetadata? UpdateSEOMetaDataToPost(int postId, SeoMetadata seoMetadata)
     {
         var returnedSEOMetaData = seoMetaDataRepository.Update(seoMetadata.Id, seoMetadata);
         seoMetaDataRepository.SaveChanges();
@@ -242,7 +284,7 @@ public class PostService : IPostService
         return returnedSEOMetaData;
     }
 
-    public async Task<SeoMetadata> UpdateSEOMetaDataToPostAsync(int postId, SeoMetadata seoMetadata)
+    public async Task<SeoMetadata?> UpdateSEOMetaDataToPostAsync(int postId, SeoMetadata seoMetadata)
     {
         var returnedSEOMetaData = await seoMetaDataRepository.GetFirstOrDefaultAsync(x => x.PostId == postId);
 
@@ -257,5 +299,69 @@ public class PostService : IPostService
 
 
         return returnedSEOMetaData;
+    }
+
+    public Post? AddViewToPost(int postId)
+    {
+        var post = postRepository.GetById(postId);
+
+        if (post == null) 
+            return null;
+
+        post.Views += 1;
+
+        post = postRepository.Update(postId, post);
+
+        postRepository.SaveChanges();
+
+        return post;
+    }
+
+    public async Task<Post?> AddViewToPostAsync(int postId)
+    {
+        var post = await postRepository.GetByIdAsync(postId);
+
+        if (post == null)
+            return null;
+
+        post.Views += 1;
+
+        post = await postRepository.UpdateAsync(postId, post);
+
+        await postRepository.SaveChangesAsync();
+
+        return post;
+    }
+
+    public Post? UpdatePostStatus(int postId, PostStatus postStatus, Guid employeeId)
+    {
+        var post = postRepository.GetById(postId);
+
+        if(post == null)
+            return null;
+
+        post = InitiatePost(post, employeeId, postStatus, post.Views);
+
+        post = postRepository.Update(postId, post);
+
+        postRepository.SaveChanges();
+
+        return post;
+    }
+
+    public async Task<Post?> UpdatePostStatusAsync(int postId, PostStatus postStatus, Guid employeeId)
+    {
+        var post = await postRepository.GetByIdAsync(postId);
+
+        if (post == null)
+            return null;
+
+        post = InitiatePost(post, employeeId, postStatus, post.Views);
+
+        post = await postRepository.UpdateAsync(postId, post);
+
+        await postRepository.SaveChangesAsync();
+
+        return post;
     }
 }
