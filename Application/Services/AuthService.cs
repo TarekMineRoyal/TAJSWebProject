@@ -16,9 +16,9 @@ namespace Application.Services
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-        private readonly IGenericRepository<User> _userRepository;
+        private readonly IUserManagerRepository<User> _userRepository;
 
-        public AuthService(UserManager<User> userManager, SignInManager<User> signInManager, IGenericRepository<User> userRepository)
+        public AuthService(UserManager<User> userManager, SignInManager<User> signInManager, IUserManagerRepository<User> userRepository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -40,8 +40,10 @@ namespace Application.Services
             };
             var result = await _userManager.CreateAsync(user, dto.Password);
             if (result.Succeeded)
-            {
-                await _userManager.AddToRoleAsync(user, dto.Role);
+            {   
+                await _userManager.AddToRoleAsync(user, "Customer");
+                user = await _userRepository.AddAsync(user);
+                await _userRepository.SaveChangesAsync();
             }
             return result;
         }

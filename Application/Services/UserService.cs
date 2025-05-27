@@ -2,6 +2,7 @@
 using Domain.Entities;
 using Application.IRepositories;
 using Domain.Entities.Identity;
+using System.Threading.Tasks;
 
 
 namespace Application.Services;
@@ -13,6 +14,12 @@ public class UserService : IUserService
     public UserService(IUserManagerRepository<User> userRepository)
     {
         this.userRepository = userRepository;
+    }
+    
+    public User? GetByEmail(string email)
+    {
+        return userRepository.GetFirstOrDefault(user =>  user.Email == email);
+        
     }
 
     public User? ChangeEmail(Guid id, string newEmail)

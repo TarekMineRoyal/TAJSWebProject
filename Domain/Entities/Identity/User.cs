@@ -10,7 +10,7 @@ public class User : IdentityUser
     [Required]
     public string LastName { get; set; }
 
-
+    
     public string Name { get; set; }
 
 

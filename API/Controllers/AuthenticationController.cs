@@ -1,5 +1,6 @@
 ﻿using Application.DTOs.User;
 using Application.IServices;
+using Application.Services;
 using Infrastructure.Authentication;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -14,13 +15,16 @@ namespace API.Controllers
     {
         private readonly IAuthService _authService;
         private readonly IJwtTokenGenerator _jwtTokenGenerator;
+        private readonly IUserService _userService;
 
         public AuthenticationController(
             IAuthService authService,
-            IJwtTokenGenerator jwtTokenGenerator)
+            IJwtTokenGenerator jwtTokenGenerator,
+            IUserService userService)
         {
             _authService = authService;
             _jwtTokenGenerator = jwtTokenGenerator;
+            _userService = userService;
         }
 
         [HttpPost("login")]
@@ -29,17 +33,28 @@ namespace API.Controllers
             var result = await _authService.LoginAsync(dto);
             if (result.Succeeded)
             {
-
-                /*var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-                var role = HttpContext.User.FindFirst(ClaimTypes.Role)?.Value;*/
-
-                var token = _jwtTokenGenerator.GenerateToken();
+                var token = _jwtTokenGenerator.GenerateToken(dto.Email);
 
                 return Ok(token);
             }
             return BadRequest();
 
         }
+
+        [HttpPost("register")]
+        public async Task<IActionResult> RegisterAsync([FromBody] UserRegisterDto dto)
+        {
+            var user = _userService.GetByEmail(dto.Email);
+            if (user is not null)
+            {
+                return BadRequest("User with this email is already exist.");
+            }
+            await _authService.RegisterAsync(dto);
+            var token = _jwtTokenGenerator.GenerateToken(dto.Email);
+
+            return Ok(token);
+        }
+
         [HttpPost("logout")]
         public async Task<IActionResult> Logout()
         {

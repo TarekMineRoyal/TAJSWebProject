@@ -20,8 +20,6 @@ namespace Application.DTOs.User
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
-        [Required]
-        public string Role { get; set; }
         public string Address { get; set; }
     }
 }

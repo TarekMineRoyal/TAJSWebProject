@@ -13,7 +13,7 @@ namespace Infrastructure.Seeds
     {
         public static async Task SeedRolesAndAdmin(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
         {
-            string[] roleNames = { "Admin", "User" };
+            string[] roleNames = { "Admin", "Customer", "Employee" };
 
             foreach (var roleName in roleNames)
             {
@@ -43,6 +43,29 @@ namespace Infrastructure.Seeds
                 if (result.Succeeded)
                 {
                     await userManager.AddToRoleAsync(user, "Admin");
+                }
+            }
+
+            var customerEmail = "customer@domain.com";
+            var customerUser = await userManager.FindByEmailAsync(customerEmail);
+            if (customerUser == null)
+            {
+                var user = new User
+                {
+                    UserName = customerEmail,
+                    FirstName = "Customer",
+                    LastName = "Customer",
+
+                    Email = customerEmail,
+                    Name = "Customer User",
+                    Address = "any address",
+                };
+
+                var result = await userManager.CreateAsync(user, "Customer123!");
+
+                if (result.Succeeded)
+                {
+                    await userManager.AddToRoleAsync(user, "Customer");
                 }
             }
         }

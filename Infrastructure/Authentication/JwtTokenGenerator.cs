@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Application.DTOs.User;
+using Application.IServices;
+using Domain.Entities.Identity;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -12,19 +15,29 @@ namespace Infrastructure.Authentication
     public class JwtTokenGenerator : IJwtTokenGenerator
     {
         private readonly IConfiguration _configuration;
+        private readonly IUserService _userService;
 
-        public JwtTokenGenerator(IConfiguration configuration)
+        public JwtTokenGenerator(IConfiguration configuration, IUserService userService)
         {
             _configuration = configuration;
+            _userService = userService;
         }
 
-        public string GenerateToken()
+        public string GenerateToken(string email, string role = "Customer")
         {
+            var user = _userService.GetByEmail(email);
+
+            if (user == null)
+            {
+                throw new ArgumentException($"User with email {email} not found");
+            }
+
             var claims = new[]
             {
-/*            new Claim(JwtRegisteredClaimNames.Sub, userId),
-            new Claim(ClaimTypes.NameIdentifier, userId),
-            new Claim(ClaimTypes.Role, role),*/
+            //new Claim(JwtRegisteredClaimNames.Sub, userDto.Id),
+            new Claim(ClaimTypes.NameIdentifier, user.Id),
+            new Claim(ClaimTypes.Role, role),
+            new Claim(ClaimTypes.Name, user.Name),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
 
