@@ -1,7 +1,6 @@
 ﻿using Application.DTOs.User;
 using Application.IServices;
 using AutoMapper;
-using Domain.Entities.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -17,52 +16,6 @@ public class UserController : ControllerBase
     {
         this.mapper = mapper;
         this.userService = userService;
-    }
-
-    [HttpGet]
-    public async Task<IActionResult> GetAllUsers()
-    {
-        var users = await userService.GetAllUsersAsync();
-
-        var userResponses = mapper.Map<IEnumerable<UserResponse>>(users);
-
-        return Ok(userResponses);
-    }
-
-    [HttpGet]
-    [Route("{id:guid}")]
-    public async Task<IActionResult> GetUserById(Guid id)
-    {
-        var users = await userService.GetUserByIdAsync(id);
-
-        var userResponses = mapper.Map<UserResponse>(users);
-
-        return Ok(userResponses);
-    }
-
-    [HttpPost("SignUp")]
-    public async Task<IActionResult> SignUp(SignUpUserRequest signUpUserRequest)
-    {
-        var user = mapper.Map<User>(signUpUserRequest);
-
-        user = await userService.SignupAsync(user);
-
-        var userResponse = mapper.Map<UserResponse>(user);
-
-        return Ok(userResponse);
-    }
-
-    [HttpPost("LogIn")]
-    public async Task<IActionResult> LogIn(string userName, string password)
-    {
-        var token = await userService.LogInAsync(userName, password);
-
-        if(token != null)
-        {
-            return Ok(token);
-        }
-
-        return BadRequest();
     }
 
     [HttpPut]
@@ -85,21 +38,5 @@ public class UserController : ControllerBase
         var userResponse = mapper.Map<UserResponse>(user);
 
         return Ok(userResponse);
-    }
-
-    [HttpDelete]
-    [Route("{id:guid}")]
-    public async Task<IActionResult> Delete(Guid id)
-    {
-        var user = await userService.DeleteUserAsync(id);
-
-        if(user != null)
-        {
-            var userResponse = mapper.Map<UserResponse>(user);
-
-            return Ok(userResponse);
-        }
-
-        return BadRequest();
     }
 }

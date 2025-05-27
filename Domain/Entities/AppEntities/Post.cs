@@ -76,7 +76,7 @@ namespace Domain.Entities.AppEntities
 
         public PostType? PostType { get; set; }
 
-        public Employee? Employee { get; set; }
+        //public Employee? Employee { get; set; }
 
     }
 }

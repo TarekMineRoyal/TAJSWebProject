@@ -18,10 +18,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 builder.Services.AddControllers();
-<<<<<<< HEAD
-=======
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
->>>>>>> parent of cd0f207 (Samrah Gay)
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
@@ -69,15 +65,12 @@ builder.Services.AddScoped<IPaymentTransactionService, PaymentTransactionService
 builder.Services.AddScoped<IPostService, PostService>();
 builder.Services.AddScoped<ITagService, TagService>();
 builder.Services.AddScoped<IPostTypeService, PostTypeService>();
-<<<<<<< HEAD
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 builder.Services.AddScoped<IRoleService, RoleService>();
 builder.Services.AddScoped<IPermissionService, PermissionService>();
 builder.Services.AddScoped<IRolePermissionService, RolePermissionService>();
-=======
->>>>>>> parent of cd0f207 (Samrah Gay)
 
 builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
 builder.Services.AddScoped<IAuthService, AuthService>();
@@ -89,11 +82,11 @@ builder.Services.AddAutoMapper(typeof(Application.AssemplyReference).Assembly);
 
 builder.Services.AddDbContext<TourAgencyDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("MainDatabase")));
-builder.Services.AddDbContext<IUserDbContext>(options =>
+
+builder.Services.AddDbContext<CustomIdentityDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Identity")));
 
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(SqlGenericRepository<>));
-<<<<<<< HEAD
 builder.Services.AddScoped(typeof(IUserManagerRepository<>), typeof(SqlUserManagerRepository<>));
 builder.Services.AddScoped(typeof(IRoleManagerRepository<>), typeof(SqlRoleManagerRepository<>));
 
@@ -108,9 +101,6 @@ builder.Services.AddIdentity<User, IdentityRole>(
     .AddEntityFrameworkStores<CustomIdentityDbContext>()
     .AddDefaultTokenProviders()
     .AddRoles<IdentityRole>();
-=======
-builder.Services.AddScoped<ICarService, CarService>();  
->>>>>>> parent of cd0f207 (Samrah Gay)
 
 
 builder.Services.AddScoped<ICarService, CarService>();

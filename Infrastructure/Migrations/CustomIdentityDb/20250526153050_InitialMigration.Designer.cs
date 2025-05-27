@@ -9,17 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Infrastructure.Migrations.IUserDb
+namespace Infrastructure.Migrations.CustomIdentityDb
 {
-<<<<<<<< HEAD:Infrastructure/Migrations/IUserDb/20250526153050_InitialMigration.Designer.cs
     [DbContext(typeof(CustomIdentityDbContext))]
     [Migration("20250526153050_InitialMigration")]
     partial class InitialMigration
-========
-    [DbContext(typeof(IUserDbContext))]
-    [Migration("20250521214321_IdentityMigration")]
-    partial class IdentityMigration
->>>>>>>> parent of cd0f207 (Samrah Gay):Infrastructure/Migrations/IUserDb/20250521214321_IdentityMigration.Designer.cs
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,7 +25,6 @@ namespace Infrastructure.Migrations.IUserDb
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-<<<<<<<< HEAD:Infrastructure/Migrations/IUserDb/20250526153050_InitialMigration.Designer.cs
             modelBuilder.Entity("Domain.Entities.AppEntities.Customer", b =>
                 {
                     b.Property<string>("UserId")
@@ -115,9 +108,6 @@ namespace Infrastructure.Migrations.IUserDb
                 });
 
             modelBuilder.Entity("Domain.Entities.Identity.User", b =>
-========
-            modelBuilder.Entity("Domain.Entities.User", b =>
->>>>>>>> parent of cd0f207 (Samrah Gay):Infrastructure/Migrations/IUserDb/20250521214321_IdentityMigration.Designer.cs
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -182,16 +172,11 @@ namespace Infrastructure.Migrations.IUserDb
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-<<<<<<<< HEAD:Infrastructure/Migrations/IUserDb/20250526153050_InitialMigration.Designer.cs
             modelBuilder.Entity("Domain.Entities.Permission", b =>
-========
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
->>>>>>>> parent of cd0f207 (Samrah Gay):Infrastructure/Migrations/IUserDb/20250521214321_IdentityMigration.Designer.cs
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-<<<<<<<< HEAD:Infrastructure/Migrations/IUserDb/20250526153050_InitialMigration.Designer.cs
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -221,28 +206,6 @@ namespace Infrastructure.Migrations.IUserDb
                     b.HasIndex("RoleId");
 
                     b.ToTable("RolePermissions");
-========
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NormalizedName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedName")
-                        .IsUnique()
-                        .HasDatabaseName("RoleNameIndex")
-                        .HasFilter("[NormalizedName] IS NOT NULL");
-
-                    b.ToTable("AspNetRoles", (string)null);
->>>>>>>> parent of cd0f207 (Samrah Gay):Infrastructure/Migrations/IUserDb/20250521214321_IdentityMigration.Designer.cs
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -351,7 +314,6 @@ namespace Infrastructure.Migrations.IUserDb
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-<<<<<<<< HEAD:Infrastructure/Migrations/IUserDb/20250526153050_InitialMigration.Designer.cs
             modelBuilder.Entity("Domain.Entities.AppEntities.Customer", b =>
                 {
                     b.HasOne("Domain.Entities.Identity.User", "User")
@@ -404,11 +366,6 @@ namespace Infrastructure.Migrations.IUserDb
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Domain.Entities.Identity.Role", null)
-========
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
->>>>>>>> parent of cd0f207 (Samrah Gay):Infrastructure/Migrations/IUserDb/20250521214321_IdentityMigration.Designer.cs
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -435,11 +392,7 @@ namespace Infrastructure.Migrations.IUserDb
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
-<<<<<<<< HEAD:Infrastructure/Migrations/IUserDb/20250526153050_InitialMigration.Designer.cs
                     b.HasOne("Domain.Entities.Identity.Role", null)
-========
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
->>>>>>>> parent of cd0f207 (Samrah Gay):Infrastructure/Migrations/IUserDb/20250521214321_IdentityMigration.Designer.cs
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -460,14 +413,11 @@ namespace Infrastructure.Migrations.IUserDb
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
-<<<<<<<< HEAD:Infrastructure/Migrations/IUserDb/20250526153050_InitialMigration.Designer.cs
 
             modelBuilder.Entity("Domain.Entities.Identity.Role", b =>
                 {
                     b.Navigation("RolePermissions");
                 });
-========
->>>>>>>> parent of cd0f207 (Samrah Gay):Infrastructure/Migrations/IUserDb/20250521214321_IdentityMigration.Designer.cs
 #pragma warning restore 612, 618
         }
     }
