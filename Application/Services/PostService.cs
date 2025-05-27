@@ -254,24 +254,26 @@ public class PostService : IPostService
 
     public Post? UpdatePost(int id, Post post, Guid employeeId)
     {
+<<<<<<< HEAD
         post.Id = id;
         post = InitiatePost(post, employeeId, post.Status, post.Views);
 
+=======
+>>>>>>> parent of cd0f207 (Samrah Gay)
         var updatedPost = postRepository.Update(id, post);
-
-        postRepository.SaveChanges();
 
         return updatedPost;
     }
 
     public async Task<Post?> UpdatePostAsync(int id, Post post, Guid employeeId)
     {
+<<<<<<< HEAD
         post.Id = id;
         post = InitiatePost(post, employeeId, post.Status, post.Views);
 
+=======
+>>>>>>> parent of cd0f207 (Samrah Gay)
         var updatedPost = await postRepository.UpdateAsync(id, post);
-
-        await postRepository.SaveChangesAsync();
 
         return updatedPost;
     }
@@ -284,19 +286,14 @@ public class PostService : IPostService
         return returnedSEOMetaData;
     }
 
+<<<<<<< HEAD
     public async Task<SeoMetadata?> UpdateSEOMetaDataToPostAsync(int postId, SeoMetadata seoMetadata)
+=======
+    public Task<SeoMetadata> UpdateSEOMetaDataToPostAsync(int postId, SeoMetadata seoMetadata)
+>>>>>>> parent of cd0f207 (Samrah Gay)
     {
-        var returnedSEOMetaData = await seoMetaDataRepository.GetFirstOrDefaultAsync(x => x.PostId == postId);
-
-        if (returnedSEOMetaData == null)
-            return null;
-
-        seoMetadata.Id = returnedSEOMetaData.Id;
-        seoMetadata.PostId = postId;
-
-        returnedSEOMetaData = await seoMetaDataRepository.UpdateAsync(seoMetadata.Id, seoMetadata);
-        await seoMetaDataRepository.SaveChangesAsync();
-
+        var returnedSEOMetaData = seoMetaDataRepository.UpdateAsync(seoMetadata.Id, seoMetadata);
+        seoMetaDataRepository.SaveChangesAsync();
 
         return returnedSEOMetaData;
     }

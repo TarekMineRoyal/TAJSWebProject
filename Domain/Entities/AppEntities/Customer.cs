@@ -13,6 +13,7 @@ namespace Domain.Entities.AppEntities
     {
         public Customer()
         {
+            Bookings = new HashSet<Booking>();
         }
         [Key, Column("id", TypeName = "nvarchar(450)")]
         [ForeignKey("User")]
@@ -34,8 +35,6 @@ namespace Domain.Entities.AppEntities
         [Column("Country")]
         public string? Country { get; set; }
 
-        public User User { get; set; }
-
-        //public ICollection<Booking> Bookings { get; set; }
+        public ICollection<Booking> Bookings { get; set; }
     }
 }

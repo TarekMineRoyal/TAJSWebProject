@@ -8,10 +8,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Infrastructure.Migrations.CustomIdentityDb
+namespace Infrastructure.Migrations.IUserDb
 {
-    [DbContext(typeof(CustomIdentityDbContext))]
-    partial class CustomIdentityDbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(IUserDbContext))]
+    partial class IUserDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -22,6 +22,7 @@ namespace Infrastructure.Migrations.CustomIdentityDb
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+<<<<<<< HEAD:Infrastructure/Migrations/CustomIdentityDb/CustomIdentityDbContextModelSnapshot.cs
             modelBuilder.Entity("Domain.Entities.AppEntities.Customer", b =>
                 {
                     b.Property<string>("UserId")
@@ -78,6 +79,9 @@ namespace Infrastructure.Migrations.CustomIdentityDb
                 });
 
             modelBuilder.Entity("Domain.Entities.Identity.User", b =>
+=======
+            modelBuilder.Entity("Domain.Entities.User", b =>
+>>>>>>> parent of cd0f207 (Samrah Gay):Infrastructure/Migrations/IUserDb/IUserDbContextModelSnapshot.cs
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -158,6 +162,7 @@ namespace Infrastructure.Migrations.CustomIdentityDb
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+<<<<<<< HEAD:Infrastructure/Migrations/CustomIdentityDb/CustomIdentityDbContextModelSnapshot.cs
             modelBuilder.Entity("Domain.Entities.Permission", b =>
                 {
                     b.Property<string>("Id")
@@ -194,6 +199,8 @@ namespace Infrastructure.Migrations.CustomIdentityDb
                     b.ToTable("RolePermissions");
                 });
 
+=======
+>>>>>>> parent of cd0f207 (Samrah Gay):Infrastructure/Migrations/IUserDb/IUserDbContextModelSnapshot.cs
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -203,11 +210,14 @@ namespace Infrastructure.Migrations.CustomIdentityDb
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
+<<<<<<< HEAD:Infrastructure/Migrations/CustomIdentityDb/CustomIdentityDbContextModelSnapshot.cs
                     b.Property<string>("Discriminator")
                         .IsRequired()
                         .HasMaxLength(13)
                         .HasColumnType("nvarchar(13)");
 
+=======
+>>>>>>> parent of cd0f207 (Samrah Gay):Infrastructure/Migrations/IUserDb/IUserDbContextModelSnapshot.cs
                     b.Property<string>("Name")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -224,10 +234,13 @@ namespace Infrastructure.Migrations.CustomIdentityDb
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+<<<<<<< HEAD:Infrastructure/Migrations/CustomIdentityDb/CustomIdentityDbContextModelSnapshot.cs
 
                     b.HasDiscriminator().HasValue("IdentityRole");
 
                     b.UseTphMappingStrategy();
+=======
+>>>>>>> parent of cd0f207 (Samrah Gay):Infrastructure/Migrations/IUserDb/IUserDbContextModelSnapshot.cs
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -336,6 +349,7 @@ namespace Infrastructure.Migrations.CustomIdentityDb
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+<<<<<<< HEAD:Infrastructure/Migrations/CustomIdentityDb/CustomIdentityDbContextModelSnapshot.cs
             modelBuilder.Entity("Domain.Entities.Identity.Role", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityRole");
@@ -392,6 +406,8 @@ namespace Infrastructure.Migrations.CustomIdentityDb
                     b.Navigation("Role");
                 });
 
+=======
+>>>>>>> parent of cd0f207 (Samrah Gay):Infrastructure/Migrations/IUserDb/IUserDbContextModelSnapshot.cs
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -442,11 +458,14 @@ namespace Infrastructure.Migrations.CustomIdentityDb
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
+<<<<<<< HEAD:Infrastructure/Migrations/CustomIdentityDb/CustomIdentityDbContextModelSnapshot.cs
 
             modelBuilder.Entity("Domain.Entities.Identity.Role", b =>
                 {
                     b.Navigation("RolePermissions");
                 });
+=======
+>>>>>>> parent of cd0f207 (Samrah Gay):Infrastructure/Migrations/IUserDb/IUserDbContextModelSnapshot.cs
 #pragma warning restore 612, 618
         }
     }

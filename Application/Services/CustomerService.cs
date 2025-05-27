@@ -7,11 +7,20 @@ namespace Application.Services;
 
 public class CustomerService : ICustomerService
 {
+<<<<<<< HEAD
     private readonly IUserManagerRepository<Customer> customerRepository;
     private readonly IUserManagerRepository<User> userRepository;
 
     public CustomerService(IUserManagerRepository<Customer> customerRepository, 
         IUserManagerRepository<User> userRepository)
+=======
+    private readonly IGenericRepository<Customer> customerRepository;
+    private readonly IJwtProvider jwtProvider;
+    private readonly IGenericRepository<User> userRepository;
+
+    public CustomerService(IGenericRepository<Customer> customerRepository, IJwtProvider jwtProvider, 
+        IGenericRepository<User> userRepository)
+>>>>>>> parent of cd0f207 (Samrah Gay)
     {
         this.customerRepository = customerRepository;
         this.userRepository = userRepository;
@@ -19,98 +28,49 @@ public class CustomerService : ICustomerService
 
     public Customer AddCustomer(User user, Customer customer)
     {
-        //var returnedUser = userRepository.GetFirstOrDefault(x => x.UserName == user.UserName 
-        //&& x.PasswordHash == user.PasswordHash);
-
-        //if (returnedUser == null)
-        //{
-        //    returnedUser = userRepository.Add(user);
-        //}
-
-        //customer.UserId = returnedUser.Id;
+        customer.UserId = user.Id;
 
         var returnedCustomer = customerRepository.Add(customer);
 
         customerRepository.SaveChanges();
-
-        //returnedCustomer.User = returnedUser;
 
         return returnedCustomer;
     }
 
     public async Task<Customer> AddCustomerAsync(User user, Customer customer)
     {
-        //var returnedUser = await userRepository.GetFirstOrDefaultAsync(x => x.UserName == user.UserName
-        //&& x.PasswordHash == user.PasswordHash);
-
-        //if (returnedUser == null)
-        //{
-        //    returnedUser = await userRepository.AddAsync(user);
-        //}
-
-        //customer.UserId = returnedUser.Id;
+        customer.UserId = user.Id;
 
         var returnedCustomer = await customerRepository.AddAsync(customer);
 
         await customerRepository.SaveChangesAsync();
 
-        //returnedCustomer.User = returnedUser;
-
         return returnedCustomer;
     }
 
-    public User? ChangeEmail(Guid id, string newEmail)
+    public Customer? DeleteCustomer(int customerId)
     {
-        var user = userRepository.GetById(id);
-
-        if (user == null)
-            return null;
-
-        user.Email = newEmail;
-
-        userRepository.SaveChanges();
-
-        return user;
-    }
-
-    public Customer? DeleteCustomer(Guid id)
-    {
-        var customer = customerRepository.Remove(id);
+        var customer = customerRepository.Remove(customerId);
         customerRepository.SaveChanges();
 
-        if (customer == null)
-            return null;
-
-        var user = userRepository.Remove(id);
+        userRepository.Remove(customerId);
         userRepository.SaveChanges();
 
-        if (user == null)
-            return null;
-
-        customer.User = user;
-
         return customer;
     }
 
-    public async Task<Customer?> DeleteCustomerAsync(Guid id)
+    public async Task<Customer?> DeleteCustomerAsync(int customerId)
     {
-        var customer = customerRepository.Remove(id);
+        var customer = customerRepository.Remove(customerId);
         await customerRepository.SaveChangesAsync();
 
-        if (customer == null)
-            return null;
-
-        var user = userRepository.Remove(id);
+        userRepository.Remove(customerId);
         await userRepository.SaveChangesAsync();
-
-        if(user == null)
-            return null;
-
-        customer.User = user;
 
         return customer;
     }
 
+<<<<<<< HEAD
     public IEnumerable<Customer>? GetAllCustomers()
     {
         var customers = customerRepository.GetAll();
@@ -188,37 +148,20 @@ public class CustomerService : ICustomerService
 
 
     public Customer? UpdateCustomer(Guid id, Customer customer)
+=======
+    public Customer? UpdateCustomer(int id, Customer customer)
+>>>>>>> parent of cd0f207 (Samrah Gay)
     {
         var returnedCustomer = customerRepository.Update(id, customer);
         customerRepository.SaveChanges();
 
-        if (returnedCustomer == null)
-            return null;
-
-        var user = userRepository.GetById(id);
-
-        if (user is null) 
-            return null;
-
-        returnedCustomer.User = user;
-
         return returnedCustomer;
     }
 
-    public async Task<Customer?> UpdateCustomerAsync(Guid id, Customer customer)
+    public async Task<Customer?> UpdateCustomerAsync(int id, Customer customer)
     {
         var returnedCustomer = await customerRepository.UpdateAsync(id, customer);
         await customerRepository.SaveChangesAsync();
-
-        if (returnedCustomer == null)
-            return null;
-
-        var user = await userRepository.GetByIdAsync(id);
-
-        if (user is null)
-            return null;
-
-        returnedCustomer.User = user;
 
         return returnedCustomer;
     }

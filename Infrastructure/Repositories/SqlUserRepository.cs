@@ -5,12 +5,12 @@ using System.Linq.Expressions;
 
 namespace Infrastructure.Repositories;
 
-public class SqlUserManagerRepository<TEntity> : IUserManagerRepository<TEntity> where TEntity : class
+public class SqlUserRepository<TEntity> : IUserRepository<TEntity> where TEntity : class
 {
-    private readonly CustomIdentityDbContext userDbContext;
+    private readonly IUserDbContext userDbContext;
     private readonly DbSet<TEntity> _dbSet;
 
-    public SqlUserManagerRepository(CustomIdentityDbContext userDbContext)
+    public SqlUserRepository(IUserDbContext userDbContext)
     {
         this.userDbContext = userDbContext;
         _dbSet = userDbContext.Set<TEntity>();
@@ -54,25 +54,19 @@ public class SqlUserManagerRepository<TEntity> : IUserManagerRepository<TEntity>
         return await _dbSet.ToListAsync();
     }
 
-    public TEntity? GetById(Guid id)
+    public TEntity? GetById(string id)
     {
-        var stringId = id.ToString();
-
-        return _dbSet.Find(stringId);
+        return _dbSet.Find(id);
     }
 
-    public async Task<TEntity?> GetByIdAsync(Guid id)
+    public async Task<TEntity?> GetByIdAsync(string id)
     {
-        var stringId = id.ToString();
-
-        return await _dbSet.FindAsync(stringId);
+        return await _dbSet.FindAsync(id);
     }
 
-    public TEntity? Remove(Guid id)
+    public TEntity? Remove(string id)
     {
-        var stringId = id.ToString();
-
-        var entity = _dbSet.Find(stringId);
+        var entity = _dbSet.Find(id);
 
         if (entity != null)
         {
@@ -82,11 +76,9 @@ public class SqlUserManagerRepository<TEntity> : IUserManagerRepository<TEntity>
         return entity;
     }
 
-    public async Task<TEntity?> RemoveAsync(Guid id)
+    public async Task<TEntity?> RemoveAsync(string id)
     {
-        var stringId = id.ToString();
-
-        var entity = await _dbSet.FindAsync(stringId);
+        var entity = await _dbSet.FindAsync(id);
 
         if (entity != null)
         {
@@ -106,12 +98,10 @@ public class SqlUserManagerRepository<TEntity> : IUserManagerRepository<TEntity>
         await userDbContext.SaveChangesAsync();
     }
 
-    public TEntity? Update(Guid id, TEntity entity)
+    public TEntity? Update(string id, TEntity entity)
     {
-        var stringId = id.ToString();
-
         // 1. Get existing entity
-        var existingEntity = _dbSet.Find(stringId);
+        var existingEntity = _dbSet.Find(id);
 
         if (existingEntity == null)
             return null;
@@ -130,12 +120,10 @@ public class SqlUserManagerRepository<TEntity> : IUserManagerRepository<TEntity>
         return existingEntity;
     }
 
-    public async Task<TEntity?> UpdateAsync(Guid id, TEntity entity)
+    public async Task<TEntity?> UpdateAsync(string id, TEntity entity)
     {
-        var stringId = id.ToString();
-
         // 1. Get existing entity
-        var existingEntity = await _dbSet.FindAsync(stringId);
+        var existingEntity = await _dbSet.FindAsync(id);
 
         if (existingEntity == null)
             return null;
@@ -180,15 +168,5 @@ public class SqlUserManagerRepository<TEntity> : IUserManagerRepository<TEntity>
     public async Task<TEntity?> GetFirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate)
     {
         return await _dbSet.FirstOrDefaultAsync(predicate);
-    }
-
-    public async Task<TEntity?> GetByIdAsync(string id)
-    {
-        return await _dbSet.FindAsync(id);
-    }
-
-    public TEntity? GetById(string id)
-    {
-        return _dbSet.Find(id);
     }
 }

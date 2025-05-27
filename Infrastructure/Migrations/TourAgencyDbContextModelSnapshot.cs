@@ -35,9 +35,12 @@ namespace Infrastructure.Migrations
                         .HasColumnType("bit")
                         .HasColumnName("bookingType");
 
+                    b.Property<string>("CustomerUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("EmployeeId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
+                        .HasColumnType("nvarchar(450)")
                         .HasColumnName("employeeId");
 
                     b.Property<DateTime>("EndDateTime")
@@ -52,13 +55,18 @@ namespace Infrastructure.Migrations
                         .HasColumnType("datetime2(7)")
                         .HasColumnName("startDateTime");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int")
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
                         .HasColumnName("status");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Bookings");
+                    b.HasIndex("CustomerUserId");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.ToTable("Bookings", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.AppEntities.Car", b =>
@@ -111,7 +119,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Cars");
+                    b.ToTable("Cars", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.AppEntities.CarBooking", b =>
@@ -154,7 +162,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("CarId");
 
-                    b.ToTable("CarBookings");
+                    b.ToTable("CarBookings", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.AppEntities.Category", b =>
@@ -174,7 +182,56 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Entities.Customer", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Country")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Country");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("firstName");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("lastName");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("char(12)")
+                        .HasColumnName("phoneNumber");
+
+                    b.Property<string>("Whatsapp")
+                        .HasColumnType("char(14)")
+                        .HasColumnName("whatsapp");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("Customers", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Entities.Employee", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)")
+                        .HasColumnName("id");
+
+                    b.Property<DateTime>("HireDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("hireDate");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("Employees", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.AppEntities.ImageShot", b =>
@@ -206,7 +263,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("CarBookingId");
 
-                    b.ToTable("ImageShots");
+                    b.ToTable("ImageShots", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.AppEntities.Payment", b =>
@@ -238,15 +295,16 @@ namespace Infrastructure.Migrations
                         .HasColumnType("datetime2(7)")
                         .HasColumnName("paymentDate");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int")
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
                         .HasColumnName("satatus");
 
                     b.HasKey("Id");
 
                     b.HasIndex("BookingId");
 
-                    b.ToTable("Payments");
+                    b.ToTable("Payments", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.AppEntities.PaymentMethod", b =>
@@ -270,7 +328,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PaymentMethods");
+                    b.ToTable("PaymentMethods", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.AppEntities.PaymentTransaction", b =>
@@ -298,17 +356,19 @@ namespace Infrastructure.Migrations
                         .HasColumnType("datetime2(7)")
                         .HasColumnName("transactionDate");
 
-                    b.Property<int>("TransactionType")
-                        .HasColumnType("int")
+                    b.Property<string>("TransactionType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
                         .HasColumnName("type");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PaymentId");
-
                     b.HasIndex("PaymentMethodId");
 
-                    b.ToTable("PaymentTransactions");
+                    b.HasIndex("PaymentId", "PaymentMethodId", "TransactionDate")
+                        .IsUnique();
+
+                    b.ToTable("PaymentTransactions", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.AppEntities.Post", b =>
@@ -327,7 +387,7 @@ namespace Infrastructure.Migrations
 
                     b.Property<string>("EmployeeId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
+                        .HasColumnType("nvarchar(450)")
                         .HasColumnName("employeeId");
 
                     b.Property<string>("Image")
@@ -348,8 +408,9 @@ namespace Infrastructure.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasColumnName("slug");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int")
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
                         .HasColumnName("status");
 
                     b.Property<string>("Summary")
@@ -368,9 +429,11 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("EmployeeId");
+
                     b.HasIndex("PostTypeId");
 
-                    b.ToTable("Posts");
+                    b.ToTable("Posts", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.AppEntities.PostTag", b =>
@@ -396,7 +459,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("TagId");
 
-                    b.ToTable("PostTags");
+                    b.ToTable("PostTags", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.AppEntities.PostType", b =>
@@ -420,7 +483,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PostTypes");
+                    b.ToTable("PostTypes", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.AppEntities.Region", b =>
@@ -440,7 +503,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Regions");
+                    b.ToTable("Regions", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.AppEntities.SeoMetadata", b =>
@@ -480,7 +543,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("PostId");
 
-                    b.ToTable("SeoMetadata");
+                    b.ToTable("SeoMetadata", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.AppEntities.Tag", b =>
@@ -499,7 +562,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Tags");
+                    b.ToTable("Tags", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.AppEntities.Trip", b =>
@@ -533,7 +596,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Trips");
+                    b.ToTable("Trips", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.AppEntities.TripBooking", b =>
@@ -565,7 +628,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("TripPlanId");
 
-                    b.ToTable("TripBookings");
+                    b.ToTable("TripBookings", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.AppEntities.TripPlan", b =>
@@ -623,7 +686,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("TripId");
 
-                    b.ToTable("TripPlans");
+                    b.ToTable("TripPlans", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.AppEntities.TripPlanCar", b =>
@@ -653,7 +716,22 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("TripPlanId");
 
-                    b.ToTable("TripPlanCars");
+                    b.ToTable("TripPlanCars", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Entities.Booking", b =>
+                {
+                    b.HasOne("Domain.Entities.Customer", null)
+                        .WithMany("Bookings")
+                        .HasForeignKey("CustomerUserId");
+
+                    b.HasOne("Domain.Entities.Employee", "Employee")
+                        .WithMany("Bookings")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Employee");
                 });
 
             modelBuilder.Entity("Domain.Entities.AppEntities.Car", b =>
@@ -723,9 +801,21 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Entities.AppEntities.Post", b =>
                 {
+<<<<<<< HEAD
                     b.HasOne("Domain.Entities.AppEntities.PostType", "PostType")
+=======
+                    b.HasOne("Domain.Entities.Employee", "Employee")
+                        .WithMany("Posts")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.PostType", "PostType")
+>>>>>>> parent of cd0f207 (Samrah Gay)
                         .WithMany("Posts")
                         .HasForeignKey("PostTypeId");
+
+                    b.Navigation("Employee");
 
                     b.Navigation("PostType");
                 });
@@ -826,7 +916,23 @@ namespace Infrastructure.Migrations
                     b.Navigation("ImageShots");
                 });
 
+<<<<<<< HEAD
             modelBuilder.Entity("Domain.Entities.AppEntities.Payment", b =>
+=======
+            modelBuilder.Entity("Domain.Entities.Customer", b =>
+                {
+                    b.Navigation("Bookings");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Employee", b =>
+                {
+                    b.Navigation("Bookings");
+
+                    b.Navigation("Posts");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Payment", b =>
+>>>>>>> parent of cd0f207 (Samrah Gay)
                 {
                     b.Navigation("PaymentTransactions");
                 });
