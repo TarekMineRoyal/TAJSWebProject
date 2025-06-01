@@ -54,9 +54,10 @@ builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 builder.Services.AddScoped<IRoleService, RoleService>();
 builder.Services.AddScoped<IPermissionService, PermissionService>();
 builder.Services.AddScoped<IRolePermissionService, RolePermissionService>();
+
 builder.Services.AddScoped<IGenericRepository<CarBooking>, SqlGenericRepository<CarBooking>>();
 builder.Services.AddScoped<IGenericRepository<Booking>, SqlGenericRepository<Booking>>();
-
+builder.Services.AddScoped<IPaymentMethodService, PaymentMethodServices>();
 builder.Services.AddAutoMapper(typeof(Application.AssemplyReference).Assembly);
 
 

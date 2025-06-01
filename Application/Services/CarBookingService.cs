@@ -4,6 +4,7 @@ using Application.IRepositories;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Domain.Entities.AppEntities;
+using Application.DTOs.Car;
 
 namespace Application.Services
 {
@@ -32,16 +33,29 @@ namespace Application.Services
 
         public async Task<IEnumerable<AddCarBookingResponse>> GetAllCarBookingsAsync()
         {
-            var bookings = await _carBookingRepo.GetAllAsync();
-            return bookings?.Select(b => _mapper.Map<AddCarBookingResponse>(b));
+            var carBookings = await _carBookingRepo.GetAllAsync();
+            var carBookingsDto = new List<AddCarBookingResponse>();
+
+            if (carBookings is not null)
+            {
+                foreach (CarBooking carBooking in carBookings)
+                {
+                    var car = _carRepo.GetById(carBooking.CarId);
+                    var x = carBooking;
+                    x.Car = car;
+                    carBookingsDto.Add(_mapper.Map<AddCarBookingResponse>(carBooking));
+                }
+            }
+
+            return carBookingsDto;
         }
 
         public async Task<AddCarBookingResponse> AddCarBookingAsync(AddCarBookingRequest dto)
         {
             var car = await _carRepo.GetByIdAsync(dto.CarId)
                 ?? throw new ArgumentException("Invalid Car ID");
-
-            if (dto.NumberOfPassengers > car.Seats)
+            
+            if (dto.NumberOfPassengers > car.Seats || (dto.WithDriver && dto.NumberOfPassengers + 1 > car.Seats))
             {
                 throw new Exception("Car capacity is less than the number of passengers wanted!");
             }
@@ -51,56 +65,25 @@ namespace Application.Services
                 EndDateTime = dto.EndDateTime,
                 NumberOfPassengers = dto.NumberOfPassengers,
                 Status = BType.Pending,
-                BookingType = true // Assuming true = car booking
+                BookingType = true 
             };
-
-            //var car = _mapper.Map<Car>(dto);
-            
-            /*var carBooking = _mapper.Map<CarBooking>(dto);
-            carBooking.Booking = booking;
-            carBooking.BookingId = booking.Id;
-            // Ensure associated booking exists (if needed)
-            if (carBooking.BookingId <= 0)
-                throw new ArgumentException("Invalid booking reference");
-
-            var addedBooking = await _carBookingRepo.AddAsync(carBooking);
-            await _carBookingRepo.SaveChangesAsync();
-
-            return _mapper.Map<AddCarBookingResponse>(addedBooking);*/
             
             var createdBooking = await _bookingRepo.AddAsync(booking);
             
             await _bookingRepo.SaveChangesAsync();
 
 
-
-            
-            // 2. Create CarBooking with valid BookingId
-            var carBooking = _mapper.Map<CarBooking>(dto);
+            CarBooking carBooking = new CarBooking();
+                carBooking.CarId = car.Id;
+            carBooking = _mapper.Map<CarBooking>(dto);
             carBooking.BookingId = createdBooking.Id;
-
             
             
-            // 3. Save CarBooking
-           // var addedCarBooking = await _carBookingRepo.AddAsync(carBooking);
-            //await _carBookingRepo.SaveChangesAsync();
-            var carBooking2 = _mapper.Map<AddCarBookingResponse>(carBooking);
-            carBooking2.Pph = car.Pph;
-            carBooking2.Seats = car.Seats;
-            carBooking2.Color = car.Color;
-            carBooking2.Model = car.Model;
-            carBooking2.Mbw = car.Mbw;
-            carBooking2.Ppd = car.Ppd;
-           // var addedCar = _mapper.Map<AddCarBookingResponse>(carBooking2);
-            var addedCar2 = _mapper.Map<CarBooking>(carBooking2);
-            var addedCarBooking2 = await _carBookingRepo.AddAsync(addedCar2);
+            
+            var addedCarBooking = await _carBookingRepo.AddAsync(carBooking);
             await _carBookingRepo.SaveChangesAsync();
-            //var addedCar = await _carBookingRepo.AddAsync(carBooking2);
 
-            return _mapper.Map<AddCarBookingResponse>(addedCarBooking2);
-            
-
-
+            return _mapper.Map<AddCarBookingResponse>(addedCarBooking);
             
         }
 

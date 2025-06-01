@@ -75,7 +75,7 @@ namespace Domain.Entities.AppEntities
         /// The main booking information
         /// </summary>
         public virtual Booking? Booking { get; set; }
-
+        public virtual Car Car { get; set; }
         /// <summary>
         /// Collection of images associated with this car booking
         /// </summary>

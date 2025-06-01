@@ -132,6 +132,7 @@ namespace Infrastructure
                 );
                 dbContext.SaveChanges();
             }
+            
             // 5. Seed TripPlans
             if (!dbContext.TripPlans.Any())
             {
@@ -175,6 +176,43 @@ namespace Infrastructure
                         HotelsStays = "5-star hotels in major cities",
                         Region = regions.FirstOrDefault(r => r.Name == "Asia-Pacific"),
                         Trip = trips.FirstOrDefault(t => t.Slug == "cultural-tour")
+                    }
+                );
+                dbContext.SaveChanges();
+            }
+            // 6. Seed Payment Methods
+            if (!dbContext.PaymentMethods.Any())
+            {
+                dbContext.PaymentMethods.AddRange(
+                    new PaymentMethod
+                    {
+                        Method = "Credit Card",
+                        Icon = "fa-credit-card"
+                    },
+                    new PaymentMethod
+                    {
+                        Method = "PayPal",
+                        Icon = "fa-paypal"
+                    },
+                    new PaymentMethod
+                    {
+                        Method = "Apple Pay",
+                        Icon = "fa-apple-pay"
+                    },
+                    new PaymentMethod
+                    {
+                        Method = "Google Pay",
+                        Icon = "fa-google-wallet"
+                    },
+                    new PaymentMethod
+                    {
+                        Method = "Bank Transfer",
+                        Icon = "fa-university"
+                    },
+                    new PaymentMethod
+                    {
+                        Method = "Cash",
+                        Icon = "fa-money-bill"
                     }
                 );
                 dbContext.SaveChanges();
