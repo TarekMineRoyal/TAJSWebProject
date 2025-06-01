@@ -4,6 +4,7 @@ using Infrastructure.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(TourAgencyDbContext))]
-    partial class TourAgencyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250526175038_Init")]
+    partial class Init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,6 +39,7 @@ namespace Infrastructure.Migrations
                         .HasColumnName("bookingType");
 
                     b.Property<string>("EmployeeId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("employeeId");
 
@@ -115,6 +119,13 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Entities.AppEntities.CarBooking", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<int>("BookingId")
                         .HasColumnType("int")
                         .HasColumnName("bookingId");
@@ -139,7 +150,10 @@ namespace Infrastructure.Migrations
                         .HasColumnType("bit")
                         .HasColumnName("withDriver");
 
-                    b.HasKey("BookingId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookingId")
+                        .IsUnique();
 
                     b.HasIndex("CarId");
 
@@ -664,15 +678,13 @@ namespace Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Entities.AppEntities.Car", "Car")
+                    b.HasOne("Domain.Entities.AppEntities.Car", null)
                         .WithMany("CarBookings")
                         .HasForeignKey("CarId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Booking");
-
-                    b.Navigation("Car");
                 });
 
             modelBuilder.Entity("Domain.Entities.AppEntities.ImageShot", b =>

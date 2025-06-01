@@ -4,6 +4,7 @@ using Infrastructure.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(TourAgencyDbContext))]
-    partial class TourAgencyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250526204004_bookingFix")]
+    partial class bookingFix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,6 +39,7 @@ namespace Infrastructure.Migrations
                         .HasColumnName("bookingType");
 
                     b.Property<string>("EmployeeId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("employeeId");
 
@@ -664,15 +668,13 @@ namespace Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Entities.AppEntities.Car", "Car")
+                    b.HasOne("Domain.Entities.AppEntities.Car", null)
                         .WithMany("CarBookings")
                         .HasForeignKey("CarId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Booking");
-
-                    b.Navigation("Car");
                 });
 
             modelBuilder.Entity("Domain.Entities.AppEntities.ImageShot", b =>
