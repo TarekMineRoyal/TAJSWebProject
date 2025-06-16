@@ -54,8 +54,8 @@ namespace Domain.Entities.AppEntities
         public Payment? Payment { get; set; }
         public PaymentMethod? PaymentMethod { get; set; }
 
-        public string StripePaymentIntentId { get; set; }
+        public string? StripePaymentIntentId { get; set; }
 
-        public string StripeRefundId { get; set; }
+        public string? StripeRefundId { get; set; }
     }
 }

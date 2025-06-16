@@ -74,6 +74,7 @@ builder.Services.AddScoped<IRoleService, RoleService>();
 builder.Services.AddScoped<IPermissionService, PermissionService>();
 builder.Services.AddScoped<IRolePermissionService, RolePermissionService>();
 builder.Services.AddScoped<IPayPalService, PayPalService>();
+builder.Services.AddScoped<ISEOMetaDataService, SEOMetaDataService>();
 
 builder.Services.AddScoped<IStripeService, StripeService>();
 
@@ -145,7 +146,12 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
     var userManager = services.GetRequiredService<UserManager<User>>();
     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-    await IdentitySeed.SeedRolesAndAdmin(userManager, roleManager);
+
+    // Get the correctly configured DbContext from the service provider
+    var identityDbContext = services.GetRequiredService<CustomIdentityDbContext>();
+
+    // Pass the configured context to the seeder method
+    await IdentitySeed.SeedRolesAndAdmin(userManager, roleManager, identityDbContext);
 }
 
 app.UseCors("AllowReactApp");
