@@ -13,28 +13,15 @@ namespace API.Controllers
     {
         private readonly IPayPalService _payPalService;
         private readonly IPaymentService _paymentService;
-        private readonly IGenericRepository<PaymentTransaction> _paymentTransactionRepo;
-        private readonly IGenericRepository<PaymentMethod> _paymentMethodRepo;
-        private readonly IMapper _mapper;
-
 
         public PayPalController(
             IPayPalService payPalService,
-            IPaymentService paymentService,
-            IGenericRepository<PaymentTransaction> paymentTransactionRepo,
-            IGenericRepository<PaymentMethod> paymentMethodRepo,
-            IMapper mapper)
+            IPaymentService paymentService)
         {
             _payPalService = payPalService;
             _paymentService = paymentService;
-            _paymentTransactionRepo = paymentTransactionRepo;
-            _paymentMethodRepo = paymentMethodRepo;
-            _mapper = mapper;
         }
 
-        /// <summary>
-        /// Creates a PayPal order and returns the Order ID to the frontend.
-        /// </summary>
         [HttpPost("create-order/{bookingId:int}")]
         public async Task<IActionResult> CreateOrder(int bookingId)
         {
@@ -48,8 +35,8 @@ namespace API.Controllers
                     return BadRequest("Valid payment record for the booking not found or amount is zero.");
                 }
 
-                string orderId = await _payPalService.CreateOrderAsync(payment.AmountDue, "USD");
-                return Ok(new { orderId });
+                var order = await _payPalService.CreateOrderAsync(payment.AmountDue, "USD");
+                return Ok(new { orderId = order.Id });
             }
             catch (Exception ex)
             {
@@ -57,20 +44,15 @@ namespace API.Controllers
             }
         }
 
-        /// <summary>
-        /// Captures the payment after the user approves it on the frontend.
-        /// </summary>
         [HttpPost("capture-order/{orderId}")]
         public async Task<IActionResult> CaptureOrder(string orderId)
         {
             try
             {
-                string captureId = await _payPalService.CaptureOrderAsync(orderId);
+                var capturedOrder = await _payPalService.CaptureOrderAsync(orderId);
+                var captureId = capturedOrder.PurchaseUnits[0].Payments.Captures[0].Id;
 
-                // You might want to find the booking/payment associated with this order
-                // and save the captureId and update the status.
-                // For simplicity, we'll just return success here.
-                // In a real app, you would add the transaction details to your database here.
+                // Here, you would save the captureId to your database.
 
                 return Ok(new { captureId });
             }

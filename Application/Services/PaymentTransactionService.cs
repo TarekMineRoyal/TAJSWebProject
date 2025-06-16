@@ -1,11 +1,9 @@
-﻿// Application/Services/PaymentTransactionService.cs
-using Application.DTOs.Payment;
+﻿using Application.DTOs.Payment;
 using Application.IRepositories;
 using Application.IServices;
 using AutoMapper;
 using Domain.Entities.AppEntities;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Stripe;
@@ -15,7 +13,6 @@ namespace Application.Services
     public class PaymentTransactionService : IPaymentTransactionService
     {
         private readonly IGenericRepository<PaymentTransaction> _paymentTransactionRepo;
-        // Specify the full namespace for your PaymentMethod entity
         private readonly IGenericRepository<Domain.Entities.AppEntities.PaymentMethod> _paymentMethodRepo;
         private readonly IPayPalService _payPalService;
         private readonly IStripeService _stripeService;
@@ -23,7 +20,6 @@ namespace Application.Services
 
         public PaymentTransactionService(
             IGenericRepository<PaymentTransaction> paymentTransactionRepo,
-            // Use the fully qualified name here as well
             IGenericRepository<Domain.Entities.AppEntities.PaymentMethod> paymentMethodRepo,
             IPayPalService payPalService,
             IStripeService stripeService,
@@ -50,10 +46,11 @@ namespace Application.Services
             {
                 if (addTransactionDto.TransactionType == TType.Deposit)
                 {
-                    string orderId = await _payPalService.CreateOrderAsync(addTransactionDto.Amount, "USD");
-                    string captureId = await _payPalService.CaptureOrderAsync(orderId);
-                    transaction.PayPalOrderId = orderId;
-                    transaction.PayPalCaptureId = captureId;
+                    var order = await _payPalService.CreateOrderAsync(addTransactionDto.Amount, "USD");
+                    var capturedOrder = await _payPalService.CaptureOrderAsync(order.Id);
+
+                    transaction.PayPalOrderId = order.Id;
+                    transaction.PayPalCaptureId = capturedOrder.PurchaseUnits[0].Payments.Captures[0].Id;
                 }
                 else if (addTransactionDto.TransactionType == TType.Refund)
                 {
@@ -64,8 +61,9 @@ namespace Application.Services
                     {
                         throw new Exception("Original PayPal deposit transaction not found, cannot refund.");
                     }
-                    string refundId = await _payPalService.RefundPaymentAsync(originalTransaction.PayPalCaptureId, addTransactionDto.Amount, "USD");
-                    transaction.PayPalRefundId = refundId;
+                    var response = await _payPalService.RefundPaymentAsync(originalTransaction.PayPalCaptureId, addTransactionDto.Amount, "USD");
+                    var refund = response.Result<PayPalCheckoutSdk.Payments.Refund>();
+                    transaction.PayPalRefundId = refund.Id;
                 }
             }
             else if (paymentMethod.Method.Equals("Stripe", StringComparison.OrdinalIgnoreCase))

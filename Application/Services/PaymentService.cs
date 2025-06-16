@@ -37,8 +37,9 @@ namespace Application.Services
 
         public async Task<IEnumerable<PaymentResponse>> GetPaymentsByBookingId(int bookingId)
         {
-            var payments = await _paymentrepo.WhereAsync(x => x.BookingId == bookingId);
-            var response = _mapper.Map<IEnumerable<PaymentResponse>>(payments);
+            var allPayments = await _paymentrepo.GetAllAsync();
+            var paymentsForBooking = allPayments.Where(p => p.BookingId == bookingId);
+            var response = _mapper.Map<IEnumerable<PaymentResponse>>(paymentsForBooking);
 
             return response;
         }
