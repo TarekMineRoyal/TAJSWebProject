@@ -33,7 +33,7 @@ namespace API.Controllers
             var result = await _authService.LoginAsync(dto);
             if (result.Succeeded)
             {
-                var token = _jwtTokenGenerator.GenerateToken(dto.Email);
+                var token = await _jwtTokenGenerator.GenerateToken(dto.Email);
 
                 return Ok(token);
             }
@@ -50,7 +50,7 @@ namespace API.Controllers
                 return BadRequest("User with this email is already exist.");
             }
             await _authService.RegisterAsync(dto);
-            var token = _jwtTokenGenerator.GenerateToken(dto.Email);
+            var token = await _jwtTokenGenerator.GenerateToken(dto.Email);
 
             return Ok(token);
         }

@@ -9,6 +9,6 @@ namespace Infrastructure.Authentication
 {
     public interface IJwtTokenGenerator
     {
-        public string GenerateToken(string email, string role = "Customer");
+        public Task<string> GenerateToken(string email);
     }
 }

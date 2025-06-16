@@ -1,6 +1,7 @@
 ﻿using Application.DTOs.User;
 using Application.IServices;
 using Domain.Entities.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -16,24 +17,45 @@ namespace Infrastructure.Authentication
     {
         private readonly IConfiguration _configuration;
         private readonly IUserService _userService;
+        private readonly UserManager<User> _userManager;
 
-        public JwtTokenGenerator(IConfiguration configuration, IUserService userService)
+        public JwtTokenGenerator(IConfiguration configuration, IUserService userService, UserManager<User> userManager)
         {
             _configuration = configuration;
             _userService = userService;
+            _userManager = userManager;
         }
 
-        public string GenerateToken(string email, string role = "Customer")
+        public async Task<string> GenerateToken(string email)
         {
-            var user = _userService.GetByEmail(email);
-
+            var user = await _userManager.FindByEmailAsync(email);
+            
             if (user == null)
             {
                 throw new ArgumentException($"User with email {email} not found");
             }
 
-            var claims = new[]
+            string role;
+            if (await _userManager.IsInRoleAsync(user, "Customer"))
             {
+                role = "Customer";
+            }
+            else if(await _userManager.IsInRoleAsync(user, "Employee"))
+            {
+                role = "Employee";
+            }
+            else if (await _userManager.IsInRoleAsync(user, "Admin"))
+            {
+                role = "Admin";
+            }
+            else
+            {
+                role = "User";
+
+            }
+
+            var claims = new[]
+                    {
             //new Claim(JwtRegisteredClaimNames.Sub, userDto.Id),
             new Claim(ClaimTypes.NameIdentifier, user.Id),
             new Claim(ClaimTypes.Role, role),
