@@ -126,7 +126,7 @@ public class PostController : Controller
     }
 
     [HttpPost]
-    [Route("{postId:int}/tags")]
+    [Route("{postId:Guid}/tags")]
     public async Task<IActionResult> AddTagsToPost(int postId, AddTagsToPostRequest addTagsToPostRequest)
     {
         var tag = await postService.AddTagsToPostAsync(postId, addTagsToPostRequest.Ids);
