@@ -169,4 +169,11 @@ public class SqlGenericRepository<TEntity> : IGenericRepository<TEntity> where T
     {
         return await _dbSet.FirstOrDefaultAsync(predicate);
     }
+
+    public async Task<IEnumerable<TEntity>?> WhereAsync(Expression<Func<TEntity, bool>> predicate)
+    {
+        var filteredDbSet = _dbSet.Where(predicate);
+
+        return await filteredDbSet.ToListAsync();
+    }
 }

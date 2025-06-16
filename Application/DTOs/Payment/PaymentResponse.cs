@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Application.DTOs.Payment
 {
-    public class ResponsePaymentDTO
+    public class PaymentResponse
     {
         // Auto-generated unique identifier
         public int Id { get; set; }

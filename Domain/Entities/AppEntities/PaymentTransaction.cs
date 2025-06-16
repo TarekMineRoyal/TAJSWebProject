@@ -1,4 +1,5 @@
-﻿using System;
+﻿// Domain/Entities/AppEntities/PaymentTransaction.cs
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
@@ -44,8 +45,17 @@ namespace Domain.Entities.AppEntities
         [ForeignKey("PaymentMethodId")]
         public int PaymentMethodId { get; set; }
 
+        // Add these properties for PayPal transaction details
+        public string? PayPalOrderId { get; set; }
+        public string? PayPalCaptureId { get; set; }
+        public string? PayPalRefundId { get; set; }
+
+
         public Payment? Payment { get; set; }
         public PaymentMethod? PaymentMethod { get; set; }
 
+        public string StripePaymentIntentId { get; set; }
+
+        public string StripeRefundId { get; set; }
     }
 }

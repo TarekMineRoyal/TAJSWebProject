@@ -213,6 +213,12 @@ namespace Infrastructure
                     {
                         Method = "Cash",
                         Icon = "fa-money-bill"
+                    },
+                    
+                    new PaymentMethod
+                    {
+                        Method = "Stripe",
+                        Icon = "fa-stripe"
                     }
                 );
                 dbContext.SaveChanges();

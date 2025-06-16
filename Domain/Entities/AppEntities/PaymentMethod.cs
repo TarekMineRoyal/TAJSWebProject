@@ -24,7 +24,7 @@ namespace Domain.Entities.AppEntities
         [Column("method", TypeName = "nvarchar(50)")]
         public string? Method { get; set; }
 
-        [Required]
+        //[Required]
         [Column("icon", TypeName = "nvarchar(50)")]
         public string? Icon { get; set; }
 
