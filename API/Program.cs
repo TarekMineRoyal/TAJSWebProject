@@ -145,6 +145,8 @@ using (var scope = app.Services.CreateScope())
 
 app.UseCors("AllowReactApp");
 
+app.UseStaticFiles();
+
 app.UseAuthorization();
 
 app.MapControllers();
