@@ -1,20 +1,11 @@
-﻿// Domain/Entities/AppEntities/PaymentTransaction.cs
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Entities.AppEntities
 {
-    public enum TType // Transaction Type Enum
-    {
-        Deposit,
-        Final,
-        Refund
-    }
+    public enum TType { Deposit, Final, Refund }
+
     public partial class PaymentTransaction
     {
         [Key]
@@ -45,17 +36,15 @@ namespace Domain.Entities.AppEntities
         [ForeignKey("PaymentMethodId")]
         public int PaymentMethodId { get; set; }
 
-        // Add these properties for PayPal transaction details
+        // --- Add these properties ---
+        public string? StripePaymentIntentId { get; set; }
         public string? PayPalOrderId { get; set; }
         public string? PayPalCaptureId { get; set; }
         public string? PayPalRefundId { get; set; }
-
+        public string? StripeRefundId { get; set; }
+        // --- End of new properties ---
 
         public Payment? Payment { get; set; }
         public PaymentMethod? PaymentMethod { get; set; }
-
-        public string? StripePaymentIntentId { get; set; }
-
-        public string? StripeRefundId { get; set; }
     }
 }
