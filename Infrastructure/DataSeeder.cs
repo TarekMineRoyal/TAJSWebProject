@@ -132,7 +132,7 @@ namespace Infrastructure
                 );
                 dbContext.SaveChanges();
             }
-            
+
             // 5. Seed TripPlans
             if (!dbContext.TripPlans.Any())
             {
@@ -180,7 +180,52 @@ namespace Infrastructure
                 );
                 dbContext.SaveChanges();
             }
-            // 6. Seed Payment Methods
+
+            // 6. Seed TripPlanCars
+            if (!dbContext.TripPlanCars.Any())
+            {
+                var tripPlans = dbContext.TripPlans.ToList();
+                var cars = dbContext.Cars.ToList();
+
+                if (tripPlans.Any() && cars.Any())
+                {
+                    dbContext.TripPlanCars.AddRange(
+                        new TripPlanCar
+                        {
+                            TripPlanId = tripPlans[0].Id,
+                            CarId = cars[0].Id,
+                            Price = 1200.00m
+                        },
+                        new TripPlanCar
+                        {
+                            TripPlanId = tripPlans[0].Id,
+                            CarId = cars[1].Id,
+                            Price = 1500.00m
+                        },
+                        new TripPlanCar
+                        {
+                            TripPlanId = tripPlans[1].Id,
+                            CarId = cars[2].Id,
+                            Price = 1800.00m
+                        },
+                        new TripPlanCar
+                        {
+                            TripPlanId = tripPlans[2].Id,
+                            CarId = cars[3].Id,
+                            Price = 2500.00m
+                        },
+                         new TripPlanCar
+                         {
+                             TripPlanId = tripPlans[2].Id,
+                             CarId = cars[4].Id,
+                             Price = 2200.00m
+                         }
+                    );
+                    dbContext.SaveChanges();
+                }
+            }
+
+            // 7. Seed Payment Methods
             if (!dbContext.PaymentMethods.Any())
             {
                 dbContext.PaymentMethods.AddRange(
@@ -213,16 +258,59 @@ namespace Infrastructure
                     {
                         Method = "Cash",
                         Icon = "fa-money-bill"
-                    },
-                    
-                    new PaymentMethod
-                    {
-                        Method = "Stripe",
-                        Icon = "fa-stripe"
                     }
                 );
                 dbContext.SaveChanges();
             }
+
+            // 8. Seed Bookings for Trips
+            if (!dbContext.Bookings.Any(b => b.BookingType == false))
+            {
+                var tripPlans = dbContext.TripPlans.ToList();
+                dbContext.Bookings.AddRange(
+                    new Booking
+                    {
+                        BookingType = false, // Trip
+                        StartDateTime = tripPlans[0].StartDateTime,
+                        EndDateTime = tripPlans[0].EndDateTime,
+                        Status = BType.Approved,
+                        NumberOfPassengers = 2,
+                    },
+                    new Booking
+                    {
+                        BookingType = false, // Trip
+                        StartDateTime = tripPlans[1].StartDateTime,
+                        EndDateTime = tripPlans[1].EndDateTime,
+                        Status = BType.Pending,
+                        NumberOfPassengers = 4,
+                    }
+                );
+                dbContext.SaveChanges();
+            }
+
+            // 9. Seed TripBookings
+            if (!dbContext.TripBookings.Any())
+            {
+                var tripBookings = dbContext.Bookings.Where(b => b.BookingType == false).ToList();
+                var tripPlans = dbContext.TripPlans.ToList();
+
+                dbContext.TripBookings.AddRange(
+                    new TripBooking
+                    {
+                        BookingId = tripBookings[0].Id,
+                        WithGuide = true,
+                        TripPlanId = tripPlans[0].Id
+                    },
+                    new TripBooking
+                    {
+                        BookingId = tripBookings[1].Id,
+                        WithGuide = false,
+                        TripPlanId = tripPlans[1].Id
+                    }
+                );
+                dbContext.SaveChanges();
+            }
+
         }
     }
 }
