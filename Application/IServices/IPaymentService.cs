@@ -9,8 +9,10 @@ namespace Application.IServices
 {
     public interface IPaymentService
     {
-        public Task<IEnumerable<ResponsePaymentDTO>> GetAllPayments();
-        public Task<ResponsePaymentDTO> GetPaymentById(int id);
-        public Task<ResponsePaymentDTO> AddPayment(RequestPaymentDTO payment);
+        public Task<IEnumerable<PaymentResponse>> GetAllPayments();
+
+        public Task<IEnumerable<PaymentResponse>> GetPaymentsByBookingId(int bookingId);
+
+        public Task<PaymentResponse> AddPayment(RequestPaymentDTO payment);
     }
 }

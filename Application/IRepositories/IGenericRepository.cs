@@ -41,5 +41,5 @@ public interface IGenericRepository<TEntity> where TEntity : class
 
     public TEntity? Remove(int id);
 
-    
+    public Task<IEnumerable<TEntity>?> WhereAsync(Expression<Func<TEntity, bool>> predicate);
 }

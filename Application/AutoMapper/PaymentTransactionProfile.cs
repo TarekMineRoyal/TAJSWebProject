@@ -12,8 +12,9 @@ namespace Infrastructure.AutoMapper
     public class PaymentTransactionProfile : Profile
     {
         public PaymentTransactionProfile() 
-        { 
-            CreateMap<RequestPaymentTransactionDTO, PaymentTransaction>().ReverseMap();   
+        {
+            // Ensures all properties, including the new Stripe and PayPal fields, are mapped.
+            CreateMap<RequestPaymentTransactionDTO, PaymentTransaction>().ReverseMap();
             CreateMap<ResponsePaymentTransactionDTO, PaymentTransaction>().ReverseMap();
         }
     }

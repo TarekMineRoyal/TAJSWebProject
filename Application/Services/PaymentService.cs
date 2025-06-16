@@ -21,33 +21,34 @@ namespace Application.Services
             _mapper = mapper;
             _paymentrepo = paymentrepo;
         }
-        public async Task<IEnumerable<ResponsePaymentDTO>> GetAllPayments()
+        public async Task<IEnumerable<PaymentResponse>> GetAllPayments()
         {
             var payments = await _paymentrepo.GetAllAsync();
-            var paymentsDto = new List<ResponsePaymentDTO>();
+            var paymentsDto = new List<PaymentResponse>();
             if (payments != null)
             {
                 foreach (Payment payment in payments)
                 {
-                    paymentsDto.Add(_mapper.Map<ResponsePaymentDTO>(payment));
+                    paymentsDto.Add(_mapper.Map<PaymentResponse>(payment));
                 }
             }
             return paymentsDto;
         }
 
-        public async Task<ResponsePaymentDTO> GetPaymentById(int id)
+        public async Task<IEnumerable<PaymentResponse>> GetPaymentsByBookingId(int bookingId)
         {
-            var payment = await _paymentrepo.GetByIdAsync(id);
-            var paymentDto = _mapper.Map<ResponsePaymentDTO>(payment);
-            return paymentDto;
+            var payments = await _paymentrepo.WhereAsync(x => x.BookingId == bookingId);
+            var response = _mapper.Map<IEnumerable<PaymentResponse>>(payments);
+
+            return response;
         }
 
-        public async Task<ResponsePaymentDTO> AddPayment(RequestPaymentDTO addPaymentDto)
+        public async Task<PaymentResponse> AddPayment(RequestPaymentDTO addPaymentDto)
         {
             var payment = _mapper.Map<Payment>(addPaymentDto);
             payment = await _paymentrepo.AddAsync(payment);
             await _paymentrepo.SaveChangesAsync();
-            return _mapper.Map<ResponsePaymentDTO>(payment);
+            return _mapper.Map<PaymentResponse>(payment);
         }
 
     }

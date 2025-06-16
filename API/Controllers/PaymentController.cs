@@ -15,9 +15,9 @@ namespace API.Controllers
             _paymentService = paymentService;
         }
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetPaymentById(int id)
+        public async Task<IActionResult> GetPaymentsByBookingId(int id)
         {
-            var payment =await _paymentService.GetPaymentById(id);
+            var payment =await _paymentService.GetPaymentsByBookingId(id);
             return payment != null ? Ok(payment) : NotFound();
         }
         [HttpGet]
@@ -29,7 +29,7 @@ namespace API.Controllers
         public async Task<IActionResult> AddPayment([FromBody] RequestPaymentDTO dto)
         {
             var createdDto = await _paymentService.AddPayment(dto);
-            return CreatedAtAction(nameof(GetPaymentById), new { id = createdDto.Id }, createdDto);
+            return CreatedAtAction(nameof(GetPaymentsByBookingId), new { id = createdDto.Id }, createdDto);
         }
     }
 }
