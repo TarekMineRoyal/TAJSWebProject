@@ -14,7 +14,7 @@ namespace Infrastructure.AutoMapper
         public PaymentProfile()
         {
             CreateMap<RequestPaymentDTO, Payment>().ReverseMap();
-            CreateMap<ResponsePaymentDTO, Payment>().ReverseMap();
+            CreateMap<PaymentResponse, Payment>().ReverseMap();
         }
     }
 }

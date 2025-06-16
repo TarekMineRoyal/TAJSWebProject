@@ -1,10 +1,12 @@
-﻿using Application.DTOs.CarBooking;
+﻿// Application/Services/CarBookingService.cs
+using Application.DTOs.CarBooking;
 using Application.IServices;
 using Application.IRepositories;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Domain.Entities.AppEntities;
 using Application.DTOs.Car;
+using Application.DTOs.Payment;
 
 namespace Application.Services
 {
@@ -14,15 +16,18 @@ namespace Application.Services
         private readonly IGenericRepository<Car> _carRepo;
         private readonly IGenericRepository<Booking> _bookingRepo;
         private readonly IMapper _mapper;
+        private readonly IPaymentService _paymentService;
 
         public CarBookingService(IGenericRepository<CarBooking> carBookingRepo,
             IGenericRepository<Car> carRepo,
-            IGenericRepository<Booking> bookingRepo, IMapper mapper)
+            IGenericRepository<Booking> bookingRepo, IMapper mapper,
+            IPaymentService paymentService)
         {
             _carBookingRepo = carBookingRepo;
             _bookingRepo = bookingRepo;
             _carRepo = carRepo;
             _mapper = mapper;
+            _paymentService = paymentService;
         }
 
         public async Task<AddCarBookingResponse?> GetCarBookingByIdAsync(int id)
@@ -54,7 +59,7 @@ namespace Application.Services
         {
             var car = await _carRepo.GetByIdAsync(dto.CarId)
                 ?? throw new ArgumentException("Invalid Car ID");
-            
+
             if (dto.NumberOfPassengers > car.Seats || (dto.WithDriver && dto.NumberOfPassengers + 1 > car.Seats))
             {
                 throw new Exception("Car capacity is less than the number of passengers wanted!");
@@ -65,26 +70,38 @@ namespace Application.Services
                 EndDateTime = dto.EndDateTime,
                 NumberOfPassengers = dto.NumberOfPassengers,
                 Status = BType.Pending,
-                BookingType = true 
+                BookingType = true
             };
-            
+
             var createdBooking = await _bookingRepo.AddAsync(booking);
-            
+
             await _bookingRepo.SaveChangesAsync();
 
 
             CarBooking carBooking = new CarBooking();
-                carBooking.CarId = car.Id;
+            carBooking.CarId = car.Id;
             carBooking = _mapper.Map<CarBooking>(dto);
             carBooking.BookingId = createdBooking.Id;
-            
-            
-            
+
+
+
             var addedCarBooking = await _carBookingRepo.AddAsync(carBooking);
             await _carBookingRepo.SaveChangesAsync();
 
+            var duration = booking.EndDateTime - booking.StartDateTime;
+
+            var paymentDto = new RequestPaymentDTO
+            {
+                BookingId = createdBooking.Id,
+                Status = StatusEnum.Pending,
+                AmountDue = duration.Days * car.Ppd + duration.Hours * car.Pph,
+                AmountPaid = 0,
+                PaymentDate = DateTime.UtcNow
+            };
+            await _paymentService.AddPayment(paymentDto);
+
             return _mapper.Map<AddCarBookingResponse>(addedCarBooking);
-            
+
         }
 
         public async Task<AddCarBookingResponse?> UpdateCarBookingAsync(int id, AddCarBookingRequest dto)
@@ -105,10 +122,5 @@ namespace Application.Services
             await _carBookingRepo.SaveChangesAsync();
             return _mapper.Map<AddCarBookingResponse>(deletedBooking);
         }
-
-        /*public Task<AddCarBookingResponse> CreateCarBookingAsync(AddCarBookingRequest dto)
-        {
-            throw new NotImplementedException();
-        }*/
     }
 }

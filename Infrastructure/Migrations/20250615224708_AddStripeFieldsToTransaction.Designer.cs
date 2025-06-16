@@ -4,6 +4,7 @@ using Infrastructure.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(TourAgencyDbContext))]
-    partial class TourAgencyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250615224708_AddStripeFieldsToTransaction")]
+    partial class AddStripeFieldsToTransaction
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -248,6 +251,7 @@ namespace Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Icon")
+                        .IsRequired()
                         .HasColumnType("nvarchar(50)")
                         .HasColumnName("icon");
 
@@ -290,12 +294,6 @@ namespace Infrastructure.Migrations
                     b.Property<int>("PaymentMethodId")
                         .HasColumnType("int")
                         .HasColumnName("paymentMethodId");
-
-                    b.Property<string>("StripePaymentIntentId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("StripeRefundId")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("TransactionDate")
                         .HasColumnType("datetime2(7)")
@@ -357,7 +355,7 @@ namespace Infrastructure.Migrations
 
                     b.Property<string>("Summary")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
+                        .HasColumnType("nvarchar(50)")
                         .HasColumnName("summary");
 
                     b.Property<string>("Title")

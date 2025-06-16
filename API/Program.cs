@@ -13,9 +13,12 @@ using Infrastructure.Authentication;
 using Domain.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
 using Infrastructure.Seeds;
+using Stripe;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
+StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -61,21 +64,24 @@ builder.Services.AddScoped<IPaymentTransactionService, PaymentTransactionService
 builder.Services.AddScoped<IPaymentService, PaymentService>();
 builder.Services.AddScoped<CarService>();
 builder.Services.AddScoped<CarBookingService>();
-builder.Services.AddScoped<IPaymentTransactionService, PaymentTransactionService>();
 builder.Services.AddScoped<IPostService, PostService>();
 builder.Services.AddScoped<ITagService, TagService>();
 builder.Services.AddScoped<IPostTypeService, PostTypeService>();
 builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<ICustomerService, CustomerService>();
+builder.Services.AddScoped<ICustomerService, Application.Services.CustomerService>();
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 builder.Services.AddScoped<IRoleService, RoleService>();
 builder.Services.AddScoped<IPermissionService, PermissionService>();
 builder.Services.AddScoped<IRolePermissionService, RolePermissionService>();
+builder.Services.AddScoped<IPayPalService, PayPalService>();
+builder.Services.AddScoped<ISEOMetaDataService, SEOMetaDataService>();
+
+builder.Services.AddScoped<IStripeService, StripeService>();
 
 builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 
-builder.Services.AddScoped<ICustomerService, CustomerService>();
+builder.Services.AddScoped<ICustomerService, Application.Services.CustomerService>();
 
 builder.Services.AddScoped<IGenericRepository<CarBooking>, SqlGenericRepository<CarBooking>>();
 builder.Services.AddScoped<IGenericRepository<Booking>, SqlGenericRepository<Booking>>();
@@ -140,7 +146,12 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
     var userManager = services.GetRequiredService<UserManager<User>>();
     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-    await IdentitySeed.SeedRolesAndAdmin(userManager, roleManager);
+
+    // Get the correctly configured DbContext from the service provider
+    var identityDbContext = services.GetRequiredService<CustomIdentityDbContext>();
+
+    // Pass the configured context to the seeder method
+    await IdentitySeed.SeedRolesAndAdmin(userManager, roleManager, identityDbContext);
 }
 
 app.UseCors("AllowReactApp");

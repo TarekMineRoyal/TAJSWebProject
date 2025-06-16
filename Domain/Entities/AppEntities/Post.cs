@@ -58,7 +58,7 @@ namespace Domain.Entities.AppEntities
         public int? PostTypeId { get; set; }
 
         [Required]
-        [Column("summary", TypeName = "nvarchar(50)")]
+        [Column("summary")]
         public string? Summary { get; set; }
 
         [Required]
