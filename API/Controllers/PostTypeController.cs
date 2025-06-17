@@ -8,7 +8,7 @@ using Domain.Entities.AppEntities;
 namespace API.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class PostTypeController : ControllerBase
 {
     private readonly IMapper mapper;
