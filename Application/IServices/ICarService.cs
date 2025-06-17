@@ -9,5 +9,5 @@ public interface ICarService
     Task<CreateCarDTO> AddCarAsync(CreateCarDTO carAddDto);
     Task<CarDTO?> UpdateCarAsync(int id, UpdateCarDTO carUpdateDto);
     Task<CarDTO> DeleteCar(int id);
-
+    Task<IEnumerable<CarDTO>> GetAvailableCarsAsync(DateTime startDateTime, DateTime endDateTime);
 }

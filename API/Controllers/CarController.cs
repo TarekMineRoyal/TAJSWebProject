@@ -15,6 +15,19 @@ public class CarsController : ControllerBase
         _carService = carService;
     }
 
+    // GET: api/cars/available
+    [HttpGet("available")]
+    public async Task<IActionResult> GetAvailableCars([FromQuery] DateTime startDateTime, [FromQuery] DateTime endDateTime)
+    {
+        if (startDateTime >= endDateTime)
+        {
+            return BadRequest("Start date must be earlier than end date.");
+        }
+        var availableCars = await _carService.GetAvailableCarsAsync(startDateTime, endDateTime);
+        return Ok(availableCars);
+    }
+
+
     // GET /api/cars/{id}
     [HttpGet("{id}")]
     public async Task<IActionResult> GetCarById(int id)
