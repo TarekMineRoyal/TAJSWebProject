@@ -25,10 +25,10 @@ namespace Infrastructure
             base.OnModelCreating(builder);
 
             // Ignore the Identity tables you don't need
-            builder.Ignore<IdentityUserClaim<string>>();
-            builder.Ignore<IdentityUserLogin<string>>();
-            builder.Ignore<IdentityUserToken<string>>();
-            builder.Ignore<IdentityRoleClaim<string>>();
+            //builder.Ignore<IdentityUserClaim<string>>();
+            //builder.Ignore<IdentityUserLogin<string>>();
+            //builder.Ignore<IdentityUserToken<string>>();
+            //builder.Ignore<IdentityRoleClaim<string>>();
         }
     }
 }
