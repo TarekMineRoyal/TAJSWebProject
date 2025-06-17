@@ -51,7 +51,7 @@ namespace API.Controllers
             }
             await _authService.RegisterAsync(dto);
             var token = await _jwtTokenGenerator.GenerateToken(dto.Email);
-
+            //returning token
             return Ok(token);
         }
 

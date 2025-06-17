@@ -42,8 +42,6 @@ namespace Application.Services
             if (result.Succeeded)
             {   
                 await _userManager.AddToRoleAsync(user, "Customer");
-                //user = await _userRepository.AddAsync(user);
-                //await _userRepository.SaveChangesAsync();
             }
             return result;
         }
