@@ -24,7 +24,7 @@ public partial class Employee
 
     //public ICollection<Post> Posts { get; set; }
 
-    public Role Role { get; set; }
+    //public Role Role { get; set; }
 
     public User User { get; set; }
 
