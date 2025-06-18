@@ -8,7 +8,7 @@ namespace Application.IServices
         Task<AddCarBookingResponse?> GetCarBookingByIdAsync(int id);
         Task<IEnumerable<AddCarBookingResponse>> GetAllCarBookingsAsync();
         Task<AddCarBookingResponse> AddCarBookingAsync(AddCarBookingRequest dto);
-        Task<AddCarBookingResponse?> UpdateCarBookingAsync(int id, AddCarBookingRequest dto);
+        Task<AddCarBookingResponse?> UpdateCarBookingAsync(int id, UpdateCarBookingDTO dto);
         Task<AddCarBookingResponse> DeleteCarBookingAsync(int id);
     }
 }

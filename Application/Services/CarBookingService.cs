@@ -104,7 +104,7 @@ namespace Application.Services
 
         }
 
-        public async Task<AddCarBookingResponse?> UpdateCarBookingAsync(int id, AddCarBookingRequest dto)
+        public async Task<AddCarBookingResponse?> UpdateCarBookingAsync(int id, UpdateCarBookingDTO dto)
         {
             var existingBooking = await _carBookingRepo.GetByIdAsync(id);
             if (existingBooking == null) return null;

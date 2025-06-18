@@ -40,7 +40,7 @@ namespace API.Controllers
 
         // PUT /api/carbookings/{id}
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateCarBooking(int id, [FromBody] AddCarBookingRequest dto)
+        public async Task<IActionResult> UpdateCarBooking(int id, [FromBody] UpdateCarBookingDTO dto)
         {
             var updated = await _carBookingService.UpdateCarBookingAsync(id, dto);
             return updated != null ? Ok(updated) : NotFound();
