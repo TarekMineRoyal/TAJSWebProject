@@ -52,7 +52,7 @@ namespace Application.Services
             return _mapper.Map<BookingResponse>(addedBooking);
         }
 
-        public async Task<BookingResponse?> UpdateBookingAsync(int id, AddBookingRequest dto)
+        public async Task<BookingResponse?> UpdateBookingAsync(int id, UpdateBookingDTO dto)
         {
             var existingBooking = await _bookingRepo.GetByIdAsync(id);
             if (existingBooking == null) return null;

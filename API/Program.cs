@@ -129,6 +129,8 @@ builder.Services.AddCors(options =>
             .AllowCredentials());
 });
 
+builder.Services.AddAuthorization();
+
 var app = builder.Build();
 
 
@@ -174,7 +176,7 @@ app.UseStaticFiles(new StaticFileOptions
     FileProvider = new PhysicalFileProvider(uploadsPath),
     RequestPath = "/uploads" // This maps the URL path /uploads to the physical folder.
 });
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

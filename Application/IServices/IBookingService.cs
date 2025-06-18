@@ -9,7 +9,7 @@ namespace Application.IServices
         Task<BookingResponse?> GetBookingByIdAsync(int id);
         Task<IEnumerable<BookingResponse>> GetAllBookingsAsync();
         Task<BookingResponse> AddBookingAsync(AddBookingRequest dto);
-        Task<BookingResponse?> UpdateBookingAsync(int id, AddBookingRequest dto);
+        Task<BookingResponse?> UpdateBookingAsync(int id, UpdateBookingDTO dto);
         Task<BookingResponse> DeleteBookingAsync(int id);
     }
 }
