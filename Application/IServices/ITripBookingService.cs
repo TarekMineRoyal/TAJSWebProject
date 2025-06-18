@@ -1,5 +1,4 @@
 ﻿using Application.DTOs.TripBooking;
-using System.Threading.Tasks;
 
 namespace Application.IServices
 {
@@ -7,7 +6,7 @@ namespace Application.IServices
     {
         Task<TripBookingDTO?> GetTripBookingByIdAsync(int id);
         Task<IEnumerable<TripBookingDTO>> GetAllTripBookingsAsync();
-        Task<CreateTripBookingDTO> AddTripBookingAsync(CreateTripBookingDTO dto);
+        Task<TripBookingDTO> AddTripBookingAsync(CreateTripBookingRequestDTO dto);
         Task<TripBookingDTO?> UpdateTripBookingAsync(int id, UpdateTripBookingDTO dto);
         Task<TripBookingDTO> DeleteTripBookingAsync(int id);
     }
