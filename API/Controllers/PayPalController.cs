@@ -1,9 +1,7 @@
 ﻿using Application.IServices;
 using Application.IRepositories;
-using Microsoft.AspNetCore.Mvc;
 using Domain.Entities.AppEntities;
-using Application.DTOs.Payment;
-using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
@@ -13,13 +11,19 @@ namespace API.Controllers
     {
         private readonly IPayPalService _payPalService;
         private readonly IPaymentService _paymentService;
+        private readonly IGenericRepository<PaymentTransaction> _paymentTransactionRepository;
+        private readonly IGenericRepository<PaymentMethod> _paymentMethodRepository;
 
         public PayPalController(
             IPayPalService payPalService,
-            IPaymentService paymentService)
+            IPaymentService paymentService,
+            IGenericRepository<PaymentTransaction> paymentTransactionRepository,
+            IGenericRepository<PaymentMethod> paymentMethodRepository)
         {
             _payPalService = payPalService;
             _paymentService = paymentService;
+            _paymentTransactionRepository = paymentTransactionRepository;
+            _paymentMethodRepository = paymentMethodRepository;
         }
 
         [HttpPost("create-order/{bookingId:int}")]
@@ -36,6 +40,26 @@ namespace API.Controllers
                 }
 
                 var order = await _payPalService.CreateOrderAsync(payment.AmountDue, "USD");
+
+                var payPalMethod = await _paymentMethodRepository.GetFirstOrDefaultAsync(pm => pm.Method == "PayPal");
+                if (payPalMethod == null)
+                {
+                    return StatusCode(500, "PayPal payment method not found in the database.");
+                }
+
+                var transaction = new PaymentTransaction
+                {
+                    PaymentId = payment.Id,
+                    Amount = payment.AmountDue,
+                    TransactionType = TType.Deposit,
+                    TransactionDate = DateTime.UtcNow,
+                    PaymentMethodId = payPalMethod.Id,
+                    PayPalOrderId = order.Id
+                };
+
+                await _paymentTransactionRepository.AddAsync(transaction);
+                await _paymentTransactionRepository.SaveChangesAsync();
+
                 return Ok(new { orderId = order.Id });
             }
             catch (Exception ex)
@@ -51,9 +75,6 @@ namespace API.Controllers
             {
                 var capturedOrder = await _payPalService.CaptureOrderAsync(orderId);
                 var captureId = capturedOrder.PurchaseUnits[0].Payments.Captures[0].Id;
-
-                // Here, you would save the captureId to your database.
-
                 return Ok(new { captureId });
             }
             catch (Exception ex)
