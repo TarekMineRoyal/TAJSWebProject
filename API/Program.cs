@@ -14,6 +14,7 @@ using Domain.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
 using Infrastructure.Seeds;
 using Stripe;
+using Microsoft.Extensions.FileProviders;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -158,7 +159,21 @@ using (var scope = app.Services.CreateScope())
 
 app.UseCors("AllowReactApp");
 
+// 1. This serves files from the default `wwwroot` folder (e.g., for CSS, JS).
 app.UseStaticFiles();
+
+// 2. This adds the configuration to serve files from your 'uploads' folder.
+var uploadsPath = Path.Combine(builder.Environment.WebRootPath, "uploads");
+if (!Directory.Exists(uploadsPath))
+{
+    Directory.CreateDirectory(uploadsPath);
+}
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(uploadsPath),
+    RequestPath = "/uploads" // This maps the URL path /uploads to the physical folder.
+});
 
 app.UseAuthorization();
 
