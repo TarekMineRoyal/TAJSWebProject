@@ -32,10 +32,12 @@ namespace API.Controllers
 
         // POST /api/tripbookings
         [HttpPost]
-        public async Task<IActionResult> CreateTripBooking([FromBody] CreateTripBookingDTO dto)
+        public async Task<IActionResult> CreateTripBooking([FromBody] CreateTripBookingRequestDTO dto) // CHANGED HERE
         {
-            var createdDto = await _tripBookingService.AddTripBookingAsync(dto);
-            return CreatedAtAction(nameof(GetTripBookingById), new { id = createdDto.Id }, createdDto);
+            // Note: The service will now return a more complete object, but the frontend
+            // just needs a successful response to proceed.
+            var createdBooking = await _tripBookingService.AddTripBookingAsync(dto);
+            return CreatedAtAction(nameof(GetTripBookingById), new { id = createdBooking.Id }, createdBooking);
         }
 
         // PUT /api/tripbookings/{id}

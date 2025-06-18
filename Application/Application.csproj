@@ -17,4 +17,12 @@
     <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EditorConfigFiles Remove="P:\Repos\TAJSWebProject\Application\Services\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="P:\Repos\TAJSWebProject\Application\Services\.editorconfig" />
+  </ItemGroup>
+
 </Project>

@@ -1,11 +1,11 @@
-﻿// Application/Services/TripBookingService.cs
-using Application.DTOs.TripBooking;
-using Application.IServices;
-using Application.IRepositories;
-using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-using Domain.Entities.AppEntities;
+﻿using Application.DTOs.CarBooking;
 using Application.DTOs.Payment;
+using Application.DTOs.TripBooking;
+using Application.IRepositories;
+using Application.IServices;
+using AutoMapper;
+using Domain.Entities.AppEntities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.Services
 {
@@ -15,17 +15,23 @@ namespace Application.Services
         private readonly IGenericRepository<TripPlanCar> _tripPlanCarRepo;
         private readonly IMapper _mapper;
         private readonly IPaymentService _paymentService;
+        // This repository was missing
+        private readonly IGenericRepository<Booking> _bookingRepo;
 
         public TripBookingService(
             IGenericRepository<TripBooking> tripBookingRepo,
             IGenericRepository<TripPlanCar> tripPlanCarRepo,
             IMapper mapper,
-            IPaymentService paymentService)
+            IPaymentService paymentService,
+            // Add the missing repository to the constructor
+            IGenericRepository<Booking> bookingRepo)
         {
             _tripBookingRepo = tripBookingRepo;
             _tripPlanCarRepo = tripPlanCarRepo;
             _mapper = mapper;
             _paymentService = paymentService;
+            // Initialize it
+            _bookingRepo = bookingRepo;
         }
 
         public async Task<TripBookingDTO?> GetTripBookingByIdAsync(int id)
@@ -40,38 +46,45 @@ namespace Application.Services
             return bookings?.Select(b => _mapper.Map<TripBookingDTO>(b));
         }
 
-        public async Task<CreateTripBookingDTO> AddTripBookingAsync(CreateTripBookingDTO dto)
+        // The method signature and logic are now corrected
+        public async Task<TripBookingDTO> AddTripBookingAsync(CreateTripBookingRequestDTO dto)
         {
-            var booking = _mapper.Map<TripBooking>(dto);
+            // 1. Create the generic Booking object first
+            var booking = new Booking
+            {
+                BookingType = false, // false for Trip
+                StartDateTime = dto.BookingType == "private" ? dto.StartDate.Value : DateTime.UtcNow,
+                EndDateTime = dto.BookingType == "private" ? dto.EndDate.Value : DateTime.UtcNow,
+                NumberOfPassengers = dto.Seats,
+                Status = BType.Approved, // Assume booking is approved after payment
+            };
 
-            // Validate associated booking exists
-            if (booking.BookingId <= 0)
-                throw new ArgumentException("Invalid booking reference");
+            var createdBooking = await _bookingRepo.AddAsync(booking);
+            await _bookingRepo.SaveChangesAsync();
 
-            var addedBooking = await _tripBookingRepo.AddAsync(booking);
+            // 2. Create the specific TripBooking
+            var tripBooking = new TripBooking
+            {
+                BookingId = createdBooking.Id,
+                TripPlanId = dto.TripId,
+            };
+
+            var addedTripBooking = await _tripBookingRepo.AddAsync(tripBooking);
             await _tripBookingRepo.SaveChangesAsync();
 
-            // Calculate AmountDue
-            var tripPlanCars = await _tripPlanCarRepo.WhereAsync(tpc => tpc.TripPlanId == dto.TripPlanId);
-            decimal amountDue = 0;
-            if (tripPlanCars != null)
-            {
-                amountDue = tripPlanCars.Sum(c => c.Price);
-            }
-
-            // Add payment after trip booking
+            // 3. Create the final Payment record with the correct status from PayPal
             var paymentDto = new RequestPaymentDTO
             {
-                BookingId = addedBooking.BookingId,
-                Status = StatusEnum.Pending,
-                AmountDue = amountDue, // Use calculated amount
-                AmountPaid = 0,
+                BookingId = createdBooking.Id,
+                // CORRECTED: Uses the actual enum members from your Payment.cs file
+                Status = dto.PaymentStatus == "COMPLETED" ? StatusEnum.Complete : StatusEnum.Pending,
+                AmountDue = dto.TotalPrice,
+                AmountPaid = dto.TotalPrice,
                 PaymentDate = DateTime.UtcNow
             };
             await _paymentService.AddPayment(paymentDto);
 
-
-            return _mapper.Map<CreateTripBookingDTO>(addedBooking);
+            return _mapper.Map<TripBookingDTO>(addedTripBooking);
         }
 
         public async Task<TripBookingDTO?> UpdateTripBookingAsync(int id, UpdateTripBookingDTO dto)
@@ -80,7 +93,7 @@ namespace Application.Services
             if (existingBooking == null) return null;
 
             _mapper.Map(dto, existingBooking);
-            _tripBookingRepo.UpdateAsync(id, existingBooking);
+            _tripBookingRepo.Update(id, existingBooking);
             await _tripBookingRepo.SaveChangesAsync();
 
             return _mapper.Map<TripBookingDTO>(existingBooking);
