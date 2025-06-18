@@ -36,13 +36,15 @@ namespace Infrastructure.Repositories
             // --- Apply Filtering ---
             if (!string.IsNullOrEmpty(queryParameters.Model))
             {
-                // Corrected line: Use ToLower() for case-insensitive comparison that EF Core can translate to SQL.
-                query = query.Where(c => c.Model.ToLower().Contains(queryParameters.Model.ToLower()));
+                // Corrected line: Add a null check on the database field.
+                string modelFilter = queryParameters.Model.ToLower();
+                query = query.Where(c => c.Model != null && c.Model.ToLower().Contains(modelFilter));
             }
             if (!string.IsNullOrEmpty(queryParameters.Color))
             {
-                // Corrected line: Use ToLower() for case-insensitive comparison.
-                query = query.Where(c => c.Color.ToLower().Contains(queryParameters.Color.ToLower()));
+                // Corrected line: Add a null check on the database field.
+                string colorFilter = queryParameters.Color.ToLower();
+                query = query.Where(c => c.Color != null && c.Color.ToLower().Contains(colorFilter));
             }
             if (queryParameters.Seats.HasValue)
                 query = query.Where(c => c.Seats >= queryParameters.Seats.Value);
