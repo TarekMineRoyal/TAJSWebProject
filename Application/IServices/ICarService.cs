@@ -1,13 +1,15 @@
-﻿using Application.DTOs.Car;
+﻿// Application/IServices/ICarService.cs
+
+using Application.DTOs.Car;
 
 namespace Application.IServices;
 
 public interface ICarService
 {
     Task<CarDTO?> GetCarByIdAsync(int id);
-    Task<IEnumerable<CarDTO>?> GetAllCarsAsync();
+    Task<PaginatedCarResponseDTO> GetAllCarsAsync(CarQueryParameters queryParameters);
     Task<CreateCarDTO> AddCarAsync(CreateCarDTO carAddDto);
     Task<CarDTO?> UpdateCarAsync(int id, UpdateCarDTO carUpdateDto);
     Task<CarDTO> DeleteCar(int id);
-    Task<IEnumerable<CarDTO>> GetAvailableCarsAsync(DateTime startDateTime, DateTime endDateTime);
+    Task<PaginatedCarResponseDTO> GetAvailableCarsAsync(DateTime startDateTime, DateTime endDateTime, CarQueryParameters queryParameters);
 }

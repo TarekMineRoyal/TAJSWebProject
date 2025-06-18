@@ -1,4 +1,6 @@
-﻿using Application.DTOs.Car;
+﻿// API/Controllers/CarController.cs
+
+using Application.DTOs.Car;
 using Application.IServices;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,13 +19,13 @@ public class CarsController : ControllerBase
 
     // GET: api/cars/available
     [HttpGet("available")]
-    public async Task<IActionResult> GetAvailableCars([FromQuery] DateTime startDateTime, [FromQuery] DateTime endDateTime)
+    public async Task<IActionResult> GetAvailableCars([FromQuery] DateTime startDateTime, [FromQuery] DateTime endDateTime, [FromQuery] CarQueryParameters queryParameters)
     {
         if (startDateTime >= endDateTime)
         {
             return BadRequest("Start date must be earlier than end date.");
         }
-        var availableCars = await _carService.GetAvailableCarsAsync(startDateTime, endDateTime);
+        var availableCars = await _carService.GetAvailableCarsAsync(startDateTime, endDateTime, queryParameters);
         return Ok(availableCars);
     }
 
@@ -38,9 +40,10 @@ public class CarsController : ControllerBase
 
     // GET /api/cars
     [HttpGet]
-    public async Task<IActionResult> GetAllCars()
+    public async Task<IActionResult> GetAllCars([FromQuery] CarQueryParameters queryParameters)
     {
-        return Ok(await _carService.GetAllCarsAsync());
+        var cars = await _carService.GetAllCarsAsync(queryParameters);
+        return Ok(cars);
     }
 
     // POST /api/cars

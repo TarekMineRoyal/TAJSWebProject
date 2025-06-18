@@ -7,7 +7,7 @@ using Application.IRepositories;
 using Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Domain.Entities.AppEntities;
-using Infrastructure.Repositories;
+using Infrastructure.Repositories; // <-- Add this using statement
 using Microsoft.OpenApi.Models;
 using Infrastructure.Authentication;
 using Domain.Entities.Identity;
@@ -62,7 +62,6 @@ builder.Services.AddScoped<ITripPlanCarService, TripPlanCarService>();
 builder.Services.AddScoped<ITripService, TripService>();
 builder.Services.AddScoped<IPaymentTransactionService, PaymentTransactionService>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();
-builder.Services.AddScoped<CarService>();
 builder.Services.AddScoped<CarBookingService>();
 builder.Services.AddScoped<IPostService, PostService>();
 builder.Services.AddScoped<ITagService, TagService>();
@@ -98,6 +97,9 @@ builder.Services.AddDbContext<CustomIdentityDbContext>(options =>
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(SqlGenericRepository<>));
 builder.Services.AddScoped(typeof(IUserManagerRepository<>), typeof(SqlUserManagerRepository<>));
 builder.Services.AddScoped(typeof(IRoleManagerRepository<>), typeof(SqlRoleManagerRepository<>));
+
+// --- Register the specific Car Repository ---
+builder.Services.AddScoped<ICarRepository, SqlCarRepository>();
 
 builder.Services.AddIdentity<User, IdentityRole>(
     options =>
